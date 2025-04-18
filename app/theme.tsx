@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   surface: {
     padding: 16,
     marginBottom: 16,
-    borderRadius: 8
+    borderRadius: 4
   },
   row: {
     flexDirection: 'row',
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8
+    borderRadius: 4
   },
   card: {
     marginBottom: 16

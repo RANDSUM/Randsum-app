@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 24,
     marginBottom: 24,
-    borderRadius: 16
+    borderRadius: 4
   },
   diceResult: {
     fontSize: 72,
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   historyCritical: {
     flex: 1,
-    color: '#2196F3',
+    color: '#26A69A',
     fontWeight: 'bold'
   },
   actionButtons: {

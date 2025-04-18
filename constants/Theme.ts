@@ -2,20 +2,20 @@ import { MD3DarkTheme } from 'react-native-paper'
 
 const materialDarkColors = {
   ...MD3DarkTheme.colors,
-  primary: '#9C27B0',
-  primaryContainer: '#7B1FA2',
+  primary: '#5C6BC0',
+  primaryContainer: '#3949AB',
   onPrimary: '#FFFFFF',
-  onPrimaryContainer: '#E6D8FF',
+  onPrimaryContainer: '#E8EAF6',
 
-  secondary: '#FFD700',
-  secondaryContainer: '#CC9900',
-  onSecondary: '#000000',
-  onSecondaryContainer: '#FFF8E1',
+  secondary: '#78909C',
+  secondaryContainer: '#546E7A',
+  onSecondary: '#FFFFFF',
+  onSecondaryContainer: '#ECEFF1',
 
-  tertiary: '#2196F3',
-  tertiaryContainer: '#1976D2',
+  tertiary: '#26A69A',
+  tertiaryContainer: '#00897B',
   onTertiary: '#FFFFFF',
-  onTertiaryContainer: '#D6E4FF',
+  onTertiaryContainer: '#E0F2F1',
 
   background: '#1E1E1E',
   onBackground: '#EEEEEE',
@@ -37,11 +37,11 @@ const materialDarkColors = {
   onError: '#FFFFFF',
   onErrorContainer: '#FFCDD2',
 
-  outline: '#9C27B0',
-  outlineVariant: '#7B1FA2',
+  outline: '#5C6BC0',
+  outlineVariant: '#3949AB',
   inverseSurface: '#EEEEEE',
   inverseOnSurface: '#1E1E1E',
-  inversePrimary: '#6A0DAD',
+  inversePrimary: '#3F51B5',
   shadow: '#000000',
   scrim: '#000000',
   surfaceDisabled: 'rgba(238, 238, 238, 0.12)',
@@ -54,7 +54,7 @@ export const CustomDarkTheme = {
   colors: {
     ...materialDarkColors
   },
-  roundness: 8,
+  roundness: 4,
   animation: {
     scale: 1.0
   }
