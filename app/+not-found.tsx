@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20
+    padding: 20,
+    backgroundColor: '#121212' // Material Design dark background
   },
   title: {
     fontSize: 20,
@@ -35,6 +36,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 14,
-    color: '#2e78b7'
+    color: '#7D26CD' // Updated to match spooky theme primary color
   }
 })

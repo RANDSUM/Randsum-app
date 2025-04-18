@@ -1,5 +1,4 @@
-import { CustomDarkTheme, CustomLightTheme } from '@/constants/Theme'
-import { useColorScheme } from 'react-native'
+import { CustomDarkTheme } from '@/constants/Theme'
 import {
   MD3Theme,
   ActivityIndicator as PaperActivityIndicator,
@@ -17,14 +16,11 @@ import {
 } from 'react-native-paper'
 
 export function useAppTheme() {
-  return useTheme<MD3Theme>()
+  return useTheme<MD3Theme>(CustomDarkTheme)
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const colorScheme = useColorScheme()
-  const theme = colorScheme === 'dark' ? CustomDarkTheme : CustomLightTheme
-
-  return <PaperProvider theme={theme}>{children}</PaperProvider>
+  return <PaperProvider theme={CustomDarkTheme}>{children}</PaperProvider>
 }
 
 export const Text = PaperText

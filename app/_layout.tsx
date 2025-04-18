@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
 
-import { ThemeProvider } from '@/components/Themed'
+import { ThemeProvider, useAppTheme } from '@/components/Themed'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -35,23 +35,24 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const theme = useAppTheme()
+
   return (
     <ThemeProvider>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <Stack
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#6200EE'
+            backgroundColor: theme.colors.elevation.level4 // Using elevation level 4 for header
           },
-          headerTintColor: '#FFFFFF',
-          headerBackVisible: false,
+          headerTintColor: theme.colors.onSurface,
+          headerShadowVisible: false,
           contentStyle: {
-            backgroundColor: '#FAFAFA'
+            backgroundColor: theme.colors.background // Pure black background
           }
         }}
       >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="index" options={{ title: 'Spooky Theme' }} />
       </Stack>
     </ThemeProvider>
   )

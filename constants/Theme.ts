@@ -1,104 +1,66 @@
-import { MD3DarkTheme, MD3LightTheme } from 'react-native-paper'
-
-const materialLightColors = {
-  primary: '#6200EE',
-  primaryContainer: '#E8DEF8',
-  onPrimary: '#FFFFFF',
-  onPrimaryContainer: '#21005E',
-
-  secondary: '#FFD600',
-  secondaryContainer: '#FFF8CC',
-  onSecondary: '#000000',
-  onSecondaryContainer: '#3F2E00',
-
-  tertiary: '#424242',
-  tertiaryContainer: '#E0E0E0',
-  onTertiary: '#FFFFFF',
-  onTertiaryContainer: '#1C1C1C',
-
-  background: '#FAFAFA',
-  onBackground: '#1C1B1F',
-  surface: '#FAFAFA',
-  onSurface: '#1C1B1F',
-  surfaceVariant: '#E7E0EC',
-  onSurfaceVariant: '#49454F',
-
-  error: '#B00020',
-  errorContainer: '#FFDAD6',
-  onError: '#FFFFFF',
-  onErrorContainer: '#410002',
-
-  outline: '#79747E',
-  outlineVariant: '#CAC4D0',
-  inverseSurface: '#313033',
-  inverseOnSurface: '#F4EFF4',
-  inversePrimary: '#D0BCFF',
-  shadow: '#000000',
-  scrim: '#000000',
-  surfaceDisabled: 'rgba(28, 27, 31, 0.12)',
-  onSurfaceDisabled: 'rgba(28, 27, 31, 0.38)',
-  backdrop: 'rgba(44, 49, 55, 0.4)'
-}
+import { MD3DarkTheme } from 'react-native-paper'
 
 const materialDarkColors = {
-  primary: '#D0BCFF',
-  primaryContainer: '#4F378B',
-  onPrimary: '#371E73',
-  onPrimaryContainer: '#EADDFF',
+  // Spooky purple as primary color
+  primary: '#7D26CD', // Vibrant purple
+  primaryContainer: '#38006b', // Deep purple
+  onPrimary: '#E1E1E1', // Slightly off-white text on purple
+  onPrimaryContainer: '#E6E6FA', // Light lavender
 
-  secondary: '#FFE629',
-  secondaryContainer: '#635D00',
-  onSecondary: '#000000',
-  onSecondaryContainer: '#FFEEAB',
+  // Spooky orange as secondary color
+  secondary: '#FF6D00', // Pumpkin orange
+  secondaryContainer: '#7A3300', // Dark orange/brown
+  onSecondary: '#000000', // Black text on orange
+  onSecondaryContainer: '#FFDBCC', // Light orange
 
-  tertiary: '#BDBDBD',
-  tertiaryContainer: '#616161',
-  onTertiary: '#000000',
-  onTertiaryContainer: '#E0E0E0',
+  // Spooky green as tertiary color
+  tertiary: '#50C878', // Toxic/slime green
+  tertiaryContainer: '#004D25', // Dark green
+  onTertiary: '#000000', // Black text on green
+  onTertiaryContainer: '#B0FFD6', // Light green
 
-  background: '#1C1B1F',
-  onBackground: '#E6E1E5',
-  surface: '#1C1B1F',
-  onSurface: '#E6E1E5',
-  surfaceVariant: '#49454F',
-  onSurfaceVariant: '#CAC4D0',
+  // Material Design compliant dark theme colors
+  background: '#121212', // Material recommended dark background (not pure black)
+  onBackground: '#E1E1E1', // Slightly off-white for better readability
+  surface: '#121212', // Base surface color
+  // Elevation overlays with white at different percentages
+  elevation: {
+    level0: '#121212', // 0% white overlay
+    level1: '#1D1D1D', // 5% white overlay
+    level2: '#222222', // 7% white overlay
+    level3: '#242424', // 8% white overlay
+    level4: '#272727', // 9% white overlay
+    level5: '#2C2C2C' // 11% white overlay
+  },
+  onSurface: '#E1E1E1', // Slightly off-white for better readability
+  surfaceVariant: '#303030', // Material Design surface variant
+  onSurfaceVariant: '#E1E1E1', // Slightly off-white for better readability
 
-  error: '#CF6679',
-  errorContainer: '#8B0000',
-  onError: '#000000',
-  onErrorContainer: '#FFCDD2',
+  // Blood red for errors
+  error: '#FF0000', // Blood red
+  errorContainer: '#8B0000', // Dark red
+  onError: '#E1E1E1', // Slightly off-white text on red
+  onErrorContainer: '#FFCDD2', // Light red
 
-  outline: '#938F99',
-  outlineVariant: '#49454F',
-  inverseSurface: '#E6E1E5',
-  inverseOnSurface: '#313033',
-  inversePrimary: '#6200EE',
+  // Other colors
+  outline: '#6A0DAD', // Purple outline
+  outlineVariant: '#483D8B', // Dark slate blue
+  inverseSurface: '#FFFFFF',
+  inverseOnSurface: '#121212',
+  inversePrimary: '#9370DB', // Medium purple
   shadow: '#000000',
   scrim: '#000000',
-  surfaceDisabled: 'rgba(230, 225, 229, 0.12)',
-  onSurfaceDisabled: 'rgba(230, 225, 229, 0.38)',
-  backdrop: 'rgba(51, 47, 55, 0.4)'
-}
-
-export const CustomLightTheme = {
-  ...MD3LightTheme,
-  colors: {
-    ...MD3LightTheme.colors,
-    ...materialLightColors
-  },
-  roundness: 8,
-  animation: {
-    scale: 1.0
-  }
+  surfaceDisabled: 'rgba(255, 255, 255, 0.12)',
+  onSurfaceDisabled: 'rgba(255, 255, 255, 0.38)',
+  backdrop: 'rgba(0, 0, 0, 0.6)' // Darker backdrop for spooky feel
 }
 
 export const CustomDarkTheme = {
   ...MD3DarkTheme,
   colors: {
-    ...MD3DarkTheme.colors,
     ...materialDarkColors
   },
-  roundness: 8,
+  roundness: 0, // Sharp corners for spooky feel
   animation: {
     scale: 1.0
   }
