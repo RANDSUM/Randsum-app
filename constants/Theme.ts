@@ -11,10 +11,10 @@ const materialDarkColors = {
   onSecondary: '#000000',
   onSecondaryContainer: '#FFF8E1',
 
-  tertiary: '#00A3A3',
-  tertiaryContainer: '#007777',
+  tertiary: '#0047AB',
+  tertiaryContainer: '#003380',
   onTertiary: '#FFFFFF',
-  onTertiaryContainer: '#E0F7F7',
+  onTertiaryContainer: '#D6E4FF',
 
   background: '#121212',
   onBackground: '#EEEEEE',
@@ -31,9 +31,9 @@ const materialDarkColors = {
   surfaceVariant: '#303030',
   onSurfaceVariant: '#EEEEEE',
 
-  error: '#CF6679',
-  errorContainer: '#B00020',
-  onError: '#000000',
+  error: '#8B0000',
+  errorContainer: '#5C0000',
+  onError: '#FFFFFF',
   onErrorContainer: '#FFCDD2',
 
   outline: '#4B0082',

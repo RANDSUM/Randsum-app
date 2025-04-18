@@ -58,7 +58,7 @@ export default function Index() {
         </View>
       </Surface>
 
-      <Surface style={styles.surface} elevation={2} mode="elevated">
+      <Surface style={styles.surface} elevation={1} mode="elevated">
         <Text
           variant="titleMedium"
           theme={{ colors: { onSurface: theme.colors.onSecondaryContainer } }}
@@ -93,7 +93,7 @@ export default function Index() {
         </View>
       </Surface>
 
-      <Surface style={styles.surface} elevation={3} mode="elevated">
+      <Surface style={styles.surface} elevation={1} mode="elevated">
         <Text
           variant="titleMedium"
           theme={{ colors: { onSurface: theme.colors.onTertiaryContainer } }}
