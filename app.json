@@ -1,28 +1,57 @@
 {
   "expo": {
-    "name": "randsum-app",
-    "slug": "randsum-app",
+    "name": "Randsum",
+    "slug": "randsumapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/ios/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "scheme": "com.randsum.app",
     "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#000000"
     },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+      "supportsTablet": true,
+      "bundleIdentifier": "com.randsum.app",
+      "icon": "./assets/ios/icon.png",
+      "config": {
+        "usesNonExemptEncryption": false
       }
     },
+    "android": {
+      "icon": "./assets/android/icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android/foreground.png",
+        "backgroundColor": "#000000"
+      },
+      "package": "com.randsum.app"
+    },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/web/favicon.png",
+      "bundler": "metro",
+      "output": "single"
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d50b53cf-026b-45e8-823d-c96fb621a521"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "owner": "randsum",
+    "updates": {
+      "url": "https://u.expo.dev/d50b53cf-026b-45e8-823d-c96fb621a521"
+    },
+    "plugins": ["expo-router"]
   }
 }
