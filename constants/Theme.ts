@@ -16,19 +16,19 @@ const materialDarkColors = {
   onTertiary: '#FFFFFF',
   onTertiaryContainer: '#D6E4FF',
 
-  background: '#121212',
+  background: '#1E1E1E',
   onBackground: '#EEEEEE',
-  surface: '#121212',
+  surface: '#1E1E1E',
   elevation: {
-    level0: '#121212',
-    level1: '#1D1D1D',
-    level2: '#222222',
-    level3: '#242424',
-    level4: '#272727',
-    level5: '#2C2C2C'
+    level0: '#1E1E1E',
+    level1: '#252525',
+    level2: '#2A2A2A',
+    level3: '#2F2F2F',
+    level4: '#353535',
+    level5: '#3A3A3A'
   },
   onSurface: '#EEEEEE',
-  surfaceVariant: '#303030',
+  surfaceVariant: '#3D3D3D',
   onSurfaceVariant: '#EEEEEE',
 
   error: '#8B0000',
@@ -39,7 +39,7 @@ const materialDarkColors = {
   outline: '#4B0082',
   outlineVariant: '#380064',
   inverseSurface: '#EEEEEE',
-  inverseOnSurface: '#121212',
+  inverseOnSurface: '#1E1E1E',
   inversePrimary: '#6A0DAD',
   shadow: '#000000',
   scrim: '#000000',
