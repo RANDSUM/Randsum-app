@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   historyCritical: {
     flex: 1,
-    color: '#0047AB',
+    color: '#2196F3',
     fontWeight: 'bold'
   },
   actionButtons: {

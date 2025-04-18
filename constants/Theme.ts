@@ -1,8 +1,9 @@
 import { MD3DarkTheme } from 'react-native-paper'
 
 const materialDarkColors = {
-  primary: '#4B0082',
-  primaryContainer: '#380064',
+  ...MD3DarkTheme.colors,
+  primary: '#9C27B0',
+  primaryContainer: '#7B1FA2',
   onPrimary: '#FFFFFF',
   onPrimaryContainer: '#E6D8FF',
 
@@ -11,8 +12,8 @@ const materialDarkColors = {
   onSecondary: '#000000',
   onSecondaryContainer: '#FFF8E1',
 
-  tertiary: '#0047AB',
-  tertiaryContainer: '#003380',
+  tertiary: '#2196F3',
+  tertiaryContainer: '#1976D2',
   onTertiary: '#FFFFFF',
   onTertiaryContainer: '#D6E4FF',
 
@@ -31,13 +32,13 @@ const materialDarkColors = {
   surfaceVariant: '#3D3D3D',
   onSurfaceVariant: '#EEEEEE',
 
-  error: '#8B0000',
-  errorContainer: '#5C0000',
+  error: '#F44336',
+  errorContainer: '#D32F2F',
   onError: '#FFFFFF',
   onErrorContainer: '#FFCDD2',
 
-  outline: '#4B0082',
-  outlineVariant: '#380064',
+  outline: '#9C27B0',
+  outlineVariant: '#7B1FA2',
   inverseSurface: '#EEEEEE',
   inverseOnSurface: '#1E1E1E',
   inversePrimary: '#6A0DAD',
