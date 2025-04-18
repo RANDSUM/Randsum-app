@@ -39,20 +39,21 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <Stack
         screenOptions={{
           headerStyle: {
-            backgroundColor: theme.colors.elevation.level4 // Using elevation level 4 for header
+            backgroundColor: theme.colors.elevation.level4
           },
           headerTintColor: theme.colors.onSurface,
           headerShadowVisible: false,
           contentStyle: {
-            backgroundColor: theme.colors.background // Pure black background
+            backgroundColor: theme.colors.background
           }
         }}
       >
-        <Stack.Screen name="index" options={{ title: 'Spooky Theme' }} />
+        <Stack.Screen name="index" options={{ title: 'Theme Demo' }} />
+        <Stack.Screen name="theme" options={{ title: 'Theme Demo' }} />
       </Stack>
     </ThemeProvider>
   )

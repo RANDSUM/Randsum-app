@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#121212' // Material Design dark background
+    padding: 20
   },
   title: {
     fontSize: 20,
