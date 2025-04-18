@@ -16,7 +16,7 @@ export default function Index() {
     <ScrollView>
       <View style={styles.section}>
         <Text variant="headlineLarge" style={styles.title}>
-          Theme Showcase
+          Dice Roller Theme
         </Text>
         <Text variant="bodyLarge" style={styles.subtitle}>
           Material Design Theme
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
   surface: {
     padding: 16,
     marginBottom: 16,
-    borderRadius: 0
+    borderRadius: 8
   },
   row: {
     flexDirection: 'row',
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 0
+    borderRadius: 8
   },
   card: {
     marginBottom: 16

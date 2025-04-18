@@ -1,23 +1,23 @@
 import { MD3DarkTheme } from 'react-native-paper'
 
 const materialDarkColors = {
-  primary: '#7D26CD',
-  primaryContainer: '#38006b',
-  onPrimary: '#E1E1E1',
-  onPrimaryContainer: '#E6E6FA',
+  primary: '#4B0082',
+  primaryContainer: '#380064',
+  onPrimary: '#FFFFFF',
+  onPrimaryContainer: '#E6D8FF',
 
-  secondary: '#FF6D00',
-  secondaryContainer: '#7A3300',
+  secondary: '#FFD700',
+  secondaryContainer: '#CC9900',
   onSecondary: '#000000',
-  onSecondaryContainer: '#FFDBCC',
+  onSecondaryContainer: '#FFF8E1',
 
-  tertiary: '#50C878',
-  tertiaryContainer: '#004D25',
-  onTertiary: '#000000',
-  onTertiaryContainer: '#B0FFD6',
+  tertiary: '#00A3A3',
+  tertiaryContainer: '#007777',
+  onTertiary: '#FFFFFF',
+  onTertiaryContainer: '#E0F7F7',
 
   background: '#121212',
-  onBackground: '#E1E1E1',
+  onBackground: '#EEEEEE',
   surface: '#121212',
   elevation: {
     level0: '#121212',
@@ -27,24 +27,24 @@ const materialDarkColors = {
     level4: '#272727',
     level5: '#2C2C2C'
   },
-  onSurface: '#E1E1E1',
+  onSurface: '#EEEEEE',
   surfaceVariant: '#303030',
-  onSurfaceVariant: '#E1E1E1',
+  onSurfaceVariant: '#EEEEEE',
 
-  error: '#FF0000',
-  errorContainer: '#8B0000',
-  onError: '#E1E1E1',
+  error: '#CF6679',
+  errorContainer: '#B00020',
+  onError: '#000000',
   onErrorContainer: '#FFCDD2',
 
-  outline: '#6A0DAD',
-  outlineVariant: '#483D8B',
-  inverseSurface: '#FFFFFF',
+  outline: '#4B0082',
+  outlineVariant: '#380064',
+  inverseSurface: '#EEEEEE',
   inverseOnSurface: '#121212',
-  inversePrimary: '#9370DB',
+  inversePrimary: '#6A0DAD',
   shadow: '#000000',
   scrim: '#000000',
-  surfaceDisabled: 'rgba(255, 255, 255, 0.12)',
-  onSurfaceDisabled: 'rgba(255, 255, 255, 0.38)',
+  surfaceDisabled: 'rgba(238, 238, 238, 0.12)',
+  onSurfaceDisabled: 'rgba(238, 238, 238, 0.38)',
   backdrop: 'rgba(0, 0, 0, 0.6)'
 }
 
@@ -53,7 +53,7 @@ export const CustomDarkTheme = {
   colors: {
     ...materialDarkColors
   },
-  roundness: 0,
+  roundness: 8,
   animation: {
     scale: 1.0
   }

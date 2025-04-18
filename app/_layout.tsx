@@ -39,7 +39,7 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <Stack
         screenOptions={{
           headerStyle: {
@@ -52,7 +52,7 @@ function RootLayoutNav() {
           }
         }}
       >
-        <Stack.Screen name="index" />
+        <Stack.Screen name="index" options={{ title: 'Dice Roller' }} />
         <Stack.Screen name="theme" options={{ title: 'Theme Demo' }} />
       </Stack>
     </ThemeProvider>
