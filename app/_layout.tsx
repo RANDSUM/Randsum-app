@@ -52,7 +52,7 @@ function RootLayoutNav() {
           }
         }}
       >
-        <Stack.Screen name="index" options={{ title: 'Theme Demo' }} />
+        <Stack.Screen name="index" />
         <Stack.Screen name="theme" options={{ title: 'Theme Demo' }} />
       </Stack>
     </ThemeProvider>
