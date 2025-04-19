@@ -1,7 +1,5 @@
-import ClearDiceButton from '@/components/ClearDiceButton'
 import DiceButtons from '@/components/DiceButtons'
 import DicePool from '@/components/DicePool'
-import RollButton from '@/components/RollButton'
 import { View } from '@/components/Themed'
 import { ScrollView, StyleSheet } from 'react-native'
 
@@ -22,8 +20,6 @@ export default function Index() {
           </View>
         </View>
       </ScrollView>
-      <RollButton />
-      <ClearDiceButton />
     </View>
   )
 }
@@ -33,7 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexGrow: 1,
     height: '100%',
-    paddingBottom: 100
+    paddingBottom: 32
   },
   scrollContainer: {
     flex: 1,
@@ -49,22 +45,26 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     height: '100%',
-    width: '100%'
+    width: '100%',
+    flex: 1
   },
   dicePoolContainer: {
     width: '100%',
     alignItems: 'center',
-    marginBottom: 40,
-    height: '100%',
-    flex: 1
+    justifyContent: 'center',
+    flex: 1,
+    display: 'flex',
+    minHeight: 200
   },
   buttonsContainer: {
     width: '100%',
-    flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: 20
   },
   scrollContent: {
     flexGrow: 1,
-    minHeight: '100%'
+    minHeight: '100%',
+    display: 'flex',
+    justifyContent: 'center'
   }
 })
