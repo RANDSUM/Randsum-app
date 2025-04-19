@@ -13,6 +13,7 @@ import React, {
   useContext,
   useState
 } from 'react'
+import { triggerDiceAdd } from '@/utils/haptics'
 
 type CurrentRollContextType = {
   dicePool: PoolDie[]
@@ -89,6 +90,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   }
 
   function addDie(sides: number, quantity: number = 1) {
+    triggerDiceAdd()
     const existingDieIndex = dicePool.findIndex(
       (die) => die._type === 'numeric' && die.sides === sides
     )
@@ -107,6 +109,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   }
 
   function addNotationDie(notation: string) {
+    triggerDiceAdd()
     const validationResult = validateNotation(notation)
     if (!validationResult.valid) return
 

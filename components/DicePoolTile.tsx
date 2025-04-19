@@ -4,6 +4,7 @@ import { PoolDie } from '@/types/dice'
 import { useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
+import { triggerDiceRemove } from '@/utils/haptics'
 
 type DicePoolTileProps = {
   die: PoolDie
@@ -43,6 +44,11 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
     }
   }, [shouldShake, die.id, shakeAnimation])
 
+  const handleRemove = () => {
+    triggerDiceRemove()
+    removeDie(die.id)
+  }
+
   return (
     <Animated.View
       style={{
@@ -71,7 +77,7 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
             icon="close"
             size={14}
             iconColor={theme.colors.onTertiaryContainer}
-            onPress={() => removeDie(die.id)}
+            onPress={handleRemove}
             style={styles.removeButton}
             containerColor="transparent"
           />
