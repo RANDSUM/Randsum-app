@@ -26,7 +26,9 @@ export default function RollButton() {
 
 const styles = StyleSheet.create({
   rollButton: {
-    width: 240,
+    width: '90%',
+    maxWidth: '90%',
+    alignSelf: 'center',
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
@@ -34,7 +36,9 @@ const styles = StyleSheet.create({
     elevation: 4,
     position: 'absolute',
     bottom: 32,
-    alignSelf: 'center',
+    left: 0,
+    right: 0,
+    marginHorizontal: 'auto',
     zIndex: 10
   },
   buttonContent: {

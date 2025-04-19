@@ -1,4 +1,4 @@
-import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/Themed'
+import { Dialog, FAB, Portal, Text, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
@@ -24,17 +24,17 @@ export default function ClearDiceButton() {
 
   return (
     <>
-      <Button
+      <FAB
         icon="delete-sweep"
-        mode="contained"
         onPress={showConfirmation}
         disabled={disabled}
-        buttonColor={theme.colors.error}
-        textColor={theme.colors.onError}
-        style={[styles.clearButton, { opacity: disabled ? 0.5 : 1 }]}
-      >
-        Clear Dice Pool
-      </Button>
+        color={theme.colors.onError}
+        style={[
+          styles.clearButton,
+          { opacity: disabled ? 0.5 : 1, backgroundColor: theme.colors.error }
+        ]}
+        label="Clear"
+      />
 
       <Portal>
         <Dialog
@@ -47,10 +47,22 @@ export default function ClearDiceButton() {
             <Text>Are you sure you want to clear all dice from the pool?</Text>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={hideConfirmation}>Cancel</Button>
-            <Button onPress={handleConfirm} textColor={theme.colors.error}>
-              Clear
-            </Button>
+            <FAB
+              size="small"
+              onPress={hideConfirmation}
+              label="Cancel"
+              style={styles.dialogButton}
+            />
+            <FAB
+              size="small"
+              onPress={handleConfirm}
+              color={theme.colors.onError}
+              style={[
+                styles.dialogButton,
+                { backgroundColor: theme.colors.error }
+              ]}
+              label="Clear"
+            />
           </Dialog.Actions>
         </Dialog>
       </Portal>
@@ -60,8 +72,14 @@ export default function ClearDiceButton() {
 
 const styles = StyleSheet.create({
   clearButton: {
-    marginTop: 32,
-    width: 180,
-    height: 40
+    position: 'absolute',
+    bottom: 100,
+    right: 16,
+    elevation: 4,
+    zIndex: 5
+  },
+  dialogButton: {
+    marginHorizontal: 8,
+    marginBottom: 8
   }
 })

@@ -7,6 +7,7 @@ type CurrentRollContextType = {
   dicePool: PoolDie[]
   rollResult: NumericRollResult | null
   recentlyAddedDie: DieLabel | null
+  diceOrder: DieLabel[]
 
   addDie: (dieLabel: DieLabel) => void
   removeDie: (dieLabel: DieLabel) => void
@@ -32,6 +33,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   const [recentlyAddedDie, setRecentlyAddedDie] = useState<DieLabel | null>(
     null
   )
+  const [diceOrder, setDiceOrder] = useState<DieLabel[]>([])
 
   const addDie = (dieLabel: DieLabel) => {
     const sides = labelToSides[dieLabel]
@@ -41,6 +43,11 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     }
     setDicePool([...dicePool, newDie])
     setRecentlyAddedDie(dieLabel)
+
+    // Add to dice order if not already present
+    if (!diceOrder.includes(dieLabel)) {
+      setDiceOrder([...diceOrder, dieLabel])
+    }
 
     // Clear the recently added die after animation completes
     setTimeout(() => {
@@ -52,17 +59,29 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     const sides = labelToSides[dieLabel]
     const dieToRemove = dicePool.find((die) => die.sides === sides)
     if (dieToRemove) {
+      // Remove the die from the pool
       setDicePool(
         dicePool.filter(
           (_, index) =>
             index !== dicePool.findIndex((d) => d.id === dieToRemove.id)
         )
       )
+
+      // Check if this was the last die of this type
+      const remainingDiceOfType = dicePool.filter(
+        (die) => die.sides === sides && die.id !== dieToRemove.id
+      )
+
+      // If no more dice of this type, remove from order
+      if (remainingDiceOfType.length === 0) {
+        setDiceOrder(diceOrder.filter((type) => type !== dieLabel))
+      }
     }
   }
 
   const clearPool = () => {
     setDicePool([])
+    setDiceOrder([])
   }
 
   const rollDice = () => {
@@ -91,9 +110,21 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
       grouped[die]++
     })
 
-    return Object.entries(grouped)
+    // Filter to only dice types that are present
+    const presentDiceTypes = Object.entries(grouped)
       .filter(([_, count]) => count > 0)
-      .map(([type, count]) => ({ type: type as DieLabel, count }))
+      .map(([type]) => type as DieLabel)
+
+    // Sort by the order they were first added
+    const orderedDiceTypes = diceOrder.filter((dieType) =>
+      presentDiceTypes.includes(dieType)
+    )
+
+    // Create the final result with counts
+    return orderedDiceTypes.map((type) => ({
+      type,
+      count: grouped[type]
+    }))
   }
 
   const getDiceNotation = (dice: DieLabel[]): string => {
@@ -127,6 +158,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     dicePool,
     rollResult,
     recentlyAddedDie,
+    diceOrder,
     addDie,
     removeDie,
     clearPool,

@@ -12,17 +12,18 @@ export default function Index() {
         style={styles.scrollContainer}
         contentContainerStyle={styles.scrollContent}
       >
-        <View style={styles.mainContent}>
-          <View style={styles.contentContainer}>
+        <View style={styles.contentContainer}>
+          <View style={styles.dicePoolContainer}>
             <DicePool />
+          </View>
 
+          <View style={styles.buttonsContainer}>
             <DiceButtons />
-
-            <ClearDiceButton />
           </View>
         </View>
       </ScrollView>
       <RollButton />
+      <ClearDiceButton />
     </View>
   )
 }
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
+    height: '100%',
     flexGrow: 1,
     padding: 16
   },
@@ -43,6 +45,21 @@ const styles = StyleSheet.create({
     flex: 1
   },
   contentContainer: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+    height: '100%',
+    width: '100%'
+  },
+  dicePoolContainer: {
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 40,
+    height: '100%',
+    flex: 1
+  },
+  buttonsContainer: {
+    width: '100%',
     flex: 1,
     alignItems: 'center'
   },

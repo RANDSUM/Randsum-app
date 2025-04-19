@@ -9,10 +9,12 @@ export default function DicePool() {
     useCurrentRoll()
   return (
     <View style={styles.diceContainer}>
-      {dicePool.length > 0 ? (
-        <View style={styles.poolContainer}>
-          {groupDiceByType(dicePool.map((die) => sidesToLabel[die.sides])).map(
-            ({ type, count }) => (
+      <View style={styles.poolContent}>
+        {dicePool.length > 0 ? (
+          <View style={styles.poolContainer}>
+            {groupDiceByType(
+              dicePool.map((die) => sidesToLabel[die.sides])
+            ).map(({ type, count }) => (
               <DicePoolTile
                 key={type}
                 type={type}
@@ -20,25 +22,33 @@ export default function DicePool() {
                 onRemove={removeDie}
                 shouldShake={type === recentlyAddedDie}
               />
-            )
-          )}
-        </View>
-      ) : (
-        <Text variant="bodyLarge" style={styles.emptyPoolText}>
-          Select dice to add to your pool
-        </Text>
-      )}
+            ))}
+          </View>
+        ) : (
+          <Text variant="bodyLarge" style={styles.emptyPoolText}>
+            Select dice to add to your pool
+          </Text>
+        )}
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   diceContainer: {
-    marginBottom: 24,
+    marginVertical: 24,
     minHeight: 150,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 0,
+    width: '100%',
+    flex: 1,
+    display: 'flex'
+  },
+  poolContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%'
   },
   poolContainer: {
@@ -47,13 +57,11 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 16,
-    gap: 16,
-    maxWidth: 624 // 4 tiles * 140px width + 3 gaps * 16px + some margin
+    gap: 12,
+    maxWidth: 528
   },
   emptyPoolText: {
     textAlign: 'center',
-    marginVertical: 16,
     opacity: 0.7
   },
   poolActions: {

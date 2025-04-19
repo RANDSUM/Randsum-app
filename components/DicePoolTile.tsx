@@ -87,9 +87,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     padding: 6,
-    margin: 6,
+    margin: 4,
     height: 52,
-    width: 140,
+    width: 120,
     justifyContent: 'space-between'
   },
   dieNotation: {
