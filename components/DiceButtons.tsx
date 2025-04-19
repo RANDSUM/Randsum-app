@@ -18,7 +18,6 @@ export default function DiceButtons({
   return (
     <Portal>
       <View style={styles.fabContainer}>
-        {/* D4 FAB */}
         <FAB
           icon="dice-d4"
           label="D4"
@@ -28,7 +27,6 @@ export default function DiceButtons({
           customSize={48}
         />
 
-        {/* D6 FAB */}
         <FAB
           icon="dice-d6"
           label="D6"
@@ -38,7 +36,6 @@ export default function DiceButtons({
           customSize={48}
         />
 
-        {/* D8 FAB */}
         <FAB
           icon="dice-d8"
           label="D8"
@@ -48,7 +45,6 @@ export default function DiceButtons({
           customSize={48}
         />
 
-        {/* D10 FAB */}
         <FAB
           icon="dice-d10"
           label="D10"
@@ -58,7 +54,6 @@ export default function DiceButtons({
           customSize={48}
         />
 
-        {/* D12 FAB */}
         <FAB
           icon="dice-d12"
           label="D12"
@@ -68,7 +63,6 @@ export default function DiceButtons({
           customSize={48}
         />
 
-        {/* D20 FAB */}
         <FAB
           icon="dice-d20"
           label="D20"
@@ -78,7 +72,6 @@ export default function DiceButtons({
           customSize={48}
         />
 
-        {/* D100 FAB */}
         <FAB
           icon="circle"
           label="D100"
@@ -88,7 +81,6 @@ export default function DiceButtons({
           customSize={48}
         />
 
-        {/* Clear FAB */}
         <FAB
           icon="delete-sweep"
           label="Clear"
