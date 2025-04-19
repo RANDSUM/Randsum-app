@@ -1,9 +1,9 @@
-import { Dialog, FAB, Portal, Text, useAppTheme } from '@/components/Themed'
+import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 
-export default function ClearDiceButton() {
+export default function ClearButton() {
   const theme = useAppTheme()
   const { clearPool, dicePool } = useCurrentRoll()
   const [confirmVisible, setConfirmVisible] = useState(false)
@@ -24,17 +24,17 @@ export default function ClearDiceButton() {
 
   return (
     <>
-      <FAB
+      <Button
         icon="delete-sweep"
+        mode="contained"
         onPress={showConfirmation}
         disabled={disabled}
-        color={theme.colors.onError}
-        style={[
-          styles.clearButton,
-          { opacity: disabled ? 0.5 : 1, backgroundColor: theme.colors.error }
-        ]}
-        label="Clear"
-      />
+        buttonColor={theme.colors.error}
+        textColor={theme.colors.onError}
+        style={[styles.clearButton, { opacity: disabled ? 0.5 : 1 }]}
+      >
+        Clear
+      </Button>
 
       <Portal>
         <Dialog
@@ -47,22 +47,10 @@ export default function ClearDiceButton() {
             <Text>Are you sure you want to clear all dice from the pool?</Text>
           </Dialog.Content>
           <Dialog.Actions>
-            <FAB
-              size="small"
-              onPress={hideConfirmation}
-              label="Cancel"
-              style={styles.dialogButton}
-            />
-            <FAB
-              size="small"
-              onPress={handleConfirm}
-              color={theme.colors.onError}
-              style={[
-                styles.dialogButton,
-                { backgroundColor: theme.colors.error }
-              ]}
-              label="Clear"
-            />
+            <Button onPress={hideConfirmation}>Cancel</Button>
+            <Button onPress={handleConfirm} textColor={theme.colors.error}>
+              Clear
+            </Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
@@ -72,14 +60,8 @@ export default function ClearDiceButton() {
 
 const styles = StyleSheet.create({
   clearButton: {
-    position: 'absolute',
-    bottom: 100,
-    right: 16,
-    elevation: 4,
-    zIndex: 5
-  },
-  dialogButton: {
-    marginHorizontal: 8,
-    marginBottom: 8
+    margin: 4,
+    width: 110,
+    height: 40
   }
 })

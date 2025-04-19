@@ -36,20 +36,19 @@ export default function DicePool() {
 
 const styles = StyleSheet.create({
   diceContainer: {
-    marginVertical: 24,
-    minHeight: 150,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 0,
     width: '100%',
     flex: 1,
-    display: 'flex'
+    display: 'flex',
+    height: '100%'
   },
   poolContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    alignSelf: 'center'
   },
   poolContainer: {
     flexDirection: 'row',
