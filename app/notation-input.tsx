@@ -1,16 +1,10 @@
-import {
-  Button,
-  Dialog,
-  Portal,
-  Text,
-  TextInput,
-  useAppTheme
-} from '@/components/Themed'
+import NotationValidator from '@/components/NotationValidator'
+import { Button, useAppTheme, View } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { validateNotation } from '@randsum/notation'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export default function NotationInput() {
   const router = useRouter()
@@ -20,7 +14,6 @@ export default function NotationInput() {
   const [validationResult, setValidationResult] = useState<ReturnType<
     typeof validateNotation
   > | null>(null)
-  const [confirmVisible, setConfirmVisible] = useState(false)
 
   const handleNotationChange = (text: string) => {
     setNotation(text)
@@ -39,55 +32,15 @@ export default function NotationInput() {
     }
   }
 
-  const hideConfirmation = () => {
-    setConfirmVisible(false)
-  }
-
   const isValid = validationResult?.valid || false
 
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <Text variant="headlineMedium" style={styles.title}>
-          Dice Notation
-        </Text>
-
-        <TextInput
-          label="Enter Dice Notation"
-          value={notation}
-          onChangeText={handleNotationChange}
-          style={styles.input}
-          placeholder="e.g. 2D6+3 or 4D8L"
-          autoCapitalize="none"
-          autoCorrect={false}
-          error={notation.length > 0 && !isValid}
-        />
-      </View>
-
-      {validationResult && (
-        <View style={styles.validationContainer}>
-          {isValid && validationResult.description.length > 0 && (
-            <View style={styles.descriptionContainer}>
-              <Text style={styles.descriptionTitle}>Description:</Text>
-              {validationResult.description.map((desc, index) => (
-                <Text key={index} style={styles.descriptionText}>
-                  {desc}
-                </Text>
-              ))}
-            </View>
-          )}
-          <Text
-            style={[
-              styles.validationText,
-              {
-                color: isValid ? theme.colors.tertiary : theme.colors.error
-              }
-            ]}
-          >
-            {isValid ? 'Valid notation' : 'Invalid notation'}
-          </Text>
-        </View>
-      )}
+      <NotationValidator
+        notation={notation}
+        onNotationChange={handleNotationChange}
+        validationResult={validationResult}
+      />
 
       <View style={styles.buttonContainer}>
         <Button
@@ -105,67 +58,18 @@ export default function NotationInput() {
           buttonColor={theme.colors.tertiary}
           textColor={theme.colors.onTertiary}
         >
-          Add
+          Add to Pool
         </Button>
       </View>
-
-      <Portal>
-        <Dialog
-          visible={confirmVisible}
-          onDismiss={hideConfirmation}
-          style={{ backgroundColor: theme.colors.surface }}
-        >
-          <Dialog.Title>Invalid Notation</Dialog.Title>
-          <Dialog.Content>
-            <Text>
-              The dice notation you entered is not valid. Please check your
-              syntax and try again.
-            </Text>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={hideConfirmation}>OK</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 24,
-    justifyContent: 'space-between'
-  },
-  content: {
-    flex: 1
-  },
-  title: {
-    marginBottom: 24,
-    textAlign: 'center'
-  },
-  input: {
-    marginBottom: 16
-  },
-  validationContainer: {
-    marginBottom: 24
-  },
-  validationText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 8
-  },
-  descriptionContainer: {
-    backgroundColor: 'rgba(154, 130, 219, 0.1)',
-    padding: 16,
-    borderRadius: 8
-  },
-  descriptionTitle: {
-    fontWeight: 'bold',
-    marginBottom: 8
-  },
-  descriptionText: {
-    marginBottom: 4
+    justifyContent: 'space-between',
+    height: '100%'
   },
   buttonContainer: {
     flexDirection: 'row',
