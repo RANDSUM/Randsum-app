@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   diceContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 100,
     width: '100%',
     flex: 1,
     display: 'flex',

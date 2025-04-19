@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   rollButton: {
     width: '100%',
     height: 48,
-    borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 2
