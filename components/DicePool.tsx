@@ -37,7 +37,7 @@ export default function DicePool() {
                   count={count}
                   type={type}
                   onRemove={removeDie}
-                  shouldShake={type === recentlyAddedDie}
+                  shouldShake={label === recentlyAddedDie}
                 />
               )
             )}

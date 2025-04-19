@@ -47,7 +47,7 @@ export default function DicePoolTile({
         })
       ]).start()
     }
-  }, [shouldShake, count, shakeAnimation])
+  }, [shouldShake, label, shakeAnimation])
 
   return (
     <Animated.View
@@ -93,19 +93,15 @@ const styles = StyleSheet.create({
     padding: 6,
     margin: 4,
     height: 52,
-    width: 120,
+    minHeight: 52,
+    maxHeight: 52,
     justifyContent: 'space-between',
     overflow: 'hidden'
   },
-  notationPoolDie: {
-    width: 240,
-    flex: 2,
-    height: 52
-  },
+  notationPoolDie: {},
   dieNotation: {
     fontWeight: 'bold',
     fontSize: 18,
-    flex: 1,
     textAlign: 'center',
     marginLeft: 12
   },
@@ -113,7 +109,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'left',
     marginLeft: 8,
-    marginRight: 4
+    marginRight: 4,
+    lineHeight: 20
   },
   removeButton: {
     margin: 0,
