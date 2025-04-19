@@ -2,50 +2,53 @@ import { MD3DarkTheme } from 'react-native-paper'
 
 const materialDarkColors = {
   ...MD3DarkTheme.colors,
-  primary: '#5C6BC0',
-  primaryContainer: '#3949AB',
+  // Rich Purple (Primary)
+  primary: '#6750A4',
+  primaryContainer: '#EADDFF',
   onPrimary: '#FFFFFF',
-  onPrimaryContainer: '#E8EAF6',
+  onPrimaryContainer: '#21005E',
 
-  secondary: '#78909C',
-  secondaryContainer: '#546E7A',
-  onSecondary: '#FFFFFF',
-  onSecondaryContainer: '#ECEFF1',
+  // Muted Gold (Secondary - subtle complement to purple)
+  secondary: '#CAC4D0',
+  secondaryContainer: '#E8DEF8',
+  onSecondary: '#1D192B',
+  onSecondaryContainer: '#332D41',
 
-  tertiary: '#26A69A',
-  tertiaryContainer: '#00897B',
+  // Soft Lavender (Tertiary - lighter tint of purple family)
+  tertiary: '#9A82DB',
+  tertiaryContainer: '#E6DEFF',
   onTertiary: '#FFFFFF',
-  onTertiaryContainer: '#E0F2F1',
+  onTertiaryContainer: '#21005E',
 
-  background: '#1E1E1E',
-  onBackground: '#EEEEEE',
-  surface: '#1E1E1E',
+  background: '#1C1B1F',
+  onBackground: '#E6E1E5',
+  surface: '#1C1B1F',
   elevation: {
-    level0: '#1E1E1E',
-    level1: '#252525',
-    level2: '#2A2A2A',
-    level3: '#2F2F2F',
-    level4: '#353535',
-    level5: '#3A3A3A'
+    level0: '#1C1B1F',
+    level1: '#211F26',
+    level2: '#27252D',
+    level3: '#2D2B34',
+    level4: '#33303B',
+    level5: '#393642'
   },
-  onSurface: '#EEEEEE',
-  surfaceVariant: '#3D3D3D',
-  onSurfaceVariant: '#EEEEEE',
+  onSurface: '#E6E1E5',
+  surfaceVariant: '#49454F',
+  onSurfaceVariant: '#CAC4D0',
 
-  error: '#F44336',
-  errorContainer: '#D32F2F',
-  onError: '#FFFFFF',
-  onErrorContainer: '#FFCDD2',
+  error: '#F2B8B5',
+  errorContainer: '#8C1D18',
+  onError: '#601410',
+  onErrorContainer: '#F9DEDC',
 
-  outline: '#5C6BC0',
-  outlineVariant: '#3949AB',
-  inverseSurface: '#EEEEEE',
-  inverseOnSurface: '#1E1E1E',
-  inversePrimary: '#3F51B5',
+  outline: '#938F99',
+  outlineVariant: '#49454F',
+  inverseSurface: '#E6E1E5',
+  inverseOnSurface: '#1C1B1F',
+  inversePrimary: '#6750A4',
   shadow: '#000000',
   scrim: '#000000',
-  surfaceDisabled: 'rgba(238, 238, 238, 0.12)',
-  onSurfaceDisabled: 'rgba(238, 238, 238, 0.38)',
+  surfaceDisabled: 'rgba(230, 225, 229, 0.12)',
+  onSurfaceDisabled: 'rgba(230, 225, 229, 0.38)',
   backdrop: 'rgba(0, 0, 0, 0.6)'
 }
 
