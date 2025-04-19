@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
-    gap: 12
+    gap: 16,
+    maxWidth: 624 // 4 tiles * 140px width + 3 gaps * 16px + some margin
   },
   emptyPoolText: {
     textAlign: 'center',

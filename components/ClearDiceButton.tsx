@@ -60,7 +60,7 @@ export default function ClearDiceButton() {
 
 const styles = StyleSheet.create({
   clearButton: {
-    marginTop: 16,
+    marginTop: 32,
     width: 180,
     height: 40
   }

@@ -70,7 +70,7 @@ export default function DicePoolTile({
         </Text>
         <IconButton
           icon="close"
-          size={16}
+          size={14}
           iconColor={theme.colors.onTertiaryContainer}
           onPress={() => onRemove(type)}
           style={styles.removeButton}
@@ -87,21 +87,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     padding: 6,
-    margin: 4,
-    height: 40,
-    width: 100,
+    margin: 6,
+    height: 52,
+    width: 140,
     justifyContent: 'space-between'
   },
   dieNotation: {
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 18,
     flex: 1,
     textAlign: 'center',
-    marginLeft: 8
+    marginLeft: 12
   },
   removeButton: {
     margin: 0,
-    width: 32,
-    height: 32
+    width: 28,
+    height: 28
   }
 })
