@@ -37,12 +37,10 @@ export default function Index() {
           groupDiceByType={groupDiceByType}
         />
 
-        {/* Dice buttons are now FABs */}
+        <DiceButtons addDie={addDie} />
       </ScrollView>
 
       <RollFAB onPress={rollDice} disabled={dicePool.length === 0} />
-
-      <DiceButtons addDie={addDie} />
 
       <ClearButton clearPool={clearPool} poolEmpty={dicePool.length === 0} />
 
