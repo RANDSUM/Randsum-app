@@ -48,18 +48,7 @@ export default function RollResultsModal() {
                   </Text>
                   <View style={styles.modalDieResults}>
                     {values.map((value, i) => (
-                      <View
-                        key={i}
-                        style={[
-                          styles.modalDieValue,
-                          value === 20 &&
-                            dieType === 'D20' &&
-                            styles.criticalHit,
-                          value === 1 &&
-                            dieType === 'D20' &&
-                            styles.criticalMiss
-                        ]}
-                      >
+                      <View key={i} style={[styles.modalDieValue]}>
                         <Text style={styles.modalDieValueText}>{value}</Text>
                       </View>
                     ))}
