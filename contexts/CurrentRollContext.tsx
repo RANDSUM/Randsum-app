@@ -62,7 +62,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   function animateDieAddition(dieId: string) {
     setRecentlyAddedDie(dieId)
 
-    setTimeout(function () {
+    setTimeout(() => {
       setRecentlyAddedDie(null)
     }, 300)
   }
@@ -89,9 +89,9 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   }
 
   function addDie(sides: number, quantity: number = 1) {
-    const existingDieIndex = dicePool.findIndex(function (die) {
-      return die._type === 'numeric' && die.sides === sides
-    })
+    const existingDieIndex = dicePool.findIndex(
+      (die) => die._type === 'numeric' && die.sides === sides
+    )
 
     if (existingDieIndex >= 0) {
       const updatedDicePool = [...dicePool]
@@ -133,9 +133,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   }
 
   function removeDie(id: string) {
-    const dieIndex = dicePool.findIndex(function (die) {
-      return die.id === id
-    })
+    const dieIndex = dicePool.findIndex((die) => die.id === id)
 
     if (dieIndex >= 0) {
       const updatedDicePool = [...dicePool]
@@ -145,11 +143,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
         dieToUpdate.quantity -= 1
         setDicePool(updatedDicePool)
       } else {
-        setDicePool(
-          dicePool.filter(function (die) {
-            return die.id !== id
-          })
-        )
+        setDicePool(dicePool.filter((die) => die.id !== id))
       }
     }
   }
@@ -162,9 +156,9 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   function rollDice() {
     if (dicePool.length === 0) return
 
-    const diceToRoll = dicePool.map(function (die) {
-      return die._type === 'notation' ? die.sides.notation : die
-    })
+    const diceToRoll = dicePool.map((die) =>
+      die._type === 'notation' ? die.sides.notation : die
+    )
 
     const result = roll(...diceToRoll) as NumericRollResult
 
@@ -174,16 +168,16 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
 
   function getDiceNotation(): string {
     return dicePool
-      .map(function (die) {
-        return die._type === 'notation'
+      .map((die) =>
+        die._type === 'notation'
           ? die.sides.notation
           : `${die.quantity}D${die.sides}`
-      })
+      )
       .join('+')
   }
 
   function groupRollResults(result: NumericRollResult) {
-    const diceLabels = dicePool.map(function (die) {
+    const diceLabels = dicePool.map((die) => {
       if (die._type === 'notation') {
         return die.sides.notation
       } else {
@@ -193,13 +187,13 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
 
     const groupedResults: Record<string, number[]> = {}
 
-    diceLabels.forEach(function (string) {
+    diceLabels.forEach((string) => {
       if (!groupedResults[string]) {
         groupedResults[string] = []
       }
     })
 
-    Object.values(result.rawRolls).forEach(function (values, i) {
+    Object.values(result.rawRolls).forEach((values, i) => {
       const string = diceLabels[i] || 'Unknown'
       if (!groupedResults[string]) {
         groupedResults[string] = []

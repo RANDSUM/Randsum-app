@@ -11,7 +11,7 @@ export default function DicePool() {
       <View style={styles.poolContent}>
         {dicePool.length > 0 ? (
           <View style={styles.poolContainer}>
-            {dicePool.map(function (item) {
+            {dicePool.map((item) => {
               return <DicePoolTile die={item} />
             })}
           </View>
