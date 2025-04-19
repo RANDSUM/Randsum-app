@@ -14,33 +14,29 @@ export default function DicePool() {
         {dicePool.length > 0 ? (
           <View style={styles.poolContainer}>
             {groupDiceByLabel(
-              dicePool.map((die: AnyPoolDie) => {
+              dicePool.map(function (die: AnyPoolDie) {
                 if (die._type === 'notation') {
                   return die.sides.notation
                 } else {
                   return sidesToLabel(die.sides)
                 }
               })
-            ).map(
-              ({
-                type,
-                label,
-                count
-              }: {
-                type: 'numeric' | 'notation'
-                label: string
-                count: number
-              }) => (
+            ).map(function (item: {
+              type: 'numeric' | 'notation'
+              label: string
+              count: number
+            }) {
+              return (
                 <DicePoolTile
-                  key={label}
-                  label={label}
-                  count={count}
-                  type={type}
+                  key={item.label}
+                  label={item.label}
+                  count={item.count}
+                  type={item.type}
                   onRemove={removeDie}
-                  shouldShake={label === recentlyAddedDie}
+                  shouldShake={item.label === recentlyAddedDie}
                 />
               )
-            )}
+            })}
           </View>
         ) : (
           <Text variant="bodyLarge" style={styles.emptyPoolText}>

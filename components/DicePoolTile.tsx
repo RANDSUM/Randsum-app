@@ -76,7 +76,9 @@ export default function DicePoolTile({
           icon="close"
           size={14}
           iconColor={theme.colors.onTertiaryContainer}
-          onPress={() => onRemove(label)}
+          onPress={function () {
+            onRemove(label)
+          }}
           style={styles.removeButton}
           containerColor="transparent"
         />
@@ -98,7 +100,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     overflow: 'hidden'
   },
-  notationPoolDie: {},
+  notationPoolDie: {
+    width: 240,
+    flexGrow: 2,
+    flexShrink: 0,
+    flexBasis: 'auto'
+  },
   dieNotation: {
     fontWeight: 'bold',
     fontSize: 18,
