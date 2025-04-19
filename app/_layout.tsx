@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import 'react-native-reanimated'
 
 import { ThemeProvider, useAppTheme } from '@/components/Themed'
+import { CurrentRollProvider } from '@/contexts/CurrentRollContext'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -39,22 +40,24 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider>
-      <StatusBar style="light" />
-      <Stack
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: theme.colors.elevation.level4
-          },
-          headerTintColor: theme.colors.onSurface,
-          headerShadowVisible: false,
-          contentStyle: {
-            backgroundColor: theme.colors.background
-          }
-        }}
-      >
-        <Stack.Screen name="index" options={{ title: 'Dice Roller' }} />
-        <Stack.Screen name="theme" options={{ title: 'Theme Demo' }} />
-      </Stack>
+      <CurrentRollProvider>
+        <StatusBar style="light" />
+        <Stack
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: theme.colors.elevation.level4
+            },
+            headerTintColor: theme.colors.onSurface,
+            headerShadowVisible: false,
+            contentStyle: {
+              backgroundColor: theme.colors.background
+            }
+          }}
+        >
+          <Stack.Screen name="index" options={{ title: 'Dice Roller' }} />
+          <Stack.Screen name="theme" options={{ title: 'Theme Demo' }} />
+        </Stack>
+      </CurrentRollProvider>
     </ThemeProvider>
   )
 }

@@ -5,6 +5,7 @@ import {
   Appbar as PaperAppbar,
   Button as PaperButton,
   Card as PaperCard,
+  FAB as PaperFAB,
   IconButton as PaperIconButton,
   Modal as PaperModal,
   Portal as PaperPortal,
@@ -61,6 +62,7 @@ export const IconButton = PaperIconButton
 export const Modal = PaperModal
 export const Portal = PaperPortal
 export const ActivityIndicator = PaperActivityIndicator
+export const FAB = PaperFAB
 
 export function View(props: React.ComponentProps<typeof PaperSurface>) {
   const { style, ...otherProps } = props
