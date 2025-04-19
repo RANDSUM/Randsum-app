@@ -100,12 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     overflow: 'hidden'
   },
-  notationPoolDie: {
-    width: 240,
-    flexGrow: 2,
-    flexShrink: 0,
-    flexBasis: 'auto'
-  },
+  notationPoolDie: {},
   dieNotation: {
     fontWeight: 'bold',
     fontSize: 18,

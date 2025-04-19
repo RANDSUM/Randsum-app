@@ -14,7 +14,6 @@ type CurrentRollContextType = {
   dicePool: AnyPoolDie[]
   rollResult: NumericRollResult | null
   recentlyAddedDie: string | null
-  diceOrder: string[]
 
   addDie: (string: string) => void
   addNotationDie: (notation: string) => void
@@ -43,7 +42,6 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   const [dicePool, setDicePool] = useState<AnyPoolDie[]>([])
   const [rollResult, setRollResult] = useState<NumericRollResult | null>(null)
   const [recentlyAddedDie, setRecentlyAddedDie] = useState<string | null>(null)
-  const [diceOrder, setDiceOrder] = useState<string[]>([])
 
   function isNotationDie(die: AnyPoolDie): die is NotationPoolDie {
     return die._type === 'notation'
@@ -60,12 +58,8 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     return Math.random().toString(36).substring(2, 9)
   }
 
-  function updateDiceOrderAndAnimate(dieLabel: string) {
+  function animateDieAddition(dieLabel: string) {
     setRecentlyAddedDie(dieLabel)
-
-    if (!diceOrder.includes(dieLabel)) {
-      setDiceOrder([...diceOrder, dieLabel])
-    }
 
     setTimeout(function () {
       setRecentlyAddedDie(null)
@@ -92,7 +86,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     const sides = labelToSides(string)
     const newDie = createStandardDie(sides)
     setDicePool([...dicePool, newDie])
-    updateDiceOrderAndAnimate(string)
+    animateDieAddition(string)
   }
 
   function addNotationDie(notation: string) {
@@ -116,7 +110,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
       }
 
       setDicePool([...dicePool, ...newDice])
-      updateDiceOrderAndAnimate(`D${sides}`)
+      animateDieAddition(`D${sides}`)
 
       return
     }
@@ -124,7 +118,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     const newDie = createNotationDie(formattedNotation)
 
     setDicePool([...dicePool, newDie])
-    updateDiceOrderAndAnimate(formattedNotation)
+    animateDieAddition(formattedNotation)
   }
 
   function removeDie(string: string) {
@@ -154,32 +148,12 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
           )
         })
       )
-
-      const remainingDiceOfType = dicePool.filter(function (die) {
-        if (die._type === 'notation' && dieToRemove._type === 'notation') {
-          return (
-            getNotation(die) === getNotation(dieToRemove) &&
-            die.id !== dieToRemove.id
-          )
-        } else if (die._type === 'numeric' && dieToRemove._type === 'numeric') {
-          return die.sides === dieToRemove.sides && die.id !== dieToRemove.id
-        }
-        return false
-      })
-
-      if (remainingDiceOfType.length === 0) {
-        setDiceOrder(
-          diceOrder.filter(function (type) {
-            return type !== string
-          })
-        )
-      }
     }
   }
 
   function clearPool() {
     setDicePool([])
-    setDiceOrder([])
+    setRollResult(null)
   }
 
   function rollDice() {
@@ -216,25 +190,17 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
       grouped[die] = (grouped[die] || 0) + 1
     })
 
-    const presentDiceLabels = Object.entries(grouped)
+    return Object.entries(grouped)
       .filter(function ([_, count]) {
         return count > 0
       })
-      .map(function ([label]) {
-        return label
+      .map(function ([label, count]) {
+        return {
+          label,
+          count,
+          type: isDieNotation(label) ? 'notation' : 'numeric'
+        }
       })
-
-    const orderedDiceLabels = diceOrder.filter(function (dieType) {
-      return presentDiceLabels.includes(dieType)
-    })
-
-    return orderedDiceLabels.map(function (label) {
-      return {
-        label,
-        count: grouped[label],
-        type: isDieNotation(label) ? 'notation' : 'numeric'
-      }
-    })
   }
 
   function getDiceNotation(dice: string[]): string {
@@ -278,7 +244,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     dicePool,
     rollResult,
     recentlyAddedDie,
-    diceOrder,
+
     addDie,
     addNotationDie,
     removeDie,
