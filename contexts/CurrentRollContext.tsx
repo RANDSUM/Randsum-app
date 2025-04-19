@@ -1,9 +1,4 @@
-import {
-  NotationPoolDie,
-  PoolDie,
-  StandardPoolDie,
-  sidesToLabel
-} from '@/types/dice'
+import { NotationPoolDie, PoolDie, StandardPoolDie } from '@/types/dice'
 import {
   DiceNotation,
   NumericRollOptions,
@@ -29,7 +24,12 @@ type CurrentRollContextType = {
   clearPool: () => void
   rollDice: () => void
   getDiceNotation: () => string
-  groupRollResults: (result: NumericRollResult) => Record<string, number[]>
+  groupRollResults: (result: NumericRollResult) => {
+    label: string
+    total: number
+    results: number[]
+    rejectedRolls: number[]
+  }[]
   isNotationDie: (die: PoolDie) => die is NotationPoolDie
   getNotation: (die: PoolDie) => string
 }
@@ -89,6 +89,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   }
 
   function addDie(sides: number, quantity: number = 1) {
+    console.log('sides', sides)
     const existingDieIndex = dicePool.findIndex(
       (die) => die._type === 'numeric' && die.sides === sides
     )
@@ -176,32 +177,44 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
       .join('+')
   }
 
-  function groupRollResults(result: NumericRollResult) {
-    const diceLabels = dicePool.map((die) => {
-      if (die._type === 'notation') {
-        return die.sides.notation
-      } else {
-        return sidesToLabel(die.sides)
+  function groupRollResults(result: NumericRollResult): {
+    label: string
+    total: number
+    results: number[]
+    rejectedRolls: number[]
+  }[] {
+    return Object.entries(result.dicePools).map(([id, pool]) => {
+      const rawRolls = result.rawRolls[id]
+      const modifiedRolls = result.modifiedRolls[id]
+
+      const rollFrequencyMap = new Map<number, number>()
+      const usedFrequencyMap = new Map<number, number>()
+
+      rawRolls.forEach((roll) => {
+        rollFrequencyMap.set(roll, (rollFrequencyMap.get(roll) || 0) + 1)
+      })
+
+      modifiedRolls.rolls.forEach((roll) => {
+        usedFrequencyMap.set(roll, (usedFrequencyMap.get(roll) || 0) + 1)
+      })
+
+      const rejectedRolls: number[] = []
+      rollFrequencyMap.forEach((count, roll) => {
+        const usedCount = usedFrequencyMap.get(roll) || 0
+        const rejectedCount = count - usedCount
+
+        for (let i = 0; i < rejectedCount; i++) {
+          rejectedRolls.push(roll)
+        }
+      })
+
+      return {
+        label: pool.notation,
+        total: modifiedRolls.total,
+        results: modifiedRolls.rolls,
+        rejectedRolls
       }
     })
-
-    const groupedResults: Record<string, number[]> = {}
-
-    diceLabels.forEach((string) => {
-      if (!groupedResults[string]) {
-        groupedResults[string] = []
-      }
-    })
-
-    Object.values(result.rawRolls).forEach((values, i) => {
-      const string = diceLabels[i] || 'Unknown'
-      if (!groupedResults[string]) {
-        groupedResults[string] = []
-      }
-      groupedResults[string].push(...values)
-    })
-
-    return groupedResults
   }
 
   const contextValue: CurrentRollContextType = {

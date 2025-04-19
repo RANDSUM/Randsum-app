@@ -19,8 +19,8 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@randsum/dice": "^0.1.24",
-    "@randsum/notation": "^0.1.24",
+    "@randsum/dice": "^0.1.25",
+    "@randsum/notation": "^0.1.25",
     "expo": "~52.0.46",
     "expo-constants": "~17.0.8",
     "expo-linking": "~7.0.5",

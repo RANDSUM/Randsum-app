@@ -33,67 +33,42 @@ export default function RollResultsModal() {
         <ScrollView style={styles.modalScroll}>
           <Text style={styles.modalNotation}>{getDiceNotation()}</Text>
 
-          {Object.entries(groupRollResults(rollResult)).map(
-            ([dieType, values]: [string, number[]]) => (
-              <View key={dieType} style={styles.modalResultItem}>
-                <View style={styles.modalResultRow}>
-                  <Text style={styles.modalDieType}>
-                    {(() => {
-                      const hasModifiers =
-                        dieType.includes('+') ||
-                        dieType.includes('-') ||
-                        dieType.includes('L') ||
-                        dieType.includes('H') ||
-                        dieType.includes('R') ||
-                        dieType.includes('!') ||
-                        dieType.includes('U')
+          {groupRollResults(rollResult).map((group, groupIndex) => (
+            <View key={groupIndex} style={styles.modalResultItem}>
+              <Text style={styles.modalDieType}>{group.label}:</Text>
 
-                      if (hasModifiers) {
-                        return `${dieType}:`
-                      } else if (values.length > 1) {
-                        return `${values.length}${dieType}:`
-                      } else {
-                        return `${dieType}:`
-                      }
-                    })()}
-                  </Text>
-                  <View style={styles.modalDieResults}>
-                    {values.map((value, i) => {
-                      const isDropped =
-                        (rollResult as any).droppedIndices &&
-                        (rollResult as any).droppedIndices[dieType] &&
-                        (rollResult as any).droppedIndices[dieType].includes(i)
+              <View style={styles.diceResultsRow}>
+                <View style={styles.modalDieResults}>
+                  {group.results.map((roll, index) => (
+                    <View key={`active-${index}`} style={styles.modalDieValue}>
+                      <Text style={styles.modalDieValueText}>{roll}</Text>
+                    </View>
+                  ))}
 
-                      return (
-                        <View
-                          key={i}
-                          style={[
-                            styles.modalDieValue,
-                            isDropped && styles.droppedDie
-                          ]}
-                        >
-                          <Text
-                            style={[
-                              styles.modalDieValueText,
-                              isDropped && styles.droppedDieText
-                            ]}
-                          >
-                            {value}
-                          </Text>
-                        </View>
-                      )
-                    })}
-                  </View>
-                  <View style={styles.rowTotalContainer}>
-                    <Text style={styles.rowTotalEquals}>=</Text>
-                    <Text style={styles.rowTotal}>
-                      {values.reduce((sum, val) => sum + val, 0)}
-                    </Text>
-                  </View>
+                  {group.rejectedRolls.map((roll, index) => (
+                    <View
+                      key={`rejected-${index}`}
+                      style={[styles.modalDieValue, styles.droppedDie]}
+                    >
+                      <Text
+                        style={[
+                          styles.modalDieValueText,
+                          styles.droppedDieText
+                        ]}
+                      >
+                        {roll}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+
+                <View style={styles.rowTotalContainer}>
+                  <Text style={styles.rowTotalEquals}>=</Text>
+                  <Text style={styles.rowTotal}>{group.total}</Text>
                 </View>
               </View>
-            )
-          )}
+            </View>
+          ))}
         </ScrollView>
       </View>
 
@@ -135,7 +110,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   modalResultItem: {
-    marginBottom: 16
+    marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   modalDieType: {
     fontSize: 16,
@@ -149,19 +126,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start'
   },
-  modalDieResults: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    flex: 1
-  },
   rowTotalContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 8,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 4
+    borderRadius: 4,
+    marginLeft: 8
   },
   rowTotalEquals: {
     marginRight: 4,
@@ -177,8 +149,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     justifyContent: 'center',
-    alignItems: 'center',
-    margin: 4
+    alignItems: 'center'
   },
   modalDieValueText: {
     fontWeight: 'bold'
@@ -206,5 +177,16 @@ const styles = StyleSheet.create({
   },
   modalCloseButton: {
     marginTop: 16
+  },
+  diceResultsRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  modalDieResults: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flex: 1,
+    gap: 8
   }
 })

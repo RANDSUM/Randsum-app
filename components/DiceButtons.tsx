@@ -12,20 +12,20 @@ export default function DiceButtons() {
   const router = useRouter()
   const theme = useAppTheme()
 
-  const firstRowDice: string[] = ['D4', 'D6', 'D8']
-  const secondRowDice: string[] = ['D10', 'D12', 'D20']
+  const firstRowDice = [4, 6, 8]
+  const secondRowDice = [10, 12, 20]
 
   return (
     <View style={styles.buttonContainer}>
       <View style={styles.buttonRow}>
-        {firstRowDice.map((dieType) => (
-          <DiceButton key={dieType} dieType={dieType} onPress={addDie} />
+        {firstRowDice.map((sides) => (
+          <DiceButton key={'D' + sides} sides={sides} onPress={addDie} />
         ))}
       </View>
 
       <View style={styles.buttonRow}>
-        {secondRowDice.map((dieType) => (
-          <DiceButton key={dieType} dieType={dieType} onPress={addDie} />
+        {secondRowDice.map((sides) => (
+          <DiceButton key={'D' + sides} sides={sides} onPress={addDie} />
         ))}
       </View>
 

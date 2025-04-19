@@ -417,11 +417,11 @@
 
     "@radix-ui/react-slot": ["@radix-ui/react-slot@1.0.1", "", { "dependencies": { "@babel/runtime": "^7.13.10", "@radix-ui/react-compose-refs": "1.0.0" }, "peerDependencies": { "react": "^16.8 || ^17.0 || ^18.0" } }, "sha512-avutXAFL1ehGvAXtPquu0YK5oz6ctS474iM3vNGQIkswrVhdrS52e3uoMQBzZhNRAIE0jBnUyXWNmSjGHhCFcw=="],
 
-    "@randsum/core": ["@randsum/core@0.1.23", "", {}, "sha512-mo6v/TNEBMqkYPP5V6YW7d9t9eYnlvBnzLNepzrzE98Ao1ekla4NQxXTcG3dyPfYV8aXS8T0tWcMPlPqm8DF1g=="],
+    "@randsum/core": ["@randsum/core@0.1.24", "", {}, "sha512-Cd2icAxfnJvFHJAklaAZUoROJYruZY0I0G5TCXXT505RfdIaXH8l9LN2KTRQyeMfAmDiZvgLLQDZ2UMQmyu7oA=="],
 
-    "@randsum/dice": ["@randsum/dice@0.1.24", "", { "dependencies": { "@randsum/core": "0.1.23", "@randsum/notation": "0.1.23" }, "bin": { "@randsum/dice": "bin/randsum" } }, "sha512-zVD4JNOc+bUg/zWxWaSyb1ufTXKVKv+YENOkUJAQ99m62NtDBerAlpfB4kgC09oc8a5j2iseM6cjsE6CLfehjA=="],
+    "@randsum/dice": ["@randsum/dice@0.1.25", "", { "dependencies": { "@randsum/core": "0.1.24", "@randsum/notation": "0.1.24" }, "bin": { "@randsum/dice": "bin/randsum" } }, "sha512-n5tJcf4lGyytlhCMD4VMXOoqEBUbuSf0mZo2Gzhp3GmXdUsHd9CqZyCQzvqArWG8hOb/xxUUeB7aWUzQRqQuyg=="],
 
-    "@randsum/notation": ["@randsum/notation@0.1.24", "", { "dependencies": { "@randsum/core": "0.1.23" } }, "sha512-rLuFmm6sPf4bBs47+QCsyCJGaNLm/6oOW6dL8EsYoj0+l4OmJ6cSkV/jygHi4PWObsS1p3ha+szbwQjr0XC/eA=="],
+    "@randsum/notation": ["@randsum/notation@0.1.25", "", { "dependencies": { "@randsum/core": "0.1.24" } }, "sha512-57ORkW3XL+fk8aDljl2zI+Go2tRsAnfxi6gDDW3lUgUYZBsHG+EhCWF+q6hcNHbzxkGAaDY9lwxNeXArEk54Wg=="],
 
     "@react-native/assets-registry": ["@react-native/assets-registry@0.76.9", "", {}, "sha512-pN0Ws5xsjWOZ8P37efh0jqHHQmq+oNGKT4AyAoKRpxBDDDmlAmpaYjer9Qz7PpDKF+IUyRjF/+rBsM50a8JcUg=="],
 
@@ -1953,7 +1953,7 @@
 
     "@npmcli/fs/semver": ["semver@7.7.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA=="],
 
-    "@randsum/dice/@randsum/notation": ["@randsum/notation@0.1.23", "", { "dependencies": { "@randsum/core": "0.1.23" } }, "sha512-9TBTrRl8Fw97VRKP7546yX7xLkEZrDS/CaHajV6OI0yN5n795WitD/eeVDNTWJJRqPxS0Y0SkfpSs+nr0AHoow=="],
+    "@randsum/dice/@randsum/notation": ["@randsum/notation@0.1.24", "", { "dependencies": { "@randsum/core": "0.1.23" } }, "sha512-rLuFmm6sPf4bBs47+QCsyCJGaNLm/6oOW6dL8EsYoj0+l4OmJ6cSkV/jygHi4PWObsS1p3ha+szbwQjr0XC/eA=="],
 
     "@react-native/babel-preset/babel-plugin-syntax-hermes-parser": ["babel-plugin-syntax-hermes-parser@0.25.1", "", { "dependencies": { "hermes-parser": "0.25.1" } }, "sha512-IVNpGzboFLfXZUAwkLFcI/bnqVbwky0jP3eBno4HKtqvQJAHBLdgxiG6lQ4to0+Q/YCN3PO0od5NZwIKyY4REQ=="],
 
@@ -2204,6 +2204,8 @@
     "@istanbuljs/load-nyc-config/find-up/locate-path": ["locate-path@5.0.0", "", { "dependencies": { "p-locate": "^4.1.0" } }, "sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g=="],
 
     "@istanbuljs/load-nyc-config/js-yaml/argparse": ["argparse@1.0.10", "", { "dependencies": { "sprintf-js": "~1.0.2" } }, "sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg=="],
+
+    "@randsum/dice/@randsum/notation/@randsum/core": ["@randsum/core@0.1.23", "", {}, "sha512-mo6v/TNEBMqkYPP5V6YW7d9t9eYnlvBnzLNepzrzE98Ao1ekla4NQxXTcG3dyPfYV8aXS8T0tWcMPlPqm8DF1g=="],
 
     "@react-native/babel-preset/babel-plugin-syntax-hermes-parser/hermes-parser": ["hermes-parser@0.25.1", "", { "dependencies": { "hermes-estree": "0.25.1" } }, "sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA=="],
 
