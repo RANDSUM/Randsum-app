@@ -1,3 +1,4 @@
+import ClearDiceTile from '@/components/ClearDiceTile'
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
 import { DieLabel, PoolDie, sidesToLabel } from '@/types/dice'
@@ -6,12 +7,14 @@ import { StyleSheet } from 'react-native'
 type DicePoolProps = {
   dicePool: PoolDie[]
   removeDie: (label: DieLabel) => void
+  clearPool: () => void
   groupDiceByType: (dice: DieLabel[]) => { type: DieLabel; count: number }[]
 }
 
 export default function DicePool({
   dicePool,
   removeDie,
+  clearPool,
   groupDiceByType
 }: DicePoolProps) {
   return (
@@ -28,6 +31,7 @@ export default function DicePool({
               />
             )
           )}
+          <ClearDiceTile onPress={clearPool} />
         </View>
       ) : (
         <Text variant="bodyLarge" style={styles.emptyPoolText}>

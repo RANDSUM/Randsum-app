@@ -33,18 +33,14 @@ export default function Index() {
             <DicePool
               dicePool={dicePool}
               removeDie={removeDie}
+              clearPool={clearPool}
               groupDiceByType={groupDiceByType}
             />
           </View>
         </View>
       </ScrollView>
 
-      <RollButton
-        onPress={rollDice}
-        disabled={dicePool.length === 0}
-        clearPool={clearPool}
-        poolEmpty={dicePool.length === 0}
-      />
+      <RollButton onPress={rollDice} disabled={dicePool.length === 0} />
 
       <RollResultsModal
         visible={modalVisible}
@@ -60,7 +56,8 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    paddingBottom: 100
   },
   scrollContainer: {
     flex: 1,

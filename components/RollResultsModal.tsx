@@ -59,29 +59,39 @@ export default function RollResultsModal({
               {Object.entries(groupRollResults(rollResult)).map(
                 ([dieType, values]) => (
                   <View key={dieType} style={styles.modalResultItem}>
-                    <Text style={styles.modalDieType}>
-                      {values.length > 1
-                        ? `${values.length}${dieType}`
-                        : dieType}
-                      :
-                    </Text>
-                    <View style={styles.modalDieResults}>
-                      {values.map((value, i) => (
-                        <View
-                          key={i}
-                          style={[
-                            styles.modalDieValue,
-                            value === 20 &&
-                              dieType === 'D20' &&
-                              styles.criticalHit,
-                            value === 1 &&
-                              dieType === 'D20' &&
-                              styles.criticalMiss
-                          ]}
-                        >
-                          <Text style={styles.modalDieValueText}>{value}</Text>
-                        </View>
-                      ))}
+                    <View style={styles.modalResultRow}>
+                      <Text style={styles.modalDieType}>
+                        {values.length > 1
+                          ? `${values.length}${dieType}`
+                          : dieType}
+                        :
+                      </Text>
+                      <View style={styles.modalDieResults}>
+                        {values.map((value, i) => (
+                          <View
+                            key={i}
+                            style={[
+                              styles.modalDieValue,
+                              value === 20 &&
+                                dieType === 'D20' &&
+                                styles.criticalHit,
+                              value === 1 &&
+                                dieType === 'D20' &&
+                                styles.criticalMiss
+                            ]}
+                          >
+                            <Text style={styles.modalDieValueText}>
+                              {value}
+                            </Text>
+                          </View>
+                        ))}
+                      </View>
+                      <View style={styles.rowTotalContainer}>
+                        <Text style={styles.rowTotalEquals}>=</Text>
+                        <Text style={styles.rowTotal}>
+                          {values.reduce((sum, val) => sum + val, 0)}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 )
@@ -142,11 +152,36 @@ const styles = StyleSheet.create({
   modalDieType: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 8
+    width: 80,
+    textAlign: 'right',
+    marginRight: 8
+  },
+  modalResultRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
   },
   modalDieResults: {
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    flex: 1
+  },
+  rowTotalContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4
+  },
+  rowTotalEquals: {
+    marginRight: 4,
+    opacity: 0.7
+  },
+  rowTotal: {
+    fontWeight: 'bold',
+    fontSize: 16
   },
   modalDieValue: {
     width: 36,

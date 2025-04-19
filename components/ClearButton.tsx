@@ -1,46 +1,35 @@
-import { FAB, useAppTheme } from '@/components/Themed'
+import { Button, useAppTheme } from '@/components/Themed'
 import { StyleSheet } from 'react-native'
 
 type ClearButtonProps = {
-  clearPool: () => void
-  poolEmpty: boolean
+  onPress: () => void
+  disabled: boolean
 }
 
-export default function ClearButton({
-  clearPool,
-  poolEmpty
-}: ClearButtonProps) {
+export default function ClearButton({ onPress, disabled }: ClearButtonProps) {
   const theme = useAppTheme()
 
   return (
-    <FAB
+    <Button
       icon="delete-sweep"
-      label="Clear"
-      onPress={clearPool}
-      disabled={poolEmpty}
-      style={[
-        styles.clearFab,
-        {
-          backgroundColor: poolEmpty
-            ? theme.colors.surfaceDisabled
-            : theme.colors.tertiary,
-          opacity: poolEmpty ? 0.5 : 1
-        }
-      ]}
-      color={theme.colors.onTertiary}
-      customSize={48}
-    />
+      mode="contained"
+      onPress={onPress}
+      disabled={disabled}
+      buttonColor={
+        disabled ? theme.colors.surfaceDisabled : theme.colors.tertiary
+      }
+      textColor={theme.colors.onTertiary}
+      style={[styles.clearButton, { opacity: disabled ? 0.5 : 1 }]}
+    >
+      Clear
+    </Button>
   )
 }
 
 const styles = StyleSheet.create({
-  clearFab: {
-    position: 'absolute',
-    right: 16,
-    bottom: 80,
-    marginVertical: 4,
-    paddingHorizontal: 8,
-    width: 120,
-    zIndex: 1
+  clearButton: {
+    width: 100,
+    margin: 4,
+    marginTop: 16
   }
 })
