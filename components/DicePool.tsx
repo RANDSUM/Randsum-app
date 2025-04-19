@@ -1,4 +1,4 @@
-import { IconButton, Surface, Text, View } from '@/components/Themed'
+import { IconButton, Text, View } from '@/components/Themed'
 import { DieLabel, PoolDie, sidesToLabel } from '@/types/dice'
 import { StyleSheet } from 'react-native'
 
@@ -14,7 +14,7 @@ export default function DicePool({
   groupDiceByType
 }: DicePoolProps) {
   return (
-    <Surface style={styles.diceContainer} elevation={3} mode="elevated">
+    <View style={styles.diceContainer}>
       {dicePool.length > 0 ? (
         <View style={styles.poolContainer}>
           {groupDiceByType(dicePool.map((die) => sidesToLabel[die.sides])).map(
@@ -45,15 +45,13 @@ export default function DicePool({
           Select dice to add to your pool
         </Text>
       )}
-    </Surface>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   diceContainer: {
-    padding: 16,
-    marginBottom: 24,
-    borderRadius: 4
+    marginBottom: 24
   },
   poolContainer: {
     flexDirection: 'row',

@@ -4,15 +4,9 @@ import { StyleSheet, View } from 'react-native'
 
 type DiceButtonsProps = {
   addDie: (label: DieLabel) => void
-  clearPool: () => void
-  poolEmpty: boolean
 }
 
-export default function DiceButtons({
-  clearPool,
-  addDie,
-  poolEmpty
-}: DiceButtonsProps) {
+export default function DiceButtons({ addDie }: DiceButtonsProps) {
   const theme = useAppTheme()
 
   return (
@@ -80,24 +74,6 @@ export default function DiceButtons({
           color={theme.colors.onSecondary}
           customSize={48}
         />
-
-        <FAB
-          icon="delete-sweep"
-          label="Clear"
-          onPress={clearPool}
-          disabled={poolEmpty}
-          style={[
-            styles.clearFab,
-            {
-              backgroundColor: poolEmpty
-                ? theme.colors.surfaceDisabled
-                : theme.colors.tertiary,
-              opacity: poolEmpty ? 0.5 : 1
-            }
-          ]}
-          color={theme.colors.onTertiary}
-          customSize={48}
-        />
       </View>
     </Portal>
   )
@@ -106,21 +82,15 @@ export default function DiceButtons({
 const styles = StyleSheet.create({
   fabContainer: {
     position: 'absolute',
-    right: 16,
-    bottom: 80,
-    alignItems: 'flex-end',
+    left: 16,
+    bottom: 10,
+    alignItems: 'flex-start',
     gap: 8,
     zIndex: 1
   },
   diceFab: {
     marginVertical: 4,
     paddingHorizontal: 8,
-    width: 120
-  },
-  clearFab: {
-    marginVertical: 4,
-    paddingHorizontal: 8,
-    marginTop: 16,
     width: 120
   }
 })

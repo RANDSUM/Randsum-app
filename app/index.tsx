@@ -1,3 +1,4 @@
+import ClearButton from '@/components/ClearButton'
 import DiceButtons from '@/components/DiceButtons'
 import DicePool from '@/components/DicePool'
 import RollFAB from '@/components/RollFAB'
@@ -41,11 +42,9 @@ export default function Index() {
 
       <RollFAB onPress={rollDice} disabled={dicePool.length === 0} />
 
-      <DiceButtons
-        addDie={addDie}
-        clearPool={clearPool}
-        poolEmpty={dicePool.length === 0}
-      />
+      <DiceButtons addDie={addDie} />
+
+      <ClearButton clearPool={clearPool} poolEmpty={dicePool.length === 0} />
 
       <RollResultsModal
         visible={modalVisible}
