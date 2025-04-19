@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   validationText: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginTop: 8,
+    marginVertical: 8,
     textAlign: 'center'
   },
   descriptionContainer: {
