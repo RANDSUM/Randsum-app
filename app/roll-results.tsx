@@ -1,13 +1,12 @@
 import { Button, Text, View, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { sidesToLabel } from '@/types/dice'
+import { AnyPoolDie, sidesToLabel } from '@/types/dice'
 import { Stack, useRouter } from 'expo-router'
 import { ScrollView, StyleSheet } from 'react-native'
 
 export default function RollResultsModal() {
   const router = useRouter()
   const theme = useAppTheme()
-
   const { rollResult, dicePool, getDiceNotation, groupRollResults } =
     useCurrentRoll()
 
@@ -35,23 +34,67 @@ export default function RollResultsModal() {
       <View style={styles.modalResultsContainer}>
         <ScrollView style={styles.modalScroll}>
           <Text style={styles.modalNotation}>
-            {getDiceNotation(dicePool.map((die) => sidesToLabel[die.sides]))}
+            {getDiceNotation(
+              dicePool.map((die: AnyPoolDie) => {
+                if (die._type === 'notation') {
+                  return die.sides.notation
+                } else {
+                  return sidesToLabel(die.sides)
+                }
+              })
+            )}
           </Text>
 
           {Object.entries(groupRollResults(rollResult)).map(
-            ([dieType, values]) => (
+            ([dieType, values]: [string, number[]]) => (
               <View key={dieType} style={styles.modalResultItem}>
                 <View style={styles.modalResultRow}>
                   <Text style={styles.modalDieType}>
-                    {values.length > 1 ? `${values.length}${dieType}` : dieType}
-                    :
+                    {(() => {
+                      const hasModifiers =
+                        dieType.includes('+') ||
+                        dieType.includes('-') ||
+                        dieType.includes('L') ||
+                        dieType.includes('H') ||
+                        dieType.includes('R') ||
+                        dieType.includes('!') ||
+                        dieType.includes('U')
+
+                      if (hasModifiers) {
+                        return `${dieType}:`
+                      } else if (values.length > 1) {
+                        return `${values.length}${dieType}:`
+                      } else {
+                        return `${dieType}:`
+                      }
+                    })()}
                   </Text>
                   <View style={styles.modalDieResults}>
-                    {values.map((value, i) => (
-                      <View key={i} style={[styles.modalDieValue]}>
-                        <Text style={styles.modalDieValueText}>{value}</Text>
-                      </View>
-                    ))}
+                    {values.map((value, i) => {
+                      const isDropped =
+                        (rollResult as any).droppedIndices &&
+                        (rollResult as any).droppedIndices[dieType] &&
+                        (rollResult as any).droppedIndices[dieType].includes(i)
+
+                      return (
+                        <View
+                          key={i}
+                          style={[
+                            styles.modalDieValue,
+                            isDropped && styles.droppedDie
+                          ]}
+                        >
+                          <Text
+                            style={[
+                              styles.modalDieValueText,
+                              isDropped && styles.droppedDieText
+                            ]}
+                          >
+                            {value}
+                          </Text>
+                        </View>
+                      )
+                    })}
                   </View>
                   <View style={styles.rowTotalContainer}>
                     <Text style={styles.rowTotalEquals}>=</Text>
@@ -161,6 +204,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(244, 67, 54, 0.3)',
     borderWidth: 1,
     borderColor: '#F44336'
+  },
+  droppedDie: {
+    opacity: 0.4,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderStyle: 'dashed'
+  },
+  droppedDieText: {
+    textDecorationLine: 'line-through',
+    opacity: 0.6
   },
   modalCloseButton: {
     marginTop: 16

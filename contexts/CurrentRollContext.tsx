@@ -1,21 +1,33 @@
-import { DieLabel, PoolDie, labelToSides, sidesToLabel } from '@/types/dice'
-import { D, NumericRollResult, roll } from '@randsum/dice'
+import {
+  AnyPoolDie,
+  NotationPoolDie,
+  PoolDie,
+  labelToSides,
+  sidesToLabel
+} from '@/types/dice'
+import { D, NumericRollOptions, NumericRollResult, roll } from '@randsum/dice'
+import { validateNotation } from '@randsum/notation'
 import { useRouter } from 'expo-router'
 import React, { ReactNode, createContext, useContext, useState } from 'react'
 
 type CurrentRollContextType = {
-  dicePool: PoolDie[]
+  dicePool: AnyPoolDie[]
   rollResult: NumericRollResult | null
-  recentlyAddedDie: DieLabel | null
-  diceOrder: DieLabel[]
+  recentlyAddedDie: string | null
+  diceOrder: string[]
 
-  addDie: (dieLabel: DieLabel) => void
-  removeDie: (dieLabel: DieLabel) => void
+  addDie: (string: string) => void
+  addNotationDie: (notation: string) => void
+  removeDie: (string: string) => void
   clearPool: () => void
   rollDice: () => void
-  groupDiceByType: (dice: DieLabel[]) => { type: DieLabel; count: number }[]
-  getDiceNotation: (dice: DieLabel[]) => string
+  groupDiceByLabel: (
+    dice: string[]
+  ) => { label: string; count: number; type: 'numeric' | 'notation' }[]
+  getDiceNotation: (dice: string[]) => string
   groupRollResults: (result: NumericRollResult) => Record<string, number[]>
+  isNotationDie: (die: AnyPoolDie) => die is NotationPoolDie
+  getNotation: (die: AnyPoolDie) => string
 }
 
 const CurrentRollContext = createContext<CurrentRollContextType | undefined>(
@@ -28,38 +40,104 @@ type CurrentRollProviderProps = {
 
 export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   const router = useRouter()
-  const [dicePool, setDicePool] = useState<PoolDie[]>([])
+  const [dicePool, setDicePool] = useState<AnyPoolDie[]>([])
   const [rollResult, setRollResult] = useState<NumericRollResult | null>(null)
-  const [recentlyAddedDie, setRecentlyAddedDie] = useState<DieLabel | null>(
-    null
-  )
-  const [diceOrder, setDiceOrder] = useState<DieLabel[]>([])
+  const [recentlyAddedDie, setRecentlyAddedDie] = useState<string | null>(null)
+  const [diceOrder, setDiceOrder] = useState<string[]>([])
 
-  const addDie = (dieLabel: DieLabel) => {
-    const sides = labelToSides[dieLabel]
-    const newDie = {
-      id: Math.random().toString(36).substring(2, 9),
-      sides
+  const isNotationDie = (die: AnyPoolDie): die is NotationPoolDie => {
+    return die._type === 'notation'
+  }
+
+  const getNotation = (die: AnyPoolDie): string => {
+    if (isNotationDie(die)) {
+      return die.sides.notation
     }
-    setDicePool([...dicePool, newDie])
+    return ''
+  }
+
+  const generateId = () => Math.random().toString(36).substring(2, 9)
+
+  const updateDiceOrderAndAnimate = (dieLabel: string) => {
     setRecentlyAddedDie(dieLabel)
 
-    // Add to dice order if not already present
     if (!diceOrder.includes(dieLabel)) {
       setDiceOrder([...diceOrder, dieLabel])
     }
 
-    // Clear the recently added die after animation completes
     setTimeout(() => {
       setRecentlyAddedDie(null)
     }, 300)
   }
 
-  const removeDie = (dieLabel: DieLabel) => {
-    const sides = labelToSides[dieLabel]
-    const dieToRemove = dicePool.find((die) => die.sides === sides)
+  const createStandardDie = (sides: number): PoolDie => ({
+    id: generateId(),
+    sides,
+    _type: 'numeric'
+  })
+
+  const createNotationDie = (notation: string): NotationPoolDie => ({
+    id: generateId(),
+    sides: { notation },
+    _type: 'notation'
+  })
+
+  const addDie = (string: string) => {
+    const sides = labelToSides(string)
+    const newDie = createStandardDie(sides)
+    setDicePool([...dicePool, newDie])
+    updateDiceOrderAndAnimate(string)
+  }
+
+  const addNotationDie = (notation: string) => {
+    const validationResult = validateNotation(notation)
+    if (!validationResult.valid) return
+
+    const formattedNotation = notation.replace(/d(\d+|\{)/gi, 'D$1')
+
+    const {
+      modifiers,
+      quantity = 1,
+      sides
+    } = validationResult.digested as NumericRollOptions
+    console.log('MODIFIERS: ', modifiers)
+
+    if (!(Object.keys(modifiers || {}).length > 0)) {
+      const newDice: PoolDie[] = []
+
+      for (let i = 0; i < quantity; i++) {
+        newDice.push(createStandardDie(sides))
+      }
+
+      setDicePool([...dicePool, ...newDice])
+      updateDiceOrderAndAnimate(`D${sides}`)
+
+      return
+    }
+
+    const newDie = createNotationDie(formattedNotation)
+
+    setDicePool([...dicePool, newDie])
+    updateDiceOrderAndAnimate(formattedNotation)
+  }
+
+  const removeDie = (string: string) => {
+    let dieToRemove: AnyPoolDie | undefined
+
+    if (string.match(/^D\d+$/)) {
+      try {
+        const sides = labelToSides(string)
+        dieToRemove = dicePool.find(
+          (die) => die._type === 'numeric' && die.sides === sides
+        )
+      } catch {}
+    } else {
+      dieToRemove = dicePool.find(
+        (die) => die._type === 'notation' && getNotation(die) === string
+      )
+    }
+
     if (dieToRemove) {
-      // Remove the die from the pool
       setDicePool(
         dicePool.filter(
           (_, index) =>
@@ -67,14 +145,20 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
         )
       )
 
-      // Check if this was the last die of this type
-      const remainingDiceOfType = dicePool.filter(
-        (die) => die.sides === sides && die.id !== dieToRemove.id
-      )
+      const remainingDiceOfType = dicePool.filter((die) => {
+        if (die._type === 'notation' && dieToRemove._type === 'notation') {
+          return (
+            getNotation(die) === getNotation(dieToRemove) &&
+            die.id !== dieToRemove.id
+          )
+        } else if (die._type === 'numeric' && dieToRemove._type === 'numeric') {
+          return die.sides === dieToRemove.sides && die.id !== dieToRemove.id
+        }
+        return false
+      })
 
-      // If no more dice of this type, remove from order
       if (remainingDiceOfType.length === 0) {
-        setDiceOrder(diceOrder.filter((type) => type !== dieLabel))
+        setDiceOrder(diceOrder.filter((type) => type !== string))
       }
     }
   }
@@ -87,7 +171,15 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   const rollDice = () => {
     if (dicePool.length === 0) return
 
-    const diceToRoll = dicePool.map((die) => new D(die.sides))
+    const diceToRoll = dicePool.map((die) => {
+      if (die._type === 'notation') {
+        const notation = die.sides.notation
+
+        return new D(notation as any)
+      } else {
+        return new D(die.sides)
+      }
+    })
 
     const result = roll(...diceToRoll) as NumericRollResult
 
@@ -95,60 +187,70 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     router.push('/roll-results')
   }
 
-  const groupDiceByType = (dice: DieLabel[]) => {
-    const grouped: Record<DieLabel, number> = {
-      D4: 0,
-      D6: 0,
-      D8: 0,
-      D10: 0,
-      D12: 0,
-      D20: 0,
-      D100: 0
-    }
+  const isDieNotation = (label: string): boolean => {
+    return /^\d/.test(label)
+  }
+
+  const groupDiceByLabel = (
+    dice: string[]
+  ): {
+    label: string
+    count: number
+    type: 'numeric' | 'notation'
+  }[] => {
+    const grouped: Record<string, number> = {}
 
     dice.forEach((die) => {
-      grouped[die]++
+      grouped[die] = (grouped[die] || 0) + 1
     })
 
-    // Filter to only dice types that are present
-    const presentDiceTypes = Object.entries(grouped)
+    const presentDiceLabels = Object.entries(grouped)
       .filter(([_, count]) => count > 0)
-      .map(([type]) => type as DieLabel)
+      .map(([label]) => label)
 
-    // Sort by the order they were first added
-    const orderedDiceTypes = diceOrder.filter((dieType) =>
-      presentDiceTypes.includes(dieType)
+    const orderedDiceLabels = diceOrder.filter((dieType) =>
+      presentDiceLabels.includes(dieType)
     )
 
-    // Create the final result with counts
-    return orderedDiceTypes.map((type) => ({
-      type,
-      count: grouped[type]
+    return orderedDiceLabels.map((label) => ({
+      label,
+      count: grouped[label],
+      type: isDieNotation(label) ? 'notation' : 'numeric'
     }))
   }
 
-  const getDiceNotation = (dice: DieLabel[]): string => {
-    const grouped = groupDiceByType(dice)
-    return grouped.map(({ type, count }) => `${count}${type}`).join('+')
+  const getDiceNotation = (dice: string[]): string => {
+    const grouped = groupDiceByLabel(dice)
+    return grouped
+      .map(({ label, count, type }) => {
+        return type === 'notation' ? label : `${count}${label}`
+      })
+      .join('+')
   }
 
   const groupRollResults = (result: NumericRollResult) => {
-    const diceLabels = dicePool.map((die) => sidesToLabel[die.sides])
+    const diceLabels = dicePool.map((die) => {
+      if (die._type === 'notation') {
+        return die.sides.notation
+      } else {
+        return sidesToLabel(die.sides)
+      }
+    })
 
     const groupedResults: Record<string, number[]> = {}
 
-    diceLabels.forEach((dieLabel) => {
-      if (!groupedResults[dieLabel]) {
-        groupedResults[dieLabel] = []
+    diceLabels.forEach((string) => {
+      if (!groupedResults[string]) {
+        groupedResults[string] = []
       }
     })
 
     Object.values(result.rawRolls).forEach((values, i) => {
-      const dieLabel = diceLabels[i] || 'Unknown'
-      if (!groupedResults[dieLabel]) {
-        groupedResults[dieLabel] = []
+      const string = diceLabels[i] || 'Unknown'
+      if (!groupedResults[string]) {
+        groupedResults[string] = []
       }
-      groupedResults[dieLabel].push(...values)
+      groupedResults[string].push(...values)
     })
 
     return groupedResults
@@ -160,12 +262,15 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     recentlyAddedDie,
     diceOrder,
     addDie,
+    addNotationDie,
     removeDie,
     clearPool,
     rollDice,
-    groupDiceByType,
+    groupDiceByLabel,
     getDiceNotation,
-    groupRollResults
+    groupRollResults,
+    isNotationDie,
+    getNotation
   }
 
   return (
@@ -177,6 +282,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
 
 export function useCurrentRoll() {
   const context = useContext(CurrentRollContext)
+
   if (context === undefined) {
     throw new Error('useCurrentRoll must be used within a CurrentRollProvider')
   }

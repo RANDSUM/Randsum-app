@@ -1,28 +1,46 @@
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { sidesToLabel } from '@/types/dice'
+import { AnyPoolDie, sidesToLabel } from '@/types/dice'
 import { StyleSheet } from 'react-native'
 
 export default function DicePool() {
-  const { dicePool, removeDie, groupDiceByType, recentlyAddedDie } =
+  const { dicePool, removeDie, groupDiceByLabel, recentlyAddedDie } =
     useCurrentRoll()
+
   return (
     <View style={styles.diceContainer}>
       <View style={styles.poolContent}>
         {dicePool.length > 0 ? (
           <View style={styles.poolContainer}>
-            {groupDiceByType(
-              dicePool.map((die) => sidesToLabel[die.sides])
-            ).map(({ type, count }) => (
-              <DicePoolTile
-                key={type}
-                type={type}
-                count={count}
-                onRemove={removeDie}
-                shouldShake={type === recentlyAddedDie}
-              />
-            ))}
+            {groupDiceByLabel(
+              dicePool.map((die: AnyPoolDie) => {
+                if (die._type === 'notation') {
+                  return die.sides.notation
+                } else {
+                  return sidesToLabel(die.sides)
+                }
+              })
+            ).map(
+              ({
+                type,
+                label,
+                count
+              }: {
+                type: 'numeric' | 'notation'
+                label: string
+                count: number
+              }) => (
+                <DicePoolTile
+                  key={label}
+                  label={label}
+                  count={count}
+                  type={type}
+                  onRemove={removeDie}
+                  shouldShake={type === recentlyAddedDie}
+                />
+              )
+            )}
           </View>
         ) : (
           <Text variant="bodyLarge" style={styles.emptyPoolText}>
@@ -56,9 +74,10 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     flexWrap: 'wrap',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 12,
-    maxWidth: 528
+    maxWidth: 528,
+    width: '100%'
   },
   emptyPoolText: {
     textAlign: 'center',

@@ -1,23 +1,26 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
-import { DieLabel } from '@/types/dice'
 import { useEffect, useRef } from 'react'
 import { Animated, StyleSheet } from 'react-native'
 
 type DicePoolTileProps = {
-  type: DieLabel
+  label: string
   count: number
-  onRemove: (type: DieLabel) => void
+  type: 'numeric' | 'notation'
+  onRemove: (type: string) => void
   shouldShake?: boolean
 }
 
 export default function DicePoolTile({
-  type,
+  label,
   count,
+  type,
   onRemove,
   shouldShake = false
 }: DicePoolTileProps) {
   const theme = useAppTheme()
   const shakeAnimation = useRef(new Animated.Value(0)).current
+
+  const isNotationDie = type === 'notation'
 
   useEffect(() => {
     if (shouldShake) {
@@ -55,6 +58,7 @@ export default function DicePoolTile({
       <Surface
         style={[
           styles.poolDie,
+          isNotationDie && styles.notationPoolDie,
           { backgroundColor: theme.colors.tertiaryContainer }
         ]}
         elevation={2}
@@ -62,17 +66,17 @@ export default function DicePoolTile({
         <Text
           style={[
             styles.dieNotation,
+            isNotationDie && styles.notationDieText,
             { color: theme.colors.onTertiaryContainer }
           ]}
         >
-          {count}
-          {type}
+          {isNotationDie ? label : `${count}${label}`}
         </Text>
         <IconButton
           icon="close"
           size={14}
           iconColor={theme.colors.onTertiaryContainer}
-          onPress={() => onRemove(type)}
+          onPress={() => onRemove(label)}
           style={styles.removeButton}
           containerColor="transparent"
         />
@@ -90,7 +94,13 @@ const styles = StyleSheet.create({
     margin: 4,
     height: 52,
     width: 120,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    overflow: 'hidden'
+  },
+  notationPoolDie: {
+    width: 240,
+    flex: 2,
+    height: 52
   },
   dieNotation: {
     fontWeight: 'bold',
@@ -98,6 +108,12 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     marginLeft: 12
+  },
+  notationDieText: {
+    fontSize: 16,
+    textAlign: 'left',
+    marginLeft: 8,
+    marginRight: 4
   },
   removeButton: {
     margin: 0,

@@ -1,10 +1,10 @@
 import { Button, useAppTheme } from '@/components/Themed'
-import { DieLabel } from '@/types/dice'
+import { StandardDieLabel } from '@/types/dice'
 import { StyleSheet } from 'react-native'
 
 type DiceButtonProps = {
-  dieType: DieLabel
-  onPress: (dieType: DieLabel) => void
+  dieType: StandardDieLabel
+  onPress: (dieType: StandardDieLabel) => void
 }
 
 export default function DiceButton({ dieType, onPress }: DiceButtonProps) {
@@ -13,7 +13,19 @@ export default function DiceButton({ dieType, onPress }: DiceButtonProps) {
   // Determine the icon based on die type
   const getIcon = () => {
     if (dieType === 'D100') return 'circle'
-    return `dice-${dieType.toLowerCase()}`
+
+    // Extract the number from the die type (e.g., 'D20' -> '20')
+    const match = dieType.match(/^D(\d+)$/)
+    if (match) {
+      const sides = match[1]
+      // Only standard dice have icons
+      if (['4', '6', '8', '10', '12', '20'].includes(sides)) {
+        return `dice-d${sides}`
+      }
+    }
+
+    // Default icon for non-standard dice
+    return 'dice-multiple'
   }
 
   return (

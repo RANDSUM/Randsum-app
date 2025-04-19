@@ -4,7 +4,8 @@
     "": {
       "name": "randsum-app",
       "dependencies": {
-        "@randsum/dice": "^0.1.0",
+        "@randsum/dice": "^0.1.24",
+        "@randsum/notation": "^0.1.24",
         "expo": "~52.0.46",
         "expo-constants": "~17.0.8",
         "expo-linking": "~7.0.5",
@@ -420,7 +421,7 @@
 
     "@randsum/dice": ["@randsum/dice@0.1.24", "", { "dependencies": { "@randsum/core": "0.1.23", "@randsum/notation": "0.1.23" }, "bin": { "@randsum/dice": "bin/randsum" } }, "sha512-zVD4JNOc+bUg/zWxWaSyb1ufTXKVKv+YENOkUJAQ99m62NtDBerAlpfB4kgC09oc8a5j2iseM6cjsE6CLfehjA=="],
 
-    "@randsum/notation": ["@randsum/notation@0.1.23", "", { "dependencies": { "@randsum/core": "0.1.23" } }, "sha512-9TBTrRl8Fw97VRKP7546yX7xLkEZrDS/CaHajV6OI0yN5n795WitD/eeVDNTWJJRqPxS0Y0SkfpSs+nr0AHoow=="],
+    "@randsum/notation": ["@randsum/notation@0.1.24", "", { "dependencies": { "@randsum/core": "0.1.23" } }, "sha512-rLuFmm6sPf4bBs47+QCsyCJGaNLm/6oOW6dL8EsYoj0+l4OmJ6cSkV/jygHi4PWObsS1p3ha+szbwQjr0XC/eA=="],
 
     "@react-native/assets-registry": ["@react-native/assets-registry@0.76.9", "", {}, "sha512-pN0Ws5xsjWOZ8P37efh0jqHHQmq+oNGKT4AyAoKRpxBDDDmlAmpaYjer9Qz7PpDKF+IUyRjF/+rBsM50a8JcUg=="],
 
@@ -1951,6 +1952,8 @@
     "@jest/transform/write-file-atomic": ["write-file-atomic@4.0.2", "", { "dependencies": { "imurmurhash": "^0.1.4", "signal-exit": "^3.0.7" } }, "sha512-7KxauUdBmSdWnmpaGFg+ppNjKF8uNLry8LyzjauQDOVONfFLNKrKvQOxZ/VuTIcS/gge/YNahf5RIIQWTSarlg=="],
 
     "@npmcli/fs/semver": ["semver@7.7.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA=="],
+
+    "@randsum/dice/@randsum/notation": ["@randsum/notation@0.1.23", "", { "dependencies": { "@randsum/core": "0.1.23" } }, "sha512-9TBTrRl8Fw97VRKP7546yX7xLkEZrDS/CaHajV6OI0yN5n795WitD/eeVDNTWJJRqPxS0Y0SkfpSs+nr0AHoow=="],
 
     "@react-native/babel-preset/babel-plugin-syntax-hermes-parser": ["babel-plugin-syntax-hermes-parser@0.25.1", "", { "dependencies": { "hermes-parser": "0.25.1" } }, "sha512-IVNpGzboFLfXZUAwkLFcI/bnqVbwky0jP3eBno4HKtqvQJAHBLdgxiG6lQ4to0+Q/YCN3PO0od5NZwIKyY4REQ=="],
 
