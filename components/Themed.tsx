@@ -63,6 +63,7 @@ export const Modal = PaperModal
 export const Portal = PaperPortal
 export const ActivityIndicator = PaperActivityIndicator
 export const FAB = PaperFAB
+export const FABGroup = PaperFAB.Group
 
 export function View(props: React.ComponentProps<typeof PaperSurface>) {
   const { style, ...otherProps } = props
