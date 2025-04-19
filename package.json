@@ -13,7 +13,10 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "deploy:web": "bunx expo export --platform web && bunx eas-cli deploy",
-    "deploy:web:prod": "bunx expo export --platform web && bunx eas-cli deploy --prod"
+    "deploy:web:prod": "bunx expo export --platform web && bunx eas-cli deploy --prod",
+    "build:dev": "bunx eas-cli build --platform ios --profile development-simulator --non-interactive --no-wait && npx eas-cli build --platform android --profile development --non-interactive --no-wait",
+    "build:preview": "bunpx eas-cli build --platform all --profile preview --non-interactive --no-wait",
+    "submit:production": "bunpx eas-cli build --platform all --profile production --non-interactive --auto-submit --no-wait"
   },
   "jest": {
     "preset": "jest-expo"
