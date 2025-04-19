@@ -21,10 +21,8 @@ export default function DiceButtons({ addDie }: DiceButtonsProps) {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    marginVertical: 16,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     gap: 8
   }
 })

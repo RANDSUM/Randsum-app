@@ -1,9 +1,8 @@
-import ClearButton from '@/components/ClearButton'
 import DiceButtons from '@/components/DiceButtons'
 import DicePool from '@/components/DicePool'
-import RollFAB from '@/components/RollFAB'
+import RollButton from '@/components/RollButton'
 import RollResultsModal from '@/components/RollResultsModal'
-import { Text, View } from '@/components/Themed'
+import { View } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { ScrollView, StyleSheet } from 'react-native'
 
@@ -25,24 +24,27 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-        <View style={styles.header}>
-          <Text variant="headlineLarge" style={styles.title}>
-            Dice Roller
-          </Text>
+        <View style={styles.mainContent}>
+          <View style={styles.sidebarContainer}>
+            <DiceButtons addDie={addDie} />
+          </View>
+
+          <View style={styles.contentContainer}>
+            <DicePool
+              dicePool={dicePool}
+              removeDie={removeDie}
+              groupDiceByType={groupDiceByType}
+            />
+          </View>
         </View>
-
-        <DicePool
-          dicePool={dicePool}
-          removeDie={removeDie}
-          groupDiceByType={groupDiceByType}
-        />
-
-        <DiceButtons addDie={addDie} />
       </ScrollView>
 
-      <RollFAB onPress={rollDice} disabled={dicePool.length === 0} />
-
-      <ClearButton clearPool={clearPool} poolEmpty={dicePool.length === 0} />
+      <RollButton
+        onPress={rollDice}
+        disabled={dicePool.length === 0}
+        clearPool={clearPool}
+        poolEmpty={dicePool.length === 0}
+      />
 
       <RollResultsModal
         visible={modalVisible}
@@ -71,6 +73,17 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     marginTop: 16
+  },
+  mainContent: {
+    flexDirection: 'row',
+    flex: 1
+  },
+  sidebarContainer: {
+    width: 120,
+    marginRight: 16
+  },
+  contentContainer: {
+    flex: 1
   },
   diceContainer: {
     padding: 16,

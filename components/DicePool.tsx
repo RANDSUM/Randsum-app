@@ -42,19 +42,24 @@ const styles = StyleSheet.create({
   diceContainer: {
     marginBottom: 24,
     minHeight: 150,
-    justifyContent: 'center'
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    paddingTop: 0
   },
   poolContainer: {
     flexDirection: 'row',
+    paddingTop: 0,
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     marginBottom: 16,
     gap: 12
   },
   emptyPoolText: {
-    textAlign: 'center',
+    textAlign: 'left',
     marginVertical: 16,
-    opacity: 0.7
+    opacity: 0.7,
+    paddingLeft: 8
   },
   poolActions: {
     flexDirection: 'row',

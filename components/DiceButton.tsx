@@ -9,7 +9,7 @@ type DiceButtonProps = {
 
 export default function DiceButton({ dieType, onPress }: DiceButtonProps) {
   const theme = useAppTheme()
-  
+
   // Determine the icon based on die type
   const getIcon = () => {
     if (dieType === 'D100') return 'circle'
@@ -33,6 +33,6 @@ export default function DiceButton({ dieType, onPress }: DiceButtonProps) {
 const styles = StyleSheet.create({
   diceButton: {
     margin: 4,
-    minWidth: 80
+    width: 100
   }
 })
