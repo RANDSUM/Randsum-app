@@ -1,24 +1,12 @@
-import ClearDiceTile from '@/components/ClearDiceTile'
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { DieLabel, PoolDie, sidesToLabel } from '@/types/dice'
+import { sidesToLabel } from '@/types/dice'
 import { StyleSheet } from 'react-native'
 
-type DicePoolProps = {
-  dicePool: PoolDie[]
-  removeDie: (label: DieLabel) => void
-  clearPool: () => void
-  groupDiceByType: (dice: DieLabel[]) => { type: DieLabel; count: number }[]
-}
-
-export default function DicePool({
-  dicePool,
-  removeDie,
-  clearPool,
-  groupDiceByType
-}: DicePoolProps) {
-  const { recentlyAddedDie } = useCurrentRoll()
+export default function DicePool() {
+  const { dicePool, removeDie, groupDiceByType, recentlyAddedDie } =
+    useCurrentRoll()
   return (
     <View style={styles.diceContainer}>
       {dicePool.length > 0 ? (
@@ -34,7 +22,6 @@ export default function DicePool({
               />
             )
           )}
-          <ClearDiceTile onPress={clearPool} />
         </View>
       ) : (
         <Text variant="bodyLarge" style={styles.emptyPoolText}>
@@ -50,23 +37,23 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     minHeight: 150,
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    paddingTop: 0
+    alignItems: 'center',
+    paddingTop: 0,
+    width: '100%'
   },
   poolContainer: {
     flexDirection: 'row',
     paddingTop: 0,
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 16,
     gap: 12
   },
   emptyPoolText: {
-    textAlign: 'left',
+    textAlign: 'center',
     marginVertical: 16,
-    opacity: 0.7,
-    paddingLeft: 8
+    opacity: 0.7
   },
   poolActions: {
     flexDirection: 'row',

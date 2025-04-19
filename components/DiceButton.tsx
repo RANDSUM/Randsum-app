@@ -33,6 +33,7 @@ export default function DiceButton({ dieType, onPress }: DiceButtonProps) {
 const styles = StyleSheet.create({
   diceButton: {
     margin: 4,
-    width: 100
+    width: 110,
+    height: 40
   }
 })

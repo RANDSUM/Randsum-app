@@ -1,19 +1,17 @@
 import { Button, useAppTheme } from '@/components/Themed'
+import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { StyleSheet } from 'react-native'
 
-type RollButtonProps = {
-  onPress: () => void
-  disabled: boolean
-}
-
-export default function RollButton({ onPress, disabled }: RollButtonProps) {
+export default function RollButton() {
   const theme = useAppTheme()
+  const { rollDice, dicePool } = useCurrentRoll()
+  const disabled = dicePool.length === 0
 
   return (
     <Button
       icon="dice-multiple"
       mode="contained"
-      onPress={onPress}
+      onPress={rollDice}
       disabled={disabled}
       buttonColor={theme.colors.primary}
       textColor={theme.colors.onPrimary}

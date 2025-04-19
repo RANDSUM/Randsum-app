@@ -1,34 +1,28 @@
+import ClearDiceButton from '@/components/ClearDiceButton'
 import DiceButtons from '@/components/DiceButtons'
 import DicePool from '@/components/DicePool'
 import RollButton from '@/components/RollButton'
 import { View } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { ScrollView, StyleSheet } from 'react-native'
 
 export default function Index() {
-  const { dicePool, addDie, removeDie, clearPool, rollDice, groupDiceByType } =
-    useCurrentRoll()
-
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView
+        style={styles.scrollContainer}
+        contentContainerStyle={styles.scrollContent}
+      >
         <View style={styles.mainContent}>
-          <View style={styles.sidebarContainer}>
-            <DiceButtons addDie={addDie} />
-          </View>
-
           <View style={styles.contentContainer}>
-            <DicePool
-              dicePool={dicePool}
-              removeDie={removeDie}
-              clearPool={clearPool}
-              groupDiceByType={groupDiceByType}
-            />
+            <DicePool />
+
+            <DiceButtons />
+
+            <ClearDiceButton />
           </View>
         </View>
       </ScrollView>
-
-      <RollButton onPress={rollDice} disabled={dicePool.length === 0} />
+      <RollButton />
     </View>
   )
 }
@@ -36,21 +30,24 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexGrow: 1,
+    height: '100%',
     paddingBottom: 100
   },
   scrollContainer: {
     flex: 1,
+    flexGrow: 1,
     padding: 16
   },
   mainContent: {
-    flexDirection: 'row',
     flex: 1
-  },
-  sidebarContainer: {
-    width: 120,
-    marginRight: 16
   },
   contentContainer: {
-    flex: 1
+    flex: 1,
+    alignItems: 'center'
+  },
+  scrollContent: {
+    flexGrow: 1,
+    minHeight: '100%'
   }
 })

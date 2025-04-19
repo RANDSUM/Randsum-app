@@ -1,0 +1,67 @@
+import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/Themed'
+import { useCurrentRoll } from '@/contexts/CurrentRollContext'
+import { useState } from 'react'
+import { StyleSheet } from 'react-native'
+
+export default function ClearDiceButton() {
+  const theme = useAppTheme()
+  const { clearPool, dicePool } = useCurrentRoll()
+  const [confirmVisible, setConfirmVisible] = useState(false)
+  const disabled = dicePool.length === 0
+
+  const showConfirmation = () => {
+    setConfirmVisible(true)
+  }
+
+  const hideConfirmation = () => {
+    setConfirmVisible(false)
+  }
+
+  const handleConfirm = () => {
+    clearPool()
+    hideConfirmation()
+  }
+
+  return (
+    <>
+      <Button
+        icon="delete-sweep"
+        mode="contained"
+        onPress={showConfirmation}
+        disabled={disabled}
+        buttonColor={theme.colors.error}
+        textColor={theme.colors.onError}
+        style={[styles.clearButton, { opacity: disabled ? 0.5 : 1 }]}
+      >
+        Clear Dice Pool
+      </Button>
+
+      <Portal>
+        <Dialog
+          visible={confirmVisible}
+          onDismiss={hideConfirmation}
+          style={{ backgroundColor: theme.colors.surface }}
+        >
+          <Dialog.Title>Clear Dice Pool?</Dialog.Title>
+          <Dialog.Content>
+            <Text>Are you sure you want to clear all dice from the pool?</Text>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={hideConfirmation}>Cancel</Button>
+            <Button onPress={handleConfirm} textColor={theme.colors.error}>
+              Clear
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+    </>
+  )
+}
+
+const styles = StyleSheet.create({
+  clearButton: {
+    marginTop: 16,
+    width: 180,
+    height: 40
+  }
+})
