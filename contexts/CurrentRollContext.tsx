@@ -89,7 +89,6 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   }
 
   function addDie(sides: number, quantity: number = 1) {
-    console.log('sides', sides)
     const existingDieIndex = dicePool.findIndex(
       (die) => die._type === 'numeric' && die.sides === sides
     )

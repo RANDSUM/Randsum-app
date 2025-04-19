@@ -4,20 +4,14 @@ import { StyleSheet } from 'react-native'
 export default function SaveButton() {
   const theme = useAppTheme()
 
-  // Placeholder function for future implementation
-  const handleSave = () => {
-    // Save functionality will be implemented later
-    console.log('Save button pressed')
-  }
-
   return (
     <Button
       icon="content-save"
       mode="contained"
-      onPress={handleSave}
+      disabled={true}
       buttonColor={theme.colors.tertiary}
       textColor={theme.colors.onTertiary}
-      style={styles.saveButton}
+      style={[styles.saveButton, { opacity: 0.5 }]}
     >
       Save
     </Button>
