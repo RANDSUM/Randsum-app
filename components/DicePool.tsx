@@ -1,6 +1,7 @@
 import ClearDiceTile from '@/components/ClearDiceTile'
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
+import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { DieLabel, PoolDie, sidesToLabel } from '@/types/dice'
 import { StyleSheet } from 'react-native'
 
@@ -17,6 +18,7 @@ export default function DicePool({
   clearPool,
   groupDiceByType
 }: DicePoolProps) {
+  const { recentlyAddedDie } = useCurrentRoll()
   return (
     <View style={styles.diceContainer}>
       {dicePool.length > 0 ? (
@@ -28,6 +30,7 @@ export default function DicePool({
                 type={type}
                 count={count}
                 onRemove={removeDie}
+                shouldShake={type === recentlyAddedDie}
               />
             )
           )}

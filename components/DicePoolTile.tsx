@@ -1,46 +1,83 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
 import { DieLabel } from '@/types/dice'
-import { StyleSheet } from 'react-native'
+import { useEffect, useRef } from 'react'
+import { Animated, StyleSheet } from 'react-native'
 
 type DicePoolTileProps = {
   type: DieLabel
   count: number
   onRemove: (type: DieLabel) => void
+  shouldShake?: boolean
 }
 
 export default function DicePoolTile({
   type,
   count,
-  onRemove
+  onRemove,
+  shouldShake = false
 }: DicePoolTileProps) {
   const theme = useAppTheme()
+  const shakeAnimation = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    if (shouldShake) {
+      Animated.sequence([
+        Animated.timing(shakeAnimation, {
+          toValue: 5,
+          duration: 50,
+          useNativeDriver: true
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: -5,
+          duration: 50,
+          useNativeDriver: true
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: 5,
+          duration: 50,
+          useNativeDriver: true
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: 0,
+          duration: 50,
+          useNativeDriver: true
+        })
+      ]).start()
+    }
+  }, [shouldShake, count, shakeAnimation])
 
   return (
-    <Surface
-      style={[
-        styles.poolDie,
-        { backgroundColor: theme.colors.tertiaryContainer }
-      ]}
-      elevation={2}
+    <Animated.View
+      style={{
+        transform: [{ translateX: shakeAnimation }]
+      }}
     >
-      <Text
+      <Surface
         style={[
-          styles.dieNotation,
-          { color: theme.colors.onTertiaryContainer }
+          styles.poolDie,
+          { backgroundColor: theme.colors.tertiaryContainer }
         ]}
+        elevation={2}
       >
-        {count}
-        {type}
-      </Text>
-      <IconButton
-        icon="close"
-        size={16}
-        iconColor={theme.colors.onTertiaryContainer}
-        onPress={() => onRemove(type)}
-        style={styles.removeButton}
-        containerColor="transparent"
-      />
-    </Surface>
+        <Text
+          style={[
+            styles.dieNotation,
+            { color: theme.colors.onTertiaryContainer }
+          ]}
+        >
+          {count}
+          {type}
+        </Text>
+        <IconButton
+          icon="close"
+          size={16}
+          iconColor={theme.colors.onTertiaryContainer}
+          onPress={() => onRemove(type)}
+          style={styles.removeButton}
+          containerColor="transparent"
+        />
+      </Surface>
+    </Animated.View>
   )
 }
 

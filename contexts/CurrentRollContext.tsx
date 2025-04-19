@@ -6,6 +6,7 @@ import React, { ReactNode, createContext, useContext, useState } from 'react'
 type CurrentRollContextType = {
   dicePool: PoolDie[]
   rollResult: NumericRollResult | null
+  recentlyAddedDie: DieLabel | null
 
   addDie: (dieLabel: DieLabel) => void
   removeDie: (dieLabel: DieLabel) => void
@@ -28,6 +29,9 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   const router = useRouter()
   const [dicePool, setDicePool] = useState<PoolDie[]>([])
   const [rollResult, setRollResult] = useState<NumericRollResult | null>(null)
+  const [recentlyAddedDie, setRecentlyAddedDie] = useState<DieLabel | null>(
+    null
+  )
 
   const addDie = (dieLabel: DieLabel) => {
     const sides = labelToSides[dieLabel]
@@ -36,6 +40,12 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
       sides
     }
     setDicePool([...dicePool, newDie])
+    setRecentlyAddedDie(dieLabel)
+
+    // Clear the recently added die after animation completes
+    setTimeout(() => {
+      setRecentlyAddedDie(null)
+    }, 300)
   }
 
   const removeDie = (dieLabel: DieLabel) => {
@@ -116,6 +126,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   const contextValue: CurrentRollContextType = {
     dicePool,
     rollResult,
+    recentlyAddedDie,
     addDie,
     removeDie,
     clearPool,
