@@ -6,10 +6,12 @@ export default function NotationGuide() {
     <View style={styles.guideContainer}>
       <Text style={styles.guideTitle}>Basic Notation</Text>
       <View style={styles.basicNotation}>
-        <Text style={styles.modifierText}>2D20 = Roll two twenty-sided dice</Text>
+        <Text style={styles.modifierText}>
+          2D20 = Roll two twenty-sided dice
+        </Text>
         <Text style={styles.modifierText}>4D6 = Roll four six-sided dice</Text>
       </View>
-      
+
       <Text style={styles.guideTitle}>Modifiers</Text>
       <View style={styles.modifierGrid}>
         <View style={styles.modifierItem}>
@@ -21,19 +23,19 @@ export default function NotationGuide() {
           <Text style={styles.modifierExample}>Drop lowest/highest 2</Text>
         </View>
         <View style={styles.modifierItem}>
-          <Text style={styles.modifierText}>Cap: C{'>18'}</Text>
+          <Text style={styles.modifierText}>Cap: C{'{>18}'}</Text>
           <Text style={styles.modifierExample}>Cap rolls over 18</Text>
         </View>
         <View style={styles.modifierItem}>
-          <Text style={styles.modifierText}>Drop: D{'>17'}</Text>
+          <Text style={styles.modifierText}>Drop: D{'{>17}'}</Text>
           <Text style={styles.modifierExample}>Drop rolls over 17</Text>
         </View>
         <View style={styles.modifierItem}>
-          <Text style={styles.modifierText}>Reroll: R{'<5'}</Text>
+          <Text style={styles.modifierText}>Reroll: R{'{<5}'}</Text>
           <Text style={styles.modifierExample}>Reroll under 5</Text>
         </View>
         <View style={styles.modifierItem}>
-          <Text style={styles.modifierText}>Replace: V{'8=12'}</Text>
+          <Text style={styles.modifierText}>Replace: V{'{8=12}'}</Text>
           <Text style={styles.modifierExample}>Replace 8s with 12s</Text>
         </View>
         <View style={styles.modifierItem}>

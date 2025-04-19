@@ -15,7 +15,6 @@ export default function RollButtonInline() {
       disabled={disabled}
       buttonColor={theme.colors.primary}
       textColor={theme.colors.onPrimary}
-      labelStyle={{ width: '100%' }}
       style={[styles.rollButton, { opacity: disabled ? 0.5 : 1 }]}
     >
       Roll
@@ -25,11 +24,6 @@ export default function RollButtonInline() {
 
 const styles = StyleSheet.create({
   rollButton: {
-    width: '100%',
-    height: 48,
-    minHeight: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
     elevation: 2
   }
 })

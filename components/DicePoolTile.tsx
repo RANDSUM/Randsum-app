@@ -92,23 +92,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 8,
-    padding: 6,
+    padding: 8,
     margin: 4,
-    height: 52,
-    minHeight: 52,
-    maxHeight: 52,
+    height: 56,
+    minHeight: 56,
+    maxHeight: 56,
     justifyContent: 'space-between',
     overflow: 'hidden'
   },
   dieNotation: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 24,
     textAlign: 'center',
     marginLeft: 12
   },
   removeButton: {
     margin: 0,
-    width: 28,
-    height: 28
+    width: 32,
+    height: 32
   }
 })
