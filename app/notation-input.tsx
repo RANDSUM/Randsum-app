@@ -47,34 +47,25 @@ export default function NotationInput() {
 
   return (
     <View style={styles.container}>
-      <Text variant="headlineMedium" style={styles.title}>
-        Dice Notation
-      </Text>
+      <View style={styles.content}>
+        <Text variant="headlineMedium" style={styles.title}>
+          Dice Notation
+        </Text>
 
-      <TextInput
-        label="Enter Dice Notation"
-        value={notation}
-        onChangeText={handleNotationChange}
-        style={styles.input}
-        placeholder="e.g. 2D6+3 or 4D8L"
-        autoCapitalize="none"
-        autoCorrect={false}
-        error={notation.length > 0 && !isValid}
-      />
+        <TextInput
+          label="Enter Dice Notation"
+          value={notation}
+          onChangeText={handleNotationChange}
+          style={styles.input}
+          placeholder="e.g. 2D6+3 or 4D8L"
+          autoCapitalize="none"
+          autoCorrect={false}
+          error={notation.length > 0 && !isValid}
+        />
+      </View>
 
       {validationResult && (
         <View style={styles.validationContainer}>
-          <Text
-            style={[
-              styles.validationText,
-              {
-                color: isValid ? theme.colors.tertiary : theme.colors.error
-              }
-            ]}
-          >
-            {isValid ? 'Valid notation' : 'Invalid notation'}
-          </Text>
-
           {isValid && validationResult.description.length > 0 && (
             <View style={styles.descriptionContainer}>
               <Text style={styles.descriptionTitle}>Description:</Text>
@@ -85,6 +76,16 @@ export default function NotationInput() {
               ))}
             </View>
           )}
+          <Text
+            style={[
+              styles.validationText,
+              {
+                color: isValid ? theme.colors.tertiary : theme.colors.error
+              }
+            ]}
+          >
+            {isValid ? 'Valid notation' : 'Invalid notation'}
+          </Text>
         </View>
       )}
 
@@ -104,7 +105,7 @@ export default function NotationInput() {
           buttonColor={theme.colors.tertiary}
           textColor={theme.colors.onTertiary}
         >
-          Add to Pool
+          Add
         </Button>
       </View>
 
@@ -133,8 +134,11 @@ export default function NotationInput() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#1C1B1F'
+    padding: 24,
+    justifyContent: 'space-between'
+  },
+  content: {
+    flex: 1
   },
   title: {
     marginBottom: 24,
@@ -149,7 +153,7 @@ const styles = StyleSheet.create({
   validationText: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 8
+    marginTop: 8
   },
   descriptionContainer: {
     backgroundColor: 'rgba(154, 130, 219, 0.1)',
@@ -166,10 +170,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 16
+    gap: 8
   },
   button: {
-    flex: 1,
-    marginHorizontal: 8
+    flex: 1
   }
 })

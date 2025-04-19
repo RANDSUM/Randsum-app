@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
 
+import Footer from '@/components/Footer'
 import { ThemeProvider, useAppTheme } from '@/components/Themed'
 import { CurrentRollProvider } from '@/contexts/CurrentRollContext'
 
@@ -57,6 +58,7 @@ function RootLayoutNav() {
           <Stack.Screen name="index" options={{ title: 'Dice Roller' }} />
           <Stack.Screen name="theme" options={{ title: 'Theme Demo' }} />
         </Stack>
+        <Footer />
       </CurrentRollProvider>
     </ThemeProvider>
   )
