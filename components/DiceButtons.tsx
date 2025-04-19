@@ -103,7 +103,7 @@ export default function DiceButtons({
               opacity: poolEmpty ? 0.5 : 1
             }
           ]}
-          color={theme.colors.onSecondary}
+          color={theme.colors.onTertiary}
           customSize={48}
         />
       </View>
