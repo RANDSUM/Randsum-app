@@ -1,8 +1,7 @@
 import {
-  AnyPoolDie,
   NotationPoolDie,
   PoolDie,
-  labelToSides,
+  StandardPoolDie,
   sidesToLabel
 } from '@/types/dice'
 import { D, NumericRollOptions, NumericRollResult, roll } from '@randsum/dice'
@@ -11,22 +10,19 @@ import { useRouter } from 'expo-router'
 import React, { ReactNode, createContext, useContext, useState } from 'react'
 
 type CurrentRollContextType = {
-  dicePool: AnyPoolDie[]
+  dicePool: PoolDie[]
   rollResult: NumericRollResult | null
   recentlyAddedDie: string | null
 
-  addDie: (string: string) => void
+  addDie: (sides: number, quantity?: number) => void
   addNotationDie: (notation: string) => void
-  removeDie: (string: string) => void
+  removeDie: (id: string) => void
   clearPool: () => void
   rollDice: () => void
-  groupDiceByLabel: (
-    dice: string[]
-  ) => { label: string; count: number; type: 'numeric' | 'notation' }[]
-  getDiceNotation: (dice: string[]) => string
+  getDiceNotation: () => string
   groupRollResults: (result: NumericRollResult) => Record<string, number[]>
-  isNotationDie: (die: AnyPoolDie) => die is NotationPoolDie
-  getNotation: (die: AnyPoolDie) => string
+  isNotationDie: (die: PoolDie) => die is NotationPoolDie
+  getNotation: (die: PoolDie) => string
 }
 
 const CurrentRollContext = createContext<CurrentRollContextType | undefined>(
@@ -39,15 +35,15 @@ type CurrentRollProviderProps = {
 
 export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   const router = useRouter()
-  const [dicePool, setDicePool] = useState<AnyPoolDie[]>([])
+  const [dicePool, setDicePool] = useState<PoolDie[]>([])
   const [rollResult, setRollResult] = useState<NumericRollResult | null>(null)
   const [recentlyAddedDie, setRecentlyAddedDie] = useState<string | null>(null)
 
-  function isNotationDie(die: AnyPoolDie): die is NotationPoolDie {
+  function isNotationDie(die: PoolDie): die is NotationPoolDie {
     return die._type === 'notation'
   }
 
-  function getNotation(die: AnyPoolDie): string {
+  function getNotation(die: PoolDie): string {
     if (isNotationDie(die)) {
       return die.sides.notation
     }
@@ -58,18 +54,22 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     return Math.random().toString(36).substring(2, 9)
   }
 
-  function animateDieAddition(dieLabel: string) {
-    setRecentlyAddedDie(dieLabel)
+  function animateDieAddition(dieId: string) {
+    setRecentlyAddedDie(dieId)
 
     setTimeout(function () {
       setRecentlyAddedDie(null)
     }, 300)
   }
 
-  function createStandardDie(sides: number): PoolDie {
+  function createStandardDie(
+    sides: number,
+    quantity: number = 1
+  ): StandardPoolDie {
     return {
       id: generateId(),
       sides,
+      quantity,
       _type: 'numeric'
     }
   }
@@ -78,15 +78,27 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     return {
       id: generateId(),
       sides: { notation },
+      quantity: 1,
       _type: 'notation'
     }
   }
 
-  function addDie(string: string) {
-    const sides = labelToSides(string)
-    const newDie = createStandardDie(sides)
-    setDicePool([...dicePool, newDie])
-    animateDieAddition(string)
+  function addDie(sides: number, quantity: number = 1) {
+    const existingDieIndex = dicePool.findIndex(function (die) {
+      return die._type === 'numeric' && die.sides === sides
+    })
+
+    if (existingDieIndex >= 0) {
+      const updatedDicePool = [...dicePool]
+      const existingDie = updatedDicePool[existingDieIndex] as StandardPoolDie
+      existingDie.quantity += quantity
+      setDicePool(updatedDicePool)
+      animateDieAddition(existingDie.id)
+    } else {
+      const newDie = createStandardDie(sides, quantity)
+      setDicePool([...dicePool, newDie])
+      animateDieAddition(newDie.id)
+    }
   }
 
   function addNotationDie(notation: string) {
@@ -100,54 +112,40 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
       quantity = 1,
       sides
     } = validationResult.digested as NumericRollOptions
-    console.log('MODIFIERS: ', modifiers)
 
     if (!(Object.keys(modifiers || {}).length > 0)) {
-      const newDice: PoolDie[] = []
-
-      for (let i = 0; i < quantity; i++) {
-        newDice.push(createStandardDie(sides))
-      }
-
-      setDicePool([...dicePool, ...newDice])
-      animateDieAddition(`D${sides}`)
-
+      // This is a standard die without modifiers, use addDie with quantity
+      addDie(sides, quantity)
       return
     }
 
     const newDie = createNotationDie(formattedNotation)
 
     setDicePool([...dicePool, newDie])
-    animateDieAddition(formattedNotation)
+    animateDieAddition(newDie.id)
   }
 
-  function removeDie(string: string) {
-    let dieToRemove: AnyPoolDie | undefined
+  function removeDie(id: string) {
+    const dieIndex = dicePool.findIndex(function (die) {
+      return die.id === id
+    })
 
-    if (string.match(/^D\d+$/)) {
-      try {
-        const sides = labelToSides(string)
-        dieToRemove = dicePool.find(function (die) {
-          return die._type === 'numeric' && die.sides === sides
-        })
-      } catch {}
-    } else {
-      dieToRemove = dicePool.find(function (die) {
-        return die._type === 'notation' && getNotation(die) === string
-      })
-    }
+    if (dieIndex >= 0) {
+      const updatedDicePool = [...dicePool]
+      const dieToUpdate = updatedDicePool[dieIndex]
 
-    if (dieToRemove) {
-      setDicePool(
-        dicePool.filter(function (_, index) {
-          return (
-            index !==
-            dicePool.findIndex(function (d) {
-              return d.id === dieToRemove.id
-            })
-          )
-        })
-      )
+      if (dieToUpdate._type === 'numeric' && dieToUpdate.quantity > 1) {
+        // Decrease quantity if greater than 1
+        dieToUpdate.quantity -= 1
+        setDicePool(updatedDicePool)
+      } else {
+        // Remove die completely if quantity is 1
+        setDicePool(
+          dicePool.filter(function (die) {
+            return die.id !== id
+          })
+        )
+      }
     }
   }
 
@@ -159,13 +157,16 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   function rollDice() {
     if (dicePool.length === 0) return
 
-    const diceToRoll = dicePool.map(function (die) {
+    const diceToRoll: any[] = []
+
+    dicePool.forEach(function (die) {
       if (die._type === 'notation') {
         const notation = die.sides.notation
-
-        return new D(notation as any)
+        diceToRoll.push(new D(notation as any))
       } else {
-        return new D(die.sides)
+        for (let i = 0; i < die.quantity; i++) {
+          diceToRoll.push(new D(die.sides))
+        }
       }
     })
 
@@ -175,39 +176,12 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     router.push('/roll-results')
   }
 
-  function isDieNotation(label: string): boolean {
-    return /^\d/.test(label)
-  }
-
-  function groupDiceByLabel(dice: string[]): {
-    label: string
-    count: number
-    type: 'numeric' | 'notation'
-  }[] {
-    const grouped: Record<string, number> = {}
-
-    dice.forEach(function (die) {
-      grouped[die] = (grouped[die] || 0) + 1
-    })
-
-    return Object.entries(grouped)
-      .filter(function ([_, count]) {
-        return count > 0
-      })
-      .map(function ([label, count]) {
-        return {
-          label,
-          count,
-          type: isDieNotation(label) ? 'notation' : 'numeric'
-        }
-      })
-  }
-
-  function getDiceNotation(dice: string[]): string {
-    const grouped = groupDiceByLabel(dice)
-    return grouped
-      .map(function ({ label, count, type }) {
-        return type === 'notation' ? label : `${count}${label}`
+  function getDiceNotation(): string {
+    return dicePool
+      .map(function (die) {
+        return die._type === 'notation'
+          ? die.sides.notation
+          : `${die.quantity}D${die.sides}`
       })
       .join('+')
   }
@@ -250,7 +224,6 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     removeDie,
     clearPool,
     rollDice,
-    groupDiceByLabel,
     getDiceNotation,
     groupRollResults,
     isNotationDie,

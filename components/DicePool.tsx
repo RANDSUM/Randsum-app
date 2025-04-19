@@ -1,41 +1,18 @@
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { AnyPoolDie, sidesToLabel } from '@/types/dice'
 import { StyleSheet } from 'react-native'
 
 export default function DicePool() {
-  const { dicePool, removeDie, groupDiceByLabel, recentlyAddedDie } =
-    useCurrentRoll()
+  const { dicePool } = useCurrentRoll()
 
   return (
     <View style={styles.diceContainer}>
       <View style={styles.poolContent}>
         {dicePool.length > 0 ? (
           <View style={styles.poolContainer}>
-            {groupDiceByLabel(
-              dicePool.map(function (die: AnyPoolDie) {
-                if (die._type === 'notation') {
-                  return die.sides.notation
-                } else {
-                  return sidesToLabel(die.sides)
-                }
-              })
-            ).map(function (item: {
-              type: 'numeric' | 'notation'
-              label: string
-              count: number
-            }) {
-              return (
-                <DicePoolTile
-                  key={item.label}
-                  label={item.label}
-                  count={item.count}
-                  type={item.type}
-                  onRemove={removeDie}
-                  shouldShake={item.label === recentlyAddedDie}
-                />
-              )
+            {dicePool.map(function (item) {
+              return <DicePoolTile die={item} />
             })}
           </View>
         ) : (

@@ -1,26 +1,18 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
+import { useCurrentRoll } from '@/contexts/CurrentRollContext'
+import { PoolDie } from '@/types/dice'
 import { useEffect, useRef } from 'react'
 import { Animated, StyleSheet } from 'react-native'
 
 type DicePoolTileProps = {
-  label: string
-  count: number
-  type: 'numeric' | 'notation'
-  onRemove: (type: string) => void
-  shouldShake?: boolean
+  die: PoolDie
 }
 
-export default function DicePoolTile({
-  label,
-  count,
-  type,
-  onRemove,
-  shouldShake = false
-}: DicePoolTileProps) {
+export default function DicePoolTile({ die }: DicePoolTileProps) {
+  const { recentlyAddedDie, removeDie } = useCurrentRoll()
   const theme = useAppTheme()
+  const shouldShake = die.id === recentlyAddedDie || false
   const shakeAnimation = useRef(new Animated.Value(0)).current
-
-  const isNotationDie = type === 'notation'
 
   useEffect(() => {
     if (shouldShake) {
@@ -47,7 +39,7 @@ export default function DicePoolTile({
         })
       ]).start()
     }
-  }, [shouldShake, label, shakeAnimation])
+  }, [shouldShake, die.id, shakeAnimation])
 
   return (
     <Animated.View
@@ -58,7 +50,6 @@ export default function DicePoolTile({
       <Surface
         style={[
           styles.poolDie,
-          isNotationDie && styles.notationPoolDie,
           { backgroundColor: theme.colors.tertiaryContainer }
         ]}
         elevation={2}
@@ -66,18 +57,19 @@ export default function DicePoolTile({
         <Text
           style={[
             styles.dieNotation,
-            isNotationDie && styles.notationDieText,
             { color: theme.colors.onTertiaryContainer }
           ]}
         >
-          {isNotationDie ? label : `${count}${label}`}
+          {die._type === 'notation'
+            ? die.sides.notation
+            : `${die.quantity}D${die.sides}`}
         </Text>
         <IconButton
           icon="close"
           size={14}
           iconColor={theme.colors.onTertiaryContainer}
           onPress={function () {
-            onRemove(label)
+            removeDie(die.id)
           }}
           style={styles.removeButton}
           containerColor="transparent"
@@ -100,20 +92,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     overflow: 'hidden'
   },
-  notationPoolDie: {},
   dieNotation: {
     fontWeight: 'bold',
     fontSize: 18,
     textAlign: 'center',
     marginLeft: 12
   },
-  notationDieText: {
-    fontSize: 16,
-    textAlign: 'left',
-    marginLeft: 8,
-    marginRight: 4,
-    lineHeight: 20
-  },
+
   removeButton: {
     margin: 0,
     width: 28,

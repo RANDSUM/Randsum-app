@@ -1,14 +1,12 @@
 import { Button, Text, View, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { AnyPoolDie, sidesToLabel } from '@/types/dice'
 import { Stack, useRouter } from 'expo-router'
 import { ScrollView, StyleSheet } from 'react-native'
 
 export default function RollResultsModal() {
   const router = useRouter()
   const theme = useAppTheme()
-  const { rollResult, dicePool, getDiceNotation, groupRollResults } =
-    useCurrentRoll()
+  const { rollResult, getDiceNotation, groupRollResults } = useCurrentRoll()
 
   if (!rollResult) {
     router.back()
@@ -33,17 +31,7 @@ export default function RollResultsModal() {
 
       <View style={styles.modalResultsContainer}>
         <ScrollView style={styles.modalScroll}>
-          <Text style={styles.modalNotation}>
-            {getDiceNotation(
-              dicePool.map((die: AnyPoolDie) => {
-                if (die._type === 'notation') {
-                  return die.sides.notation
-                } else {
-                  return sidesToLabel(die.sides)
-                }
-              })
-            )}
-          </Text>
+          <Text style={styles.modalNotation}>{getDiceNotation()}</Text>
 
           {Object.entries(groupRollResults(rollResult)).map(
             ([dieType, values]: [string, number[]]) => (

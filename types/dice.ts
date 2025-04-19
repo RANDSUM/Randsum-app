@@ -1,18 +1,20 @@
 export type NotationDie = { notation: string }
 
-export type PoolDie = {
+export type StandardPoolDie = {
   id: string
   sides: number
+  quantity: number
   _type: 'numeric'
 }
 
 export type NotationPoolDie = {
   id: string
   sides: NotationDie
+  quantity: number
   _type: 'notation'
 }
 
-export type AnyPoolDie = PoolDie | NotationPoolDie
+export type PoolDie = StandardPoolDie | NotationPoolDie
 
 export const sidesToLabel = (sides: number): string => `D${sides}`
 
