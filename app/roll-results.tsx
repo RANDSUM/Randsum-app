@@ -55,18 +55,24 @@ export default function RollResultsModal() {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    padding: 24
+    padding: 24,
+    flex: 1,
+    justifyContent: 'center'
   },
   centeredContent: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignSelf: 'center',
+    alignItems: 'center',
+    width: '100%'
   },
   modalTotal: {
     textAlign: 'center',
     fontSize: 96,
     lineHeight: 100,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    width: '100%',
+    alignSelf: 'center'
   },
   detailsButton: {
     marginTop: 24
