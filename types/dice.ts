@@ -1,4 +1,6 @@
-export type NotationDie = { notation: string }
+import { DiceNotation } from '@randsum/dice'
+
+export type NotationDie = { notation: DiceNotation }
 
 export type StandardPoolDie = {
   id: string
@@ -17,11 +19,3 @@ export type NotationPoolDie = {
 export type PoolDie = StandardPoolDie | NotationPoolDie
 
 export const sidesToLabel = (sides: number): string => `D${sides}`
-
-export const labelToSides = (label: string): number => {
-  const match = label.match(/^D(\d+)$/)
-  if (match) {
-    return parseInt(match[1], 10)
-  }
-  throw new Error(`Invalid die label: ${label}`)
-}

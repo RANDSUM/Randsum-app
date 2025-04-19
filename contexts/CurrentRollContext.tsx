@@ -4,16 +4,25 @@ import {
   StandardPoolDie,
   sidesToLabel
 } from '@/types/dice'
-import { D, NumericRollOptions, NumericRollResult, roll } from '@randsum/dice'
+import {
+  DiceNotation,
+  NumericRollOptions,
+  NumericRollResult,
+  roll
+} from '@randsum/dice'
 import { validateNotation } from '@randsum/notation'
 import { useRouter } from 'expo-router'
-import React, { ReactNode, createContext, useContext, useState } from 'react'
+import React, {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useState
+} from 'react'
 
 type CurrentRollContextType = {
   dicePool: PoolDie[]
   rollResult: NumericRollResult | null
   recentlyAddedDie: string | null
-
   addDie: (sides: number, quantity?: number) => void
   addNotationDie: (notation: string) => void
   removeDie: (id: string) => void
@@ -29,11 +38,7 @@ const CurrentRollContext = createContext<CurrentRollContextType | undefined>(
   undefined
 )
 
-type CurrentRollProviderProps = {
-  children: ReactNode
-}
-
-export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
+export function CurrentRollProvider({ children }: PropsWithChildren) {
   const router = useRouter()
   const [dicePool, setDicePool] = useState<PoolDie[]>([])
   const [rollResult, setRollResult] = useState<NumericRollResult | null>(null)
@@ -74,7 +79,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     }
   }
 
-  function createNotationDie(notation: string): NotationPoolDie {
+  function createNotationDie(notation: DiceNotation): NotationPoolDie {
     return {
       id: generateId(),
       sides: { notation },
@@ -105,7 +110,10 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     const validationResult = validateNotation(notation)
     if (!validationResult.valid) return
 
-    const formattedNotation = notation.replace(/d(\d+|\{)/gi, 'D$1')
+    const formattedNotation = notation.replace(
+      /d(\d+|\{)/gi,
+      'D$1'
+    ) as DiceNotation
 
     const {
       modifiers,
@@ -114,7 +122,6 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     } = validationResult.digested as NumericRollOptions
 
     if (!(Object.keys(modifiers || {}).length > 0)) {
-      // This is a standard die without modifiers, use addDie with quantity
       addDie(sides, quantity)
       return
     }
@@ -135,11 +142,9 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
       const dieToUpdate = updatedDicePool[dieIndex]
 
       if (dieToUpdate._type === 'numeric' && dieToUpdate.quantity > 1) {
-        // Decrease quantity if greater than 1
         dieToUpdate.quantity -= 1
         setDicePool(updatedDicePool)
       } else {
-        // Remove die completely if quantity is 1
         setDicePool(
           dicePool.filter(function (die) {
             return die.id !== id
@@ -157,17 +162,8 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   function rollDice() {
     if (dicePool.length === 0) return
 
-    const diceToRoll: any[] = []
-
-    dicePool.forEach(function (die) {
-      if (die._type === 'notation') {
-        const notation = die.sides.notation
-        diceToRoll.push(new D(notation as any))
-      } else {
-        for (let i = 0; i < die.quantity; i++) {
-          diceToRoll.push(new D(die.sides))
-        }
-      }
+    const diceToRoll = dicePool.map(function (die) {
+      return die._type === 'notation' ? die.sides.notation : die
     })
 
     const result = roll(...diceToRoll) as NumericRollResult
@@ -218,7 +214,6 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     dicePool,
     rollResult,
     recentlyAddedDie,
-
     addDie,
     addNotationDie,
     removeDie,
