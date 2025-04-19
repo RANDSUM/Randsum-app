@@ -1,25 +1,13 @@
 import DiceButtons from '@/components/DiceButtons'
 import DicePool from '@/components/DicePool'
 import RollButton from '@/components/RollButton'
-import RollResultsModal from '@/components/RollResultsModal'
 import { View } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { ScrollView, StyleSheet } from 'react-native'
 
 export default function Index() {
-  const {
-    dicePool,
-    rollResult,
-    modalVisible,
-    addDie,
-    removeDie,
-    clearPool,
-    rollDice,
-    setModalVisible,
-    groupDiceByType,
-    getDiceNotation,
-    groupRollResults
-  } = useCurrentRoll()
+  const { dicePool, addDie, removeDie, clearPool, rollDice, groupDiceByType } =
+    useCurrentRoll()
 
   return (
     <View style={styles.container}>
@@ -41,15 +29,6 @@ export default function Index() {
       </ScrollView>
 
       <RollButton onPress={rollDice} disabled={dicePool.length === 0} />
-
-      <RollResultsModal
-        visible={modalVisible}
-        onDismiss={() => setModalVisible(false)}
-        rollResult={rollResult}
-        dicePool={dicePool}
-        getDiceNotation={getDiceNotation}
-        groupRollResults={groupRollResults}
-      />
     </View>
   )
 }

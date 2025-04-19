@@ -1,17 +1,16 @@
 import { DieLabel, PoolDie, labelToSides, sidesToLabel } from '@/types/dice'
 import { D, NumericRollResult, roll } from '@randsum/dice'
+import { useRouter } from 'expo-router'
 import React, { ReactNode, createContext, useContext, useState } from 'react'
 
 type CurrentRollContextType = {
   dicePool: PoolDie[]
   rollResult: NumericRollResult | null
-  modalVisible: boolean
 
   addDie: (dieLabel: DieLabel) => void
   removeDie: (dieLabel: DieLabel) => void
   clearPool: () => void
   rollDice: () => void
-  setModalVisible: (visible: boolean) => void
   groupDiceByType: (dice: DieLabel[]) => { type: DieLabel; count: number }[]
   getDiceNotation: (dice: DieLabel[]) => string
   groupRollResults: (result: NumericRollResult) => Record<string, number[]>
@@ -26,9 +25,9 @@ type CurrentRollProviderProps = {
 }
 
 export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
+  const router = useRouter()
   const [dicePool, setDicePool] = useState<PoolDie[]>([])
   const [rollResult, setRollResult] = useState<NumericRollResult | null>(null)
-  const [modalVisible, setModalVisible] = useState(false)
 
   const addDie = (dieLabel: DieLabel) => {
     const sides = labelToSides[dieLabel]
@@ -64,7 +63,7 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     const result = roll(...diceToRoll) as NumericRollResult
 
     setRollResult(result)
-    setModalVisible(true)
+    router.push('/roll-results')
   }
 
   const groupDiceByType = (dice: DieLabel[]) => {
@@ -117,12 +116,10 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   const contextValue: CurrentRollContextType = {
     dicePool,
     rollResult,
-    modalVisible,
     addDie,
     removeDie,
     clearPool,
     rollDice,
-    setModalVisible,
     groupDiceByType,
     getDiceNotation,
     groupRollResults
