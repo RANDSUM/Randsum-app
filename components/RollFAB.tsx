@@ -28,6 +28,8 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
+    width: 120,
+    zIndex: 2
   }
 })

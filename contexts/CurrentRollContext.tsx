@@ -2,14 +2,11 @@ import { DieLabel, PoolDie, labelToSides, sidesToLabel } from '@/types/dice'
 import { D, NumericRollResult, roll } from '@randsum/dice'
 import React, { ReactNode, createContext, useContext, useState } from 'react'
 
-// Define the context type
 type CurrentRollContextType = {
-  // State
   dicePool: PoolDie[]
   rollResult: NumericRollResult | null
   modalVisible: boolean
 
-  // Functions
   addDie: (dieLabel: DieLabel) => void
   removeDie: (dieLabel: DieLabel) => void
   clearPool: () => void
@@ -20,24 +17,19 @@ type CurrentRollContextType = {
   groupRollResults: (result: NumericRollResult) => Record<string, number[]>
 }
 
-// Create the context with a default undefined value
 const CurrentRollContext = createContext<CurrentRollContextType | undefined>(
   undefined
 )
 
-// Provider props type
 type CurrentRollProviderProps = {
   children: ReactNode
 }
 
-// Provider component
 export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
-  // State for dice pool, results, and modal visibility
   const [dicePool, setDicePool] = useState<PoolDie[]>([])
   const [rollResult, setRollResult] = useState<NumericRollResult | null>(null)
   const [modalVisible, setModalVisible] = useState(false)
 
-  // Add a die to the pool
   const addDie = (dieLabel: DieLabel) => {
     const sides = labelToSides[dieLabel]
     const newDie = {
@@ -47,7 +39,6 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     setDicePool([...dicePool, newDie])
   }
 
-  // Remove a die from the pool
   const removeDie = (dieLabel: DieLabel) => {
     const sides = labelToSides[dieLabel]
     const dieToRemove = dicePool.find((die) => die.sides === sides)
@@ -61,16 +52,13 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     }
   }
 
-  // Clear the dice pool
   const clearPool = () => {
     setDicePool([])
   }
 
-  // Roll the dice
   const rollDice = () => {
     if (dicePool.length === 0) return
 
-    // Create dice objects using the D class
     const diceToRoll = dicePool.map((die) => new D(die.sides))
 
     const result = roll(...diceToRoll) as NumericRollResult
@@ -79,7 +67,6 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     setModalVisible(true)
   }
 
-  // Group dice by type for display
   const groupDiceByType = (dice: DieLabel[]) => {
     const grouped: Record<DieLabel, number> = {
       D4: 0,
@@ -100,28 +87,22 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
       .map(([type, count]) => ({ type: type as DieLabel, count }))
   }
 
-  // Generate dice notation string (e.g., "2D6+1D20")
   const getDiceNotation = (dice: DieLabel[]): string => {
     const grouped = groupDiceByType(dice)
     return grouped.map(({ type, count }) => `${count}${type}`).join('+')
   }
 
-  // Group roll results by die type
   const groupRollResults = (result: NumericRollResult) => {
-    // Get the dice labels from the current dice pool
     const diceLabels = dicePool.map((die) => sidesToLabel[die.sides])
 
-    // Create a map of die type to values
     const groupedResults: Record<string, number[]> = {}
 
-    // Initialize all die types with empty arrays
     diceLabels.forEach((dieLabel) => {
       if (!groupedResults[dieLabel]) {
         groupedResults[dieLabel] = []
       }
     })
 
-    // Add all values to their respective die types
     Object.values(result.rawRolls).forEach((values, i) => {
       const dieLabel = diceLabels[i] || 'Unknown'
       if (!groupedResults[dieLabel]) {
@@ -133,7 +114,6 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
     return groupedResults
   }
 
-  // Create the context value object
   const contextValue: CurrentRollContextType = {
     dicePool,
     rollResult,
@@ -155,7 +135,6 @@ export function CurrentRollProvider({ children }: CurrentRollProviderProps) {
   )
 }
 
-// Custom hook to use the context
 export function useCurrentRoll() {
   const context = useContext(CurrentRollContext)
   if (context === undefined) {

@@ -1,4 +1,4 @@
-import { Button, Surface, useAppTheme } from '@/components/Themed'
+import { FAB, Portal, useAppTheme } from '@/components/Themed'
 import { DieLabel } from '@/types/dice'
 import { StyleSheet, View } from 'react-native'
 
@@ -16,111 +16,119 @@ export default function DiceButtons({
   const theme = useAppTheme()
 
   return (
-    <Surface style={styles.diceContainer} elevation={3} mode="elevated">
-      <View style={styles.diceButtonContainer}>
-        <Button
-          mode="contained"
-          buttonColor={theme.colors.secondary}
-          textColor={theme.colors.onSecondary}
-          style={styles.diceButton}
-          onPress={() => addDie('D4')}
+    <Portal>
+      <View style={styles.fabContainer}>
+        {/* D4 FAB */}
+        <FAB
           icon="dice-d4"
-        >
-          D4
-        </Button>
-        <Button
-          mode="contained"
-          buttonColor={theme.colors.secondary}
-          textColor={theme.colors.onSecondary}
-          style={styles.diceButton}
-          onPress={() => addDie('D6')}
+          label="D4"
+          onPress={() => addDie('D4')}
+          style={[styles.diceFab, { backgroundColor: theme.colors.secondary }]}
+          color={theme.colors.onSecondary}
+          customSize={48}
+        />
+
+        {/* D6 FAB */}
+        <FAB
           icon="dice-d6"
-        >
-          D6
-        </Button>
-        <Button
-          mode="contained"
-          buttonColor={theme.colors.secondary}
-          textColor={theme.colors.onSecondary}
-          style={styles.diceButton}
-          onPress={() => addDie('D8')}
+          label="D6"
+          onPress={() => addDie('D6')}
+          style={[styles.diceFab, { backgroundColor: theme.colors.secondary }]}
+          color={theme.colors.onSecondary}
+          customSize={48}
+        />
+
+        {/* D8 FAB */}
+        <FAB
           icon="dice-d8"
-        >
-          D8
-        </Button>
-        <Button
-          mode="contained"
-          buttonColor={theme.colors.secondary}
-          textColor={theme.colors.onSecondary}
-          style={styles.diceButton}
-          onPress={() => addDie('D10')}
+          label="D8"
+          onPress={() => addDie('D8')}
+          style={[styles.diceFab, { backgroundColor: theme.colors.secondary }]}
+          color={theme.colors.onSecondary}
+          customSize={48}
+        />
+
+        {/* D10 FAB */}
+        <FAB
           icon="dice-d10"
-        >
-          D10
-        </Button>
-        <Button
-          mode="contained"
-          buttonColor={theme.colors.secondary}
-          textColor={theme.colors.onSecondary}
-          style={styles.diceButton}
-          onPress={() => addDie('D12')}
+          label="D10"
+          onPress={() => addDie('D10')}
+          style={[styles.diceFab, { backgroundColor: theme.colors.secondary }]}
+          color={theme.colors.onSecondary}
+          customSize={48}
+        />
+
+        {/* D12 FAB */}
+        <FAB
           icon="dice-d12"
-        >
-          D12
-        </Button>
-        <Button
-          mode="contained"
-          buttonColor={theme.colors.secondary}
-          textColor={theme.colors.onSecondary}
-          style={styles.diceButton}
-          onPress={() => addDie('D20')}
+          label="D12"
+          onPress={() => addDie('D12')}
+          style={[styles.diceFab, { backgroundColor: theme.colors.secondary }]}
+          color={theme.colors.onSecondary}
+          customSize={48}
+        />
+
+        {/* D20 FAB */}
+        <FAB
           icon="dice-d20"
-        >
-          D20
-        </Button>
-        <Button
-          mode="contained"
-          buttonColor={theme.colors.secondary}
-          textColor={theme.colors.onSecondary}
-          style={styles.diceButton}
+          label="D20"
+          onPress={() => addDie('D20')}
+          style={[styles.diceFab, { backgroundColor: theme.colors.secondary }]}
+          color={theme.colors.onSecondary}
+          customSize={48}
+        />
+
+        {/* D100 FAB */}
+        <FAB
+          icon="circle"
+          label="D100"
           onPress={() => addDie('D100')}
-        >
-          D100
-        </Button>
-        <Button
-          mode="outlined"
-          buttonColor="transparent"
-          textColor={theme.colors.secondary}
-          style={[styles.clearButton, { borderColor: theme.colors.secondary }]}
+          style={[styles.diceFab, { backgroundColor: theme.colors.secondary }]}
+          color={theme.colors.onSecondary}
+          customSize={48}
+        />
+
+        {/* Clear FAB */}
+        <FAB
+          icon="delete-sweep"
+          label="Clear"
           onPress={clearPool}
           disabled={poolEmpty}
-          icon="delete-sweep"
-        >
-          Clear
-        </Button>
+          style={[
+            styles.clearFab,
+            {
+              backgroundColor: poolEmpty
+                ? theme.colors.surfaceDisabled
+                : theme.colors.tertiary,
+              opacity: poolEmpty ? 0.5 : 1
+            }
+          ]}
+          color={theme.colors.onSecondary}
+          customSize={48}
+        />
       </View>
-    </Surface>
+    </Portal>
   )
 }
 
 const styles = StyleSheet.create({
-  diceContainer: {
-    padding: 16,
-    marginBottom: 24,
-    borderRadius: 4
+  fabContainer: {
+    position: 'absolute',
+    right: 16,
+    bottom: 80,
+    alignItems: 'flex-end',
+    gap: 8,
+    zIndex: 1
   },
-  diceButtonContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    marginVertical: 16
+  diceFab: {
+    marginVertical: 4,
+    paddingHorizontal: 8,
+    width: 120
   },
-  diceButton: {
-    margin: 8,
-    minWidth: 80
-  },
-  clearButton: {
-    margin: 8,
-    minWidth: 100
+  clearFab: {
+    marginVertical: 4,
+    paddingHorizontal: 8,
+    marginTop: 16,
+    width: 120
   }
 })
