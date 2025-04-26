@@ -5,6 +5,7 @@ import NotationInputModal from '@/components/NotationInputModal'
 import RollDetailsModal from '@/components/RollDetailsModal'
 import RollResultsModal from '@/components/RollResultsModal'
 import { View, useAppTheme } from '@/components/Themed'
+import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 
@@ -20,10 +21,7 @@ export default function Index() {
         selectedDieId
       }
     },
-    closeRollResults,
-    closeRollDetails,
-    closeDiceDetails,
-    closeNotationInput
+    dispatch
   } = useAppContext()
 
   return (
@@ -35,23 +33,23 @@ export default function Index() {
 
       <RollResultsModal
         visible={showRollResults}
-        onDismiss={closeRollResults}
+        onDismiss={() => dispatch(Actions.closeRollResults())}
       />
 
       <RollDetailsModal
         visible={showRollDetails}
-        onDismiss={closeRollDetails}
+        onDismiss={() => dispatch(Actions.closeRollDetails())}
       />
 
       <DiceDetailsModal
         visible={showDiceDetails}
-        onDismiss={closeDiceDetails}
+        onDismiss={() => dispatch(Actions.closeDiceDetails())}
         dieId={selectedDieId}
       />
 
       <NotationInputModal
         visible={showNotationInput}
-        onDismiss={closeNotationInput}
+        onDismiss={() => dispatch(Actions.closeNotationInput())}
       />
     </View>
   )
