@@ -1,11 +1,15 @@
-import NotationValidator from '@/components/NotationValidator'
 import { Button, Dialog, Portal, useAppTheme } from '@/components/Themed'
 import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { MetaActions } from '@/contexts/metaActions'
 import { validateNotation } from '@randsum/notation'
-import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet } from 'react-native'
+import NotationValidatorForm from './NotationValidatorForm'
+
+type NotationFormData = {
+  notation: string
+}
 
 export default function NotationInputModal() {
   const theme = useAppTheme()
@@ -13,36 +17,39 @@ export default function NotationInputModal() {
   const {
     modals: { showNotationInput: visible }
   } = state
-  const [notation, setNotation] = useState('')
-  const [validationResult, setValidationResult] = useState<ReturnType<
-    typeof validateNotation
-  > | null>(null)
 
-  const handleNotationChange = (text: string) => {
-    setNotation(text)
-    if (text.trim()) {
-      const result = validateNotation(text)
-      setValidationResult(result)
-    } else {
-      setValidationResult(null)
-    }
-  }
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+    reset,
+    watch
+  } = useForm<NotationFormData>({
+    defaultValues: {
+      notation: ''
+    },
+    mode: 'onChange'
+  })
+
+  // Watch the notation field to validate in real-time
+  const notationValue = watch('notation')
+  const validationResult = notationValue.trim()
+    ? validateNotation(notationValue)
+    : null
+
   const onDismiss = () => dispatch(Actions.closeNotationInput())
 
-  const handleAddDie = () => {
+  const onSubmit = (data: NotationFormData) => {
     if (validationResult?.valid) {
-      MetaActions.addNotationDie({ dispatch, state }, notation)
+      MetaActions.addNotationDie({ dispatch, state }, data.notation)
       handleDismiss()
     }
   }
 
   const handleDismiss = () => {
-    setNotation('')
-    setValidationResult(null)
+    reset()
     onDismiss()
   }
-
-  const isValid = validationResult?.valid || false
 
   return (
     <Portal>
@@ -54,10 +61,23 @@ export default function NotationInputModal() {
         <Dialog.Title style={styles.title}>Custom Notation</Dialog.Title>
         <Dialog.Content style={styles.content}>
           <ScrollView style={styles.modalScroll}>
-            <NotationValidator
-              notation={notation}
-              onNotationChange={handleNotationChange}
-              validationResult={validationResult}
+            <Controller
+              control={control}
+              name="notation"
+              rules={{
+                validate: (value) => {
+                  if (!value.trim()) return 'Notation is required'
+                  const result = validateNotation(value)
+                  return result.valid || 'Invalid dice notation'
+                }
+              }}
+              render={({ field: { onChange, value } }) => (
+                <NotationValidatorForm
+                  notation={value}
+                  onNotationChange={onChange}
+                  validationResult={validationResult}
+                />
+              )}
             />
           </ScrollView>
         </Dialog.Content>
@@ -67,8 +87,8 @@ export default function NotationInputModal() {
           </Button>
           <Button
             mode="contained"
-            onPress={handleAddDie}
-            disabled={!isValid}
+            onPress={handleSubmit(onSubmit)}
+            disabled={!isValid || !validationResult?.valid}
             style={styles.button}
             buttonColor={theme.colors.tertiary}
             textColor={theme.colors.onTertiary}

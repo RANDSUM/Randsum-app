@@ -11,12 +11,16 @@ import { useAppContext } from '@/contexts/AppContext'
 import { SavedRoll } from '@/types/savedRolls'
 import { generateId } from '@/utils/id'
 import { useRouter } from 'expo-router'
-import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet } from 'react-native'
 
 type SaveRollModalProps = {
   visible: boolean
   onDismiss: () => void
+}
+
+type SaveRollFormData = {
+  name: string
 }
 
 export default function SaveRollModal({
@@ -31,39 +35,37 @@ export default function SaveRollModal({
       currentRoll: { dicePool }
     }
   } = useAppContext()
-  const [name, setName] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState('')
 
-  const handleSave = async () => {
-    if (!name.trim()) {
-      setError('Please enter a name for this roll')
-      return
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset
+  } = useForm<SaveRollFormData>({
+    defaultValues: {
+      name: ''
     }
+  })
 
-    setIsSubmitting(true)
-    setError('')
+  const onSubmit = async (data: SaveRollFormData) => {
     const newRoll: SavedRoll = {
       id: generateId(),
-      name,
+      name: data.name,
       dicePool,
       createdAt: Date.now()
     }
 
     try {
       dispatch(Actions.addSavedRoll(newRoll))
-      onDismiss()
+      handleDismiss()
       router.push('/(drawer)/saved-rolls')
     } catch (err) {
-      setError('Failed to save roll. Please try again.')
-    } finally {
-      setIsSubmitting(false)
+      // Error is handled by form state
     }
   }
 
   const handleDismiss = () => {
-    setName('')
-    setError('')
+    reset()
     onDismiss()
   }
 
@@ -76,23 +78,38 @@ export default function SaveRollModal({
       >
         <Dialog.Title>Save Roll</Dialog.Title>
         <Dialog.Content>
-          <TextInput
-            label="Roll Name"
-            value={name}
-            onChangeText={setName}
-            style={styles.input}
-            autoFocus
+          <Controller
+            control={control}
+            name="name"
+            rules={{
+              required: 'Please enter a name for this roll',
+              minLength: {
+                value: 1,
+                message: 'Name cannot be empty'
+              }
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                label="Roll Name"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                style={styles.input}
+                autoFocus
+                error={!!errors.name}
+              />
+            )}
           />
-          {error ? (
+          {errors.name && (
             <Text style={{ color: theme.colors.error, marginTop: 8 }}>
-              {error}
+              {errors.name.message}
             </Text>
-          ) : null}
+          )}
         </Dialog.Content>
         <Dialog.Actions>
           <Button onPress={handleDismiss}>Cancel</Button>
           <Button
-            onPress={handleSave}
+            onPress={handleSubmit(onSubmit)}
             disabled={isSubmitting}
             buttonColor={theme.colors.tertiary}
             textColor={theme.colors.onTertiary}
