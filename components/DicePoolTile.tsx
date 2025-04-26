@@ -1,4 +1,5 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
+import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { PoolDie } from '@/types/dice'
 import { HapticService } from '@/utils/haptics'
@@ -14,8 +15,8 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
     state: {
       currentRoll: { recentlyAddedDie }
     },
-    removeDie,
-    openDiceDetails
+    dispatch,
+    removeDie
   } = useAppContext()
   const theme = useAppTheme()
   const shouldShake = die.id === recentlyAddedDie || false
@@ -59,7 +60,7 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
         transform: [{ translateX: shakeAnimation }]
       }}
     >
-      <Pressable onPress={() => openDiceDetails(die.id)}>
+      <Pressable onPress={() => dispatch(Actions.openDiceDetails(die.id))}>
         <Surface
           style={[
             styles.poolDie,

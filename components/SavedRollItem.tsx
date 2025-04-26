@@ -1,4 +1,5 @@
 import { Button, Card, Text, useAppTheme } from '@/components/Themed'
+import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { SavedRoll } from '@/types/savedRolls'
 import { StyleSheet } from 'react-native'
@@ -9,7 +10,7 @@ type SavedRollItemProps = {
 
 export default function SavedRollItem({ roll }: SavedRollItemProps) {
   const theme = useAppTheme()
-  const { deleteRoll, rollDiceFromSaved } = useAppContext()
+  const { dispatch, rollDiceFromSaved } = useAppContext()
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString()
@@ -31,7 +32,7 @@ export default function SavedRollItem({ roll }: SavedRollItemProps) {
   }
 
   const handleDelete = async () => {
-    await deleteRoll(roll.id)
+    dispatch(Actions.removeSavedRoll(roll.id))
   }
 
   return (

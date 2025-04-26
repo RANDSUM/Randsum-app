@@ -9,6 +9,7 @@ import {
 import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { getCommonDiceNotation } from '@/utils/diceNotation'
+import { groupRollResults } from '@/utils/diceResults'
 import { ScrollView, StyleSheet } from 'react-native'
 interface DiceGroupWithModifier {
   label: string
@@ -25,8 +26,7 @@ export default function RollDetailsModal() {
     state: {
       currentRoll: { rollResult, dicePool },
       modals: { showRollDetails: visible }
-    },
-    groupRollResults
+    }
   } = useAppContext()
 
   if (!rollResult) {

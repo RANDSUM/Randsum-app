@@ -32,16 +32,6 @@ type AppContextType = {
   clearPool: () => void
   rollDice: () => void
   rollDiceFromSaved: (savedDicePool: PoolDie[]) => void
-  groupRollResults: (result: NumericRollResult) => {
-    label: string
-    total: number
-    results: number[]
-    rejectedRolls: number[]
-  }[]
-  isNotationDie: (die: PoolDie) => die is NotationPoolDie
-  getNotation: (die: PoolDie) => string
-
-  deleteRoll: (id: string) => Promise<void>
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
@@ -72,17 +62,6 @@ export function AppProvider({ children }: PropsWithChildren) {
     } catch (error) {
       console.error('Failed to save rolls:', error)
     }
-  }
-
-  function isNotationDie(die: PoolDie): die is NotationPoolDie {
-    return die._type === 'notation'
-  }
-
-  function getNotation(die: PoolDie): string {
-    if (isNotationDie(die)) {
-      return die.sides.notation
-    }
-    return ''
   }
 
   function animateDieAddition(dieId: string) {
@@ -203,54 +182,6 @@ export function AppProvider({ children }: PropsWithChildren) {
     dispatch(Actions.openRollResults())
   }
 
-  function groupRollResults(result: NumericRollResult): {
-    label: string
-    total: number
-    results: number[]
-    rejectedRolls: number[]
-  }[] {
-    return Object.entries(result.dicePools).map(([id, pool]) => {
-      const rawRolls = result.rawRolls[id]
-      const modifiedRolls = result.modifiedRolls[id]
-
-      const rollFrequencyMap = new Map<number, number>()
-      const usedFrequencyMap = new Map<number, number>()
-
-      rawRolls.forEach((roll) => {
-        rollFrequencyMap.set(roll, (rollFrequencyMap.get(roll) || 0) + 1)
-      })
-
-      modifiedRolls.rolls.forEach((roll) => {
-        usedFrequencyMap.set(roll, (usedFrequencyMap.get(roll) || 0) + 1)
-      })
-
-      const rejectedRolls: number[] = []
-      rollFrequencyMap.forEach((count, roll) => {
-        const usedCount = usedFrequencyMap.get(roll) || 0
-        const rejectedCount = count - usedCount
-
-        for (let i = 0; i < rejectedCount; i++) {
-          rejectedRolls.push(roll)
-        }
-      })
-
-      return {
-        label: pool.notation,
-        total: modifiedRolls.total,
-        results: modifiedRolls.rolls,
-        rejectedRolls
-      }
-    })
-  }
-
-  async function deleteRoll(id: string): Promise<void> {
-    dispatch(Actions.removeSavedRoll(id))
-    const updatedRolls = state.savedRolls.rolls.filter(
-      (roll: SavedRoll) => roll.id !== id
-    )
-    await persistSavedRolls(updatedRolls)
-  }
-
   useEffect(() => {
     persistSavedRolls(state.savedRolls.rolls)
   }, [state.savedRolls.rolls])
@@ -264,11 +195,7 @@ export function AppProvider({ children }: PropsWithChildren) {
     removeDie,
     clearPool,
     rollDice,
-    rollDiceFromSaved,
-    groupRollResults,
-    isNotationDie,
-    getNotation,
-    deleteRoll
+    rollDiceFromSaved
   }
 
   return (
