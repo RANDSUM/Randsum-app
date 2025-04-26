@@ -142,104 +142,119 @@ export type AppAction =
   | OpenNotationInputAction
   | CloseNotationInputAction
 
-export const setRecentlyAddedDie = (
-  dieId: string
-): SetRecentlyAddedDieAction => ({
-  type: 'SET_RECENTLY_ADDED_DIE',
-  payload: dieId
-})
-
-export const clearRecentlyAddedDie = (): ClearRecentlyAddedDieAction => ({
-  type: 'CLEAR_RECENTLY_ADDED_DIE'
-})
-
-export const addDieToPool = (die: PoolDie): AddDieToPoolAction => ({
-  type: 'ADD_DIE_TO_POOL',
-  payload: die
-})
-
-export const incrementDieQuantity = (
-  dieIndex: number,
-  quantity: number
-): IncrementDieQuantityAction => ({
-  type: 'INCREMENT_DIE_QUANTITY',
-  payload: { dieIndex, quantity }
-})
-
-export const decrementDieQuantity = (
-  dieIndex: number
-): DecrementDieQuantityAction => ({
-  type: 'DECREMENT_DIE_QUANTITY',
-  payload: { dieIndex }
-})
-
-export const removeDieFromPool = (dieId: string): RemoveDieFromPoolAction => ({
-  type: 'REMOVE_DIE_FROM_POOL',
-  payload: dieId
-})
-
-export const clearDicePool = (): ClearDicePoolAction => ({
-  type: 'CLEAR_DICE_POOL'
-})
-
-export const setRollResult = (
-  result: NumericRollResult
-): SetRollResultAction => ({
-  type: 'SET_ROLL_RESULT',
-  payload: result
-})
-
-export const setSavedRolls = (rolls: SavedRoll[]): SetSavedRollsAction => ({
-  type: 'SET_SAVED_ROLLS',
-  payload: rolls
-})
-
-export const addSavedRoll = (roll: SavedRoll): AddSavedRollAction => ({
-  type: 'ADD_SAVED_ROLL',
-  payload: roll
-})
-
-export const removeSavedRoll = (rollId: string): RemoveSavedRollAction => ({
-  type: 'REMOVE_SAVED_ROLL',
-  payload: rollId
-})
-
-export const setSavedRollsLoading = (
-  isLoading: boolean
-): SetSavedRollsLoadingAction => ({
-  type: 'SET_SAVED_ROLLS_LOADING',
-  payload: isLoading
-})
-
-export const openRollResults = (): OpenRollResultsAction => ({
-  type: 'OPEN_ROLL_RESULTS'
-})
-
-export const closeRollResults = (): CloseRollResultsAction => ({
-  type: 'CLOSE_ROLL_RESULTS'
-})
-
-export const openRollDetails = (): OpenRollDetailsAction => ({
-  type: 'OPEN_ROLL_DETAILS'
-})
-
-export const closeRollDetails = (): CloseRollDetailsAction => ({
-  type: 'CLOSE_ROLL_DETAILS'
-})
-
-export const openDiceDetails = (dieId: string): OpenDiceDetailsAction => ({
-  type: 'OPEN_DICE_DETAILS',
-  payload: dieId
-})
-
-export const closeDiceDetails = (): CloseDiceDetailsAction => ({
-  type: 'CLOSE_DICE_DETAILS'
-})
-
-export const openNotationInput = (): OpenNotationInputAction => ({
-  type: 'OPEN_NOTATION_INPUT'
-})
-
-export const closeNotationInput = (): CloseNotationInputAction => ({
-  type: 'CLOSE_NOTATION_INPUT'
-})
+export class Actions {
+  static setRecentlyAddedDie(dieId: string): SetRecentlyAddedDieAction {
+    return {
+      type: 'SET_RECENTLY_ADDED_DIE',
+      payload: dieId
+    }
+  }
+  static clearRecentlyAddedDie(): ClearRecentlyAddedDieAction {
+    return {
+      type: 'CLEAR_RECENTLY_ADDED_DIE'
+    }
+  }
+  static addDieToPool(die: PoolDie): AddDieToPoolAction {
+    return {
+      type: 'ADD_DIE_TO_POOL',
+      payload: die
+    }
+  }
+  static incrementDieQuantity(
+    dieIndex: number,
+    quantity: number
+  ): IncrementDieQuantityAction {
+    return {
+      type: 'INCREMENT_DIE_QUANTITY',
+      payload: { dieIndex, quantity }
+    }
+  }
+  static decrementDieQuantity(dieIndex: number): DecrementDieQuantityAction {
+    return {
+      type: 'DECREMENT_DIE_QUANTITY',
+      payload: { dieIndex }
+    }
+  }
+  static removeDieFromPool(dieId: string): RemoveDieFromPoolAction {
+    return {
+      type: 'REMOVE_DIE_FROM_POOL',
+      payload: dieId
+    }
+  }
+  static clearDicePool(): ClearDicePoolAction {
+    return {
+      type: 'CLEAR_DICE_POOL'
+    }
+  }
+  static setRollResult(result: NumericRollResult): SetRollResultAction {
+    return {
+      type: 'SET_ROLL_RESULT',
+      payload: result
+    }
+  }
+  static setSavedRolls(rolls: SavedRoll[]): SetSavedRollsAction {
+    return {
+      type: 'SET_SAVED_ROLLS',
+      payload: rolls
+    }
+  }
+  static addSavedRoll(roll: SavedRoll): AddSavedRollAction {
+    return {
+      type: 'ADD_SAVED_ROLL',
+      payload: roll
+    }
+  }
+  static removeSavedRoll(rollId: string): RemoveSavedRollAction {
+    return {
+      type: 'REMOVE_SAVED_ROLL',
+      payload: rollId
+    }
+  }
+  static setSavedRollsLoading(isLoading: boolean): SetSavedRollsLoadingAction {
+    return {
+      type: 'SET_SAVED_ROLLS_LOADING',
+      payload: isLoading
+    }
+  }
+  static openRollResults(): OpenRollResultsAction {
+    return {
+      type: 'OPEN_ROLL_RESULTS'
+    }
+  }
+  static closeRollResults(): CloseRollResultsAction {
+    return {
+      type: 'CLOSE_ROLL_RESULTS'
+    }
+  }
+  static openRollDetails(): OpenRollDetailsAction {
+    return {
+      type: 'OPEN_ROLL_DETAILS'
+    }
+  }
+  static closeRollDetails(): CloseRollDetailsAction {
+    return {
+      type: 'CLOSE_ROLL_DETAILS'
+    }
+  }
+  static openDiceDetails(dieId: string): OpenDiceDetailsAction {
+    return {
+      type: 'OPEN_DICE_DETAILS',
+      payload: dieId
+    }
+  }
+  static closeDiceDetails(): CloseDiceDetailsAction {
+    return {
+      type: 'CLOSE_DICE_DETAILS'
+    }
+  }
+  static openNotationInput(): OpenNotationInputAction {
+    return {
+      type: 'OPEN_NOTATION_INPUT'
+    }
+  }
+  static closeNotationInput(): CloseNotationInputAction {
+    return {
+      type: 'CLOSE_NOTATION_INPUT'
+    }
+  }
+}

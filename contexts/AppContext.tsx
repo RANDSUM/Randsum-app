@@ -1,4 +1,4 @@
-import { AppAction } from '@/contexts/actions'
+import { Actions, AppAction } from '@/contexts/actions'
 import { NotationPoolDie, PoolDie, StandardPoolDie } from '@/types/dice'
 import { SavedRoll } from '@/types/savedRolls'
 import { HapticService } from '@/utils/haptics'
@@ -68,15 +68,12 @@ export function AppProvider({ children }: PropsWithChildren) {
       try {
         const storedRolls = await AsyncStorage.getItem(STORAGE_KEY)
         if (storedRolls) {
-          dispatch({
-            type: 'SET_SAVED_ROLLS',
-            payload: JSON.parse(storedRolls)
-          })
+          dispatch(Actions.setSavedRolls(JSON.parse(storedRolls)))
         }
       } catch (error) {
         console.error('Failed to load saved rolls:', error)
       } finally {
-        dispatch({ type: 'SET_SAVED_ROLLS_LOADING', payload: false })
+        dispatch(Actions.setSavedRollsLoading(false))
       }
     }
 
@@ -103,10 +100,10 @@ export function AppProvider({ children }: PropsWithChildren) {
   }
 
   function animateDieAddition(dieId: string) {
-    dispatch({ type: 'SET_RECENTLY_ADDED_DIE', payload: dieId })
+    dispatch(Actions.setRecentlyAddedDie(dieId))
 
     setTimeout(() => {
-      dispatch({ type: 'CLEAR_RECENTLY_ADDED_DIE' })
+      dispatch(Actions.clearRecentlyAddedDie())
     }, 300)
   }
 
@@ -138,14 +135,11 @@ export function AppProvider({ children }: PropsWithChildren) {
     )
 
     if (existingDieIndex >= 0) {
-      dispatch({
-        type: 'INCREMENT_DIE_QUANTITY',
-        payload: { dieIndex: existingDieIndex, quantity }
-      })
+      dispatch(Actions.incrementDieQuantity(existingDieIndex, quantity))
       animateDieAddition(state.currentRoll.dicePool[existingDieIndex].id)
     } else {
       const newDie = createStandardDie(sides, quantity)
-      dispatch({ type: 'ADD_DIE_TO_POOL', payload: newDie })
+      dispatch(Actions.addDieToPool(newDie))
       animateDieAddition(newDie.id)
     }
   }
@@ -172,7 +166,7 @@ export function AppProvider({ children }: PropsWithChildren) {
     }
 
     const newDie = createNotationDie(formattedNotation)
-    dispatch({ type: 'ADD_DIE_TO_POOL', payload: newDie })
+    dispatch(Actions.addDieToPool(newDie))
     animateDieAddition(newDie.id)
   }
 
@@ -186,18 +180,15 @@ export function AppProvider({ children }: PropsWithChildren) {
       const dieToUpdate = state.currentRoll.dicePool[dieIndex]
 
       if (dieToUpdate._type === 'numeric' && dieToUpdate.quantity > 1) {
-        dispatch({
-          type: 'DECREMENT_DIE_QUANTITY',
-          payload: { dieIndex }
-        })
+        dispatch(Actions.decrementDieQuantity(dieIndex))
       } else {
-        dispatch({ type: 'REMOVE_DIE_FROM_POOL', payload: id })
+        dispatch(Actions.removeDieFromPool(id))
       }
     }
   }
 
   function clearPool() {
-    dispatch({ type: 'CLEAR_DICE_POOL' })
+    dispatch(Actions.clearDicePool())
   }
 
   function rollDice() {
@@ -209,7 +200,7 @@ export function AppProvider({ children }: PropsWithChildren) {
 
     const result = roll(...diceToRoll) as NumericRollResult
 
-    dispatch({ type: 'SET_ROLL_RESULT', payload: result })
+    dispatch(Actions.setRollResult(result))
     openRollResults()
   }
 
@@ -222,7 +213,7 @@ export function AppProvider({ children }: PropsWithChildren) {
 
     const result = roll(...diceToRoll) as NumericRollResult
 
-    dispatch({ type: 'SET_ROLL_RESULT', payload: result })
+    dispatch(Actions.setRollResult(result))
     openRollResults()
   }
 
@@ -285,13 +276,13 @@ export function AppProvider({ children }: PropsWithChildren) {
       createdAt: Date.now()
     }
 
-    dispatch({ type: 'ADD_SAVED_ROLL', payload: newRoll })
+    dispatch(Actions.addSavedRoll(newRoll))
     await persistSavedRolls([...state.savedRolls.rolls, newRoll])
     return newRoll
   }
 
   async function deleteRoll(id: string): Promise<void> {
-    dispatch({ type: 'REMOVE_SAVED_ROLL', payload: id })
+    dispatch(Actions.removeSavedRoll(id))
     const updatedRolls = state.savedRolls.rolls.filter(
       (roll: SavedRoll) => roll.id !== id
     )
@@ -299,35 +290,35 @@ export function AppProvider({ children }: PropsWithChildren) {
   }
 
   function openRollResults() {
-    dispatch({ type: 'OPEN_ROLL_RESULTS' })
+    dispatch(Actions.openRollResults())
   }
 
   function closeRollResults() {
-    dispatch({ type: 'CLOSE_ROLL_RESULTS' })
+    dispatch(Actions.closeRollResults())
   }
 
   function openRollDetails() {
-    dispatch({ type: 'OPEN_ROLL_DETAILS' })
+    dispatch(Actions.openRollDetails())
   }
 
   function closeRollDetails() {
-    dispatch({ type: 'CLOSE_ROLL_DETAILS' })
+    dispatch(Actions.closeRollDetails())
   }
 
   function openDiceDetails(dieId: string) {
-    dispatch({ type: 'OPEN_DICE_DETAILS', payload: dieId })
+    dispatch(Actions.openDiceDetails(dieId))
   }
 
   function closeDiceDetails() {
-    dispatch({ type: 'CLOSE_DICE_DETAILS' })
+    dispatch(Actions.closeDiceDetails())
   }
 
   function openNotationInput() {
-    dispatch({ type: 'OPEN_NOTATION_INPUT' })
+    dispatch(Actions.openNotationInput())
   }
 
   function closeNotationInput() {
-    dispatch({ type: 'CLOSE_NOTATION_INPUT' })
+    dispatch(Actions.closeNotationInput())
   }
 
   const contextValue: AppContextType = {
