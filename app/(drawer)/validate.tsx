@@ -11,7 +11,7 @@ type NotationFormData = {
 export default function Validate() {
   const theme = useAppTheme()
 
-  const { watch } = useForm<NotationFormData>({
+  const { watch, setValue } = useForm<NotationFormData>({
     defaultValues: {
       notation: ''
     },
@@ -23,12 +23,17 @@ export default function Validate() {
     ? validateNotation(notationValue)
     : null
 
+  const handleNotationChange = (text: string) => {
+    setValue('notation', text)
+  }
+
   return (
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
       <NotationValidatorForm
         notation={notationValue || ''}
+        onNotationChange={handleNotationChange}
         validationResult={validationResult}
       />
     </View>

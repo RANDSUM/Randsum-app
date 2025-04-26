@@ -5,11 +5,13 @@ import { StyleSheet } from 'react-native'
 
 type NotationValidatorFormProps = {
   notation: string
+  onNotationChange?: (text: string) => void
   validationResult: ReturnType<typeof validateNotation> | null
 }
 
 export default function NotationValidatorForm({
   notation,
+  onNotationChange,
   validationResult
 }: NotationValidatorFormProps) {
   const theme = useAppTheme()
@@ -20,6 +22,7 @@ export default function NotationValidatorForm({
       <TextInput
         label="Enter Dice Notation"
         value={notation}
+        onChangeText={onNotationChange}
         style={styles.input}
         placeholder="e.g. 2D6+3 or 4D8L"
         autoCapitalize="none"
@@ -28,32 +31,28 @@ export default function NotationValidatorForm({
       />
 
       <View style={styles.validationContainer}>
-        <>
-          {notation.length > 0 && (
+        <View style={styles.descriptionContainer}>
+          {(!isValid || notation.length === 0) && (
             <Text
-              style={[
-                styles.validationText,
-                {
-                  color: isValid ? theme.colors.tertiary : theme.colors.error
-                }
-              ]}
+              style={[styles.validationText, { color: theme.colors.error }]}
             >
-              {isValid ? 'Valid notation' : 'Invalid notation'}
+              Invalid notation
             </Text>
           )}
           {isValid &&
+            notation.length > 0 &&
             validationResult &&
             validationResult.description.length > 0 && (
-              <View style={styles.descriptionContainer}>
+              <>
                 <Text style={styles.descriptionTitle}>Description:</Text>
                 {validationResult.description.map((desc, index) => (
                   <Text key={index} style={styles.descriptionText}>
                     {desc}
                   </Text>
                 ))}
-              </View>
+              </>
             )}
-        </>
+        </View>
       </View>
 
       <NotationGuide />
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
   validationText: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginVertical: 8,
+    marginBottom: 8,
     textAlign: 'center'
   },
   descriptionContainer: {

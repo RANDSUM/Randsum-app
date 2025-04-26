@@ -6,7 +6,7 @@ import {
   TextInput,
   useAppTheme
 } from '@/components/Themed'
-import { createSavedRoll, useStore } from '@/store'
+import { createSavedRoll, useStore } from '@/store/useStore'
 import { useRouter } from 'expo-router'
 import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet } from 'react-native'

@@ -1,5 +1,5 @@
 import { Button, useAppTheme } from '@/components/Themed'
-import { useStore } from '@/store'
+import { useStore } from '@/store/useStore'
 import { StyleSheet } from 'react-native'
 
 export default function RollButtonInline() {
