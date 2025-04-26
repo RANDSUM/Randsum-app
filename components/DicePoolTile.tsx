@@ -1,5 +1,6 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
+import { useModal } from '@/contexts/ModalContext'
 import { PoolDie } from '@/types/dice'
 import { triggerDiceRemove } from '@/utils/haptics'
 import { useEffect, useRef } from 'react'
