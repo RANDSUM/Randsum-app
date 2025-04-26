@@ -1,19 +1,12 @@
+import DiceDetailsModal from '@/components/DiceDetailsModal'
+import NotationInputModal from '@/components/NotationInputModal'
 import RollDetailsModal from '@/components/RollDetailsModal'
 import RollResultsModal from '@/components/RollResultsModal'
 import { useAppTheme } from '@/components/Themed'
-import { useAppContext } from '@/contexts/AppContext'
 import { Drawer } from 'expo-router/drawer'
 
 export default function DrawerLayout() {
   const theme = useAppTheme()
-  const {
-    state: {
-      modals: { showRollResults, showRollDetails }
-    },
-    closeRollResults,
-    closeRollDetails
-  } = useAppContext()
-
   return (
     <>
       <Drawer
@@ -76,15 +69,10 @@ export default function DrawerLayout() {
           }}
         />
       </Drawer>
-      <RollResultsModal
-        visible={showRollResults}
-        onDismiss={closeRollResults}
-      />
-
-      <RollDetailsModal
-        visible={showRollDetails}
-        onDismiss={closeRollDetails}
-      />
+      <RollResultsModal />
+      <RollDetailsModal />
+      <DiceDetailsModal />
+      <NotationInputModal />
     </>
   )
 }

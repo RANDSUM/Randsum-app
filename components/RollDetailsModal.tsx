@@ -6,15 +6,10 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
+import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { getCommonDiceNotation } from '@/utils/diceNotation'
 import { ScrollView, StyleSheet } from 'react-native'
-
-type RollDetailsModalProps = {
-  visible: boolean
-  onDismiss: () => void
-}
-
 interface DiceGroupWithModifier {
   label: string
   total: number
@@ -23,14 +18,13 @@ interface DiceGroupWithModifier {
   modifier: number | null
 }
 
-export default function RollDetailsModal({
-  visible,
-  onDismiss
-}: RollDetailsModalProps) {
+export default function RollDetailsModal() {
   const theme = useAppTheme()
   const {
+    dispatch,
     state: {
-      currentRoll: { rollResult, dicePool }
+      currentRoll: { rollResult, dicePool },
+      modals: { showRollDetails: visible }
     },
     groupRollResults
   } = useAppContext()
@@ -62,6 +56,9 @@ export default function RollDetailsModal({
   }
 
   const groupsWithModifiers = getGroupsWithModifiers()
+  const onDismiss = () => {
+    dispatch(Actions.closeRollDetails())
+  }
 
   return (
     <Portal>

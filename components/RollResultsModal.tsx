@@ -6,35 +6,32 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
+import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { getCommonDiceNotation } from '@/utils/diceNotation'
 import { StyleSheet } from 'react-native'
 
-type RollResultsModalProps = {
-  visible: boolean
-  onDismiss: () => void
-}
-
-export default function RollResultsModal({
-  visible,
-  onDismiss
-}: RollResultsModalProps) {
+export default function RollResultsModal() {
   const theme = useAppTheme()
   const {
+    dispatch,
     state: {
-      currentRoll: { rollResult, dicePool }
-    },
-    openRollDetails
+      currentRoll: { rollResult, dicePool },
+      modals: { showRollResults: visible }
+    }
   } = useAppContext()
 
   if (!rollResult) {
     return null
   }
   const commonDiceNotation = getCommonDiceNotation(dicePool)
+  const onDismiss = () => {
+    dispatch(Actions.closeRollResults())
+  }
 
   const handleShowDetails = () => {
     onDismiss()
-    openRollDetails()
+    dispatch(Actions.openRollDetails())
   }
 
   return (

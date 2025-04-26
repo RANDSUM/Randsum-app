@@ -6,7 +6,10 @@ import {
   TextInput,
   useAppTheme
 } from '@/components/Themed'
+import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
+import { SavedRoll } from '@/types/savedRolls'
+import { generateId } from '@/utils/id'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
@@ -22,9 +25,11 @@ export default function SaveRollModal({
 }: SaveRollModalProps) {
   const theme = useAppTheme()
   const router = useRouter()
-  const { 
-    state: { currentRoll: { dicePool } },
-    saveRoll
+  const {
+    dispatch,
+    state: {
+      currentRoll: { dicePool }
+    }
   } = useAppContext()
   const [name, setName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -38,9 +43,15 @@ export default function SaveRollModal({
 
     setIsSubmitting(true)
     setError('')
+    const newRoll: SavedRoll = {
+      id: generateId(),
+      name,
+      dicePool,
+      createdAt: Date.now()
+    }
 
     try {
-      await saveRoll(name.trim(), dicePool)
+      dispatch(Actions.addSavedRoll(newRoll))
       onDismiss()
       router.push('/(drawer)/saved-rolls')
     } catch (err) {

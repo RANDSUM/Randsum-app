@@ -2,6 +2,7 @@ import { Actions, AppAction } from '@/contexts/actions'
 import { NotationPoolDie, PoolDie, StandardPoolDie } from '@/types/dice'
 import { SavedRoll } from '@/types/savedRolls'
 import { HapticService } from '@/utils/haptics'
+import { generateId } from '@/utils/id'
 import {
   DiceNotation,
   NumericRollOptions,
@@ -40,27 +41,13 @@ type AppContextType = {
   isNotationDie: (die: PoolDie) => die is NotationPoolDie
   getNotation: (die: PoolDie) => string
 
-  saveRoll: (name: string, dicePool: PoolDie[]) => Promise<SavedRoll>
   deleteRoll: (id: string) => Promise<void>
-
-  openRollResults: () => void
-  closeRollResults: () => void
-  openRollDetails: () => void
-  closeRollDetails: () => void
-  openDiceDetails: (dieId: string) => void
-  closeDiceDetails: () => void
-  openNotationInput: () => void
-  closeNotationInput: () => void
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export function AppProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState)
-
-  function generateId() {
-    return Math.random().toString(36).substring(2, 9)
-  }
 
   useEffect(() => {
     async function loadSavedRolls() {
@@ -200,7 +187,7 @@ export function AppProvider({ children }: PropsWithChildren) {
     const result = roll(...diceToRoll) as NumericRollResult
 
     dispatch(Actions.setRollResult(result))
-    openRollResults()
+    dispatch(Actions.openRollResults())
   }
 
   function rollDiceFromSaved(savedDicePool: PoolDie[]) {
@@ -213,7 +200,7 @@ export function AppProvider({ children }: PropsWithChildren) {
     const result = roll(...diceToRoll) as NumericRollResult
 
     dispatch(Actions.setRollResult(result))
-    openRollResults()
+    dispatch(Actions.openRollResults())
   }
 
   function groupRollResults(result: NumericRollResult): {
@@ -256,22 +243,6 @@ export function AppProvider({ children }: PropsWithChildren) {
     })
   }
 
-  async function saveRoll(
-    name: string,
-    dicePool: PoolDie[]
-  ): Promise<SavedRoll> {
-    const newRoll: SavedRoll = {
-      id: generateId(),
-      name,
-      dicePool,
-      createdAt: Date.now()
-    }
-
-    dispatch(Actions.addSavedRoll(newRoll))
-    await persistSavedRolls([...state.savedRolls.rolls, newRoll])
-    return newRoll
-  }
-
   async function deleteRoll(id: string): Promise<void> {
     dispatch(Actions.removeSavedRoll(id))
     const updatedRolls = state.savedRolls.rolls.filter(
@@ -280,37 +251,9 @@ export function AppProvider({ children }: PropsWithChildren) {
     await persistSavedRolls(updatedRolls)
   }
 
-  function openRollResults() {
-    dispatch(Actions.openRollResults())
-  }
-
-  function closeRollResults() {
-    dispatch(Actions.closeRollResults())
-  }
-
-  function openRollDetails() {
-    dispatch(Actions.openRollDetails())
-  }
-
-  function closeRollDetails() {
-    dispatch(Actions.closeRollDetails())
-  }
-
-  function openDiceDetails(dieId: string) {
-    dispatch(Actions.openDiceDetails(dieId))
-  }
-
-  function closeDiceDetails() {
-    dispatch(Actions.closeDiceDetails())
-  }
-
-  function openNotationInput() {
-    dispatch(Actions.openNotationInput())
-  }
-
-  function closeNotationInput() {
-    dispatch(Actions.closeNotationInput())
-  }
+  useEffect(() => {
+    persistSavedRolls(state.savedRolls.rolls)
+  }, [state.savedRolls.rolls])
 
   const contextValue: AppContextType = {
     state,
@@ -325,16 +268,7 @@ export function AppProvider({ children }: PropsWithChildren) {
     groupRollResults,
     isNotationDie,
     getNotation,
-    saveRoll,
-    deleteRoll,
-    openRollResults,
-    closeRollResults,
-    openRollDetails,
-    closeRollDetails,
-    openDiceDetails,
-    closeDiceDetails,
-    openNotationInput,
-    closeNotationInput
+    deleteRoll
   }
 
   return (

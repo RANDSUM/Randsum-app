@@ -1,13 +1,14 @@
 import DiceButton from '@/components/DiceButton'
 import SaveButton from '@/components/SaveButton'
 import { Button, View, useAppTheme } from '@/components/Themed'
+import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 import ClearButton from './ClearButton'
 import RollButtonInline from './RollButtonInline'
 
 export default function DiceButtons() {
-  const { addDie, openNotationInput } = useAppContext()
+  const { addDie, dispatch } = useAppContext()
 
   const theme = useAppTheme()
 
@@ -33,7 +34,7 @@ export default function DiceButtons() {
         <Button
           icon="text-box-outline"
           mode="contained"
-          onPress={() => openNotationInput()}
+          onPress={() => dispatch(Actions.openNotationInput())}
           buttonColor={theme.colors.secondary}
           textColor={theme.colors.onSecondary}
           style={styles.diceButton}

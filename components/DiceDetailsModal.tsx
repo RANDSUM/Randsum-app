@@ -6,39 +6,35 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
+import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { HapticService } from '@/utils/haptics'
 import { validateNotation } from '@randsum/notation'
 import { StyleSheet } from 'react-native'
 
-type DiceDetailsModalProps = {
-  visible: boolean
-  onDismiss: () => void
-  dieId: string | null
-}
-
-export default function DiceDetailsModal({
-  visible,
-  onDismiss,
-  dieId
-}: DiceDetailsModalProps) {
+export default function DiceDetailsModal() {
   const theme = useAppTheme()
   const {
     state: {
-      currentRoll: { dicePool }
+      currentRoll: { dicePool },
+      modals: { showDiceDetails: visible, selectedDieId }
     },
+    dispatch,
     addDie,
-    removeDie,
-    closeDiceDetails
+    removeDie
   } = useAppContext()
 
-  if (!dieId) {
+  if (!selectedDieId) {
     return null
   }
 
-  const die = dicePool.find((die) => die.id === dieId)
+  const die = dicePool.find((die) => die.id === selectedDieId)
   if (!die) {
     return null
+  }
+
+  const onDismiss = () => {
+    dispatch(Actions.closeDiceDetails())
   }
 
   const description =
@@ -74,7 +70,7 @@ export default function DiceDetailsModal({
       // For notation dice, just remove it once
       removeDie(die.id)
     }
-    closeDiceDetails()
+    onDismiss()
   }
 
   // Determine if we should show quantity buttons
