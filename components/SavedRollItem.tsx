@@ -1,6 +1,5 @@
 import { Button, Card, Text, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { useSavedRolls } from '@/contexts/SavedRollsContext'
+import { useCurrentRoll, useSavedRolls } from '@/contexts/AppContext'
 import { SavedRoll } from '@/types/savedRolls'
 import { StyleSheet } from 'react-native'
 

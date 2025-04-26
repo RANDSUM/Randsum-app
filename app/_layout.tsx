@@ -9,9 +9,7 @@ import 'react-native-reanimated'
 
 import Footer from '@/components/Footer'
 import { ThemeProvider } from '@/components/Themed'
-import { CurrentRollProvider } from '@/contexts/CurrentRollContext'
-import { ModalProvider } from '@/contexts/ModalContext'
-import { SavedRollsProvider } from '@/contexts/SavedRollsContext'
+import { AppProvider } from '@/contexts/AppContext'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -42,15 +40,11 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <ThemeProvider>
-      <SavedRollsProvider>
-        <ModalProvider>
-          <CurrentRollProvider>
-            <StatusBar style="light" />
-            <Slot />
-            <Footer />
-          </CurrentRollProvider>
-        </ModalProvider>
-      </SavedRollsProvider>
+      <AppProvider>
+        <StatusBar style="light" />
+        <Slot />
+        <Footer />
+      </AppProvider>
     </ThemeProvider>
   )
 }

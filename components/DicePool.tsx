@@ -1,6 +1,6 @@
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/CurrentRollContext'
+import { useCurrentRoll } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 
 export default function DicePool() {

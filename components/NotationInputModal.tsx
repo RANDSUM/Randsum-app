@@ -1,6 +1,6 @@
 import NotationValidator from '@/components/NotationValidator'
 import { Button, Dialog, Portal, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/CurrentRollContext'
+import { useCurrentRoll } from '@/contexts/AppContext'
 import { validateNotation } from '@randsum/notation'
 import { useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'

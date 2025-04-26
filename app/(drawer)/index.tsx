@@ -5,7 +5,7 @@ import NotationInputModal from '@/components/NotationInputModal'
 import RollDetailsModal from '@/components/RollDetailsModal'
 import RollResultsModal from '@/components/RollResultsModal'
 import { View, useAppTheme } from '@/components/Themed'
-import { useModal } from '@/contexts/ModalContext'
+import { useModal } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 
 export default function Index() {

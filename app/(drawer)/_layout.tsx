@@ -1,7 +1,7 @@
 import RollDetailsModal from '@/components/RollDetailsModal'
 import RollResultsModal from '@/components/RollResultsModal'
 import { useAppTheme } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/CurrentRollContext'
+import { useModal } from '@/contexts/AppContext'
 import { Drawer } from 'expo-router/drawer'
 
 export default function DrawerLayout() {
@@ -11,7 +11,7 @@ export default function DrawerLayout() {
     showRollDetails,
     closeRollResults,
     closeRollDetails
-  } = useCurrentRoll()
+  } = useModal()
 
   return (
     <>

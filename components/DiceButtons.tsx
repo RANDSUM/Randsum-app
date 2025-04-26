@@ -1,9 +1,7 @@
 import DiceButton from '@/components/DiceButton'
 import SaveButton from '@/components/SaveButton'
 import { Button, View, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-
-import { useModal } from '@/contexts/ModalContext'
+import { useCurrentRoll, useModal } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 import ClearButton from './ClearButton'
 import RollButtonInline from './RollButtonInline'

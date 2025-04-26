@@ -1,16 +1,25 @@
-import { Button, Dialog, Portal, Text, TextInput, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { useSavedRolls } from '@/contexts/SavedRollsContext'
+import {
+  Button,
+  Dialog,
+  Portal,
+  Text,
+  TextInput,
+  useAppTheme
+} from '@/components/Themed'
+import { useCurrentRoll, useSavedRolls } from '@/contexts/AppContext'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 type SaveRollModalProps = {
   visible: boolean
   onDismiss: () => void
 }
 
-export default function SaveRollModal({ visible, onDismiss }: SaveRollModalProps) {
+export default function SaveRollModal({
+  visible,
+  onDismiss
+}: SaveRollModalProps) {
   const theme = useAppTheme()
   const router = useRouter()
   const { dicePool } = useCurrentRoll()
@@ -69,8 +78,8 @@ export default function SaveRollModal({ visible, onDismiss }: SaveRollModalProps
         </Dialog.Content>
         <Dialog.Actions>
           <Button onPress={handleDismiss}>Cancel</Button>
-          <Button 
-            onPress={handleSave} 
+          <Button
+            onPress={handleSave}
             disabled={isSubmitting}
             buttonColor={theme.colors.tertiary}
             textColor={theme.colors.onTertiary}

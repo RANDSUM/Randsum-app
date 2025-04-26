@@ -6,8 +6,7 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { useModal } from '@/contexts/ModalContext'
+import { useCurrentRoll, useModal } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 
 type RollResultsModalProps = {

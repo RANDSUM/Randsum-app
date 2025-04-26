@@ -1,5 +1,5 @@
 import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/CurrentRollContext'
+import { useCurrentRoll } from '@/contexts/AppContext'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 
