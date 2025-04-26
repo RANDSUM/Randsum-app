@@ -1,6 +1,6 @@
 import SavedRollItem from '@/components/SavedRollItem'
 import { ActivityIndicator, Text, View, useAppTheme } from '@/components/Themed'
-import { useStore } from '@/store/useStore'
+import { useStore } from '@/store'
 import { FlashList } from '@shopify/flash-list'
 import { StyleSheet } from 'react-native'
 

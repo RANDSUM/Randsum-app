@@ -1,5 +1,5 @@
 import { Button, useAppTheme } from '@/components/Themed'
-import { useStore } from '@/store/useStore'
+import { useStore } from '@/store'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import SaveRollModal from './SaveRollModal'

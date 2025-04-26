@@ -4,16 +4,16 @@ This project uses TypeScript path aliases to simplify imports and improve code o
 
 ## Available Aliases
 
-| Alias | Path | Description |
-|-------|------|-------------|
-| `@/*` | `./` | Root directory (legacy alias, maintained for compatibility) |
-| `@components/*` | `./components/*` | UI components |
-| `@store/*` | `./store/*` | Zustand store and state management |
-| `@utils/*` | `./utils/*` | Utility functions |
-| `@types/*` | `./types/*` | TypeScript type definitions |
-| `@constants/*` | `./constants/*` | Constants and configuration values |
-| `@assets/*` | `./assets/*` | Static assets (images, fonts, etc.) |
-| `@hooks/*` | `./hooks/*` | Custom React hooks |
+| Alias           | Path             | Description                                                 |
+| --------------- | ---------------- | ----------------------------------------------------------- |
+| `@/*`           | `./`             | Root directory (legacy alias, maintained for compatibility) |
+| `@components/*` | `./components/*` | UI components                                               |
+| `@store/*`      | `./store/*`      | Zustand store and state management                          |
+| `@utils/*`      | `./utils/*`      | Utility functions                                           |
+| `@types/*`      | `./types/*`      | TypeScript type definitions                                 |
+| `@constants/*`  | `./constants/*`  | Constants and configuration values                          |
+| `@assets/*`     | `./assets/*`     | Static assets (images, fonts, etc.)                         |
+| `@hooks/*`      | `./hooks/*`      | Custom React hooks                                          |
 
 ## Usage Examples
 
@@ -21,14 +21,14 @@ Instead of using relative imports like:
 
 ```typescript
 import { Button } from '../../../components/Themed'
-import { useStore } from '../../../store/useStore'
+import { useStore } from '../../../store'
 ```
 
 You can use path aliases:
 
 ```typescript
 import { Button } from '@components/Themed'
-import { useStore } from '@store/useStore'
+import { useStore } from '@store'
 ```
 
 ## Configuration

@@ -6,7 +6,7 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
-import { useStore } from '@/store/useStore'
+import { useStore } from '@/store'
 import { getCommonDiceNotation } from '@/utils/diceNotation'
 import { StyleSheet } from 'react-native'
 

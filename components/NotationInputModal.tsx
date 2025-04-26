@@ -1,5 +1,5 @@
 import { Button, Dialog, Portal, useAppTheme } from '@/components/Themed'
-import { useStore } from '@/store/useStore'
+import { useStore } from '@/store'
 import { validateNotation } from '@randsum/notation'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet } from 'react-native'

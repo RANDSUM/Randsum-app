@@ -1,6 +1,6 @@
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
-import { useStore } from '@/store/useStore'
+import { useStore } from '@/store'
 import { StyleSheet } from 'react-native'
 
 export default function DicePool() {

@@ -1,5 +1,5 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
-import { useStore } from '@/store/useStore'
+import { useStore } from '@/store'
 import { PoolDie } from '@/types/dice'
 import { useEffect, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
