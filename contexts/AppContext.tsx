@@ -1,6 +1,6 @@
 import { NotationPoolDie, PoolDie, StandardPoolDie } from '@/types/dice'
 import { SavedRoll } from '@/types/savedRolls'
-import { triggerDiceAdd } from '@/utils/haptics'
+import { triggerDiceAdd, triggerDiceRemove } from '@/utils/haptics'
 import {
   DiceNotation,
   NumericRollOptions,
@@ -14,36 +14,21 @@ import React, {
   createContext,
   useContext,
   useEffect,
-  useState
+  useReducer
 } from 'react'
+import {
+  ActionType,
+  AppAction,
+  AppState,
+  initialState,
+  reducer
+} from './reducer'
 
 const STORAGE_KEY = 'RANDSUM_SAVED_ROLLS'
 
-type AppState = {
-  currentRoll: {
-    dicePool: PoolDie[]
-    rollResult: NumericRollResult | null
-    recentlyAddedDie: string | null
-  }
-  savedRolls: {
-    rolls: SavedRoll[]
-    isLoading: boolean
-  }
-  modals: {
-    showRollResults: boolean
-    showRollDetails: boolean
-    showDiceDetails: boolean
-    showNotationInput: boolean
-    selectedDieId: string | null
-  }
-}
-
 type AppContextType = {
   state: AppState
-  setState: <K extends keyof AppState>(
-    section: K,
-    updater: (prevState: AppState[K]) => AppState[K]
-  ) => void
+  dispatch: React.Dispatch<AppAction>
 
   addDie: (sides: number, quantity?: number) => void
   addNotationDie: (notation: string) => void
@@ -76,64 +61,32 @@ type AppContextType = {
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
-const initialState: AppState = {
-  currentRoll: {
-    dicePool: [],
-    rollResult: null,
-    recentlyAddedDie: null
-  },
-  savedRolls: {
-    rolls: [],
-    isLoading: true
-  },
-  modals: {
-    showRollResults: false,
-    showRollDetails: false,
-    showDiceDetails: false,
-    showNotationInput: false,
-    selectedDieId: null
-  }
-}
-
 export function AppProvider({ children }: PropsWithChildren) {
-  const [state, setStateInternal] = useState<AppState>(initialState)
-
-  const setState = <K extends keyof AppState>(
-    section: K,
-    updater: (prevState: AppState[K]) => AppState[K]
-  ) => {
-    setStateInternal((prevState) => ({
-      ...prevState,
-      [section]: updater(prevState[section])
-    }))
-  }
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   function generateId() {
     return Math.random().toString(36).substring(2, 9)
   }
 
   useEffect(() => {
+    async function loadSavedRolls() {
+      try {
+        const storedRolls = await AsyncStorage.getItem(STORAGE_KEY)
+        if (storedRolls) {
+          dispatch({
+            type: ActionType.SET_SAVED_ROLLS,
+            payload: JSON.parse(storedRolls)
+          })
+        }
+      } catch (error) {
+        console.error('Failed to load saved rolls:', error)
+      } finally {
+        dispatch({ type: ActionType.SET_SAVED_ROLLS_LOADING, payload: false })
+      }
+    }
+
     loadSavedRolls()
   }, [])
-
-  async function loadSavedRolls() {
-    try {
-      const storedRolls = await AsyncStorage.getItem(STORAGE_KEY)
-      if (storedRolls) {
-        setState('savedRolls', (prev) => ({
-          ...prev,
-          rolls: JSON.parse(storedRolls)
-        }))
-      }
-    } catch (error) {
-      console.error('Failed to load saved rolls:', error)
-    } finally {
-      setState('savedRolls', (prev) => ({
-        ...prev,
-        isLoading: false
-      }))
-    }
-  }
 
   async function persistSavedRolls(rolls: SavedRoll[]) {
     try {
@@ -155,16 +108,10 @@ export function AppProvider({ children }: PropsWithChildren) {
   }
 
   function animateDieAddition(dieId: string) {
-    setState('currentRoll', (prev) => ({
-      ...prev,
-      recentlyAddedDie: dieId
-    }))
+    dispatch({ type: ActionType.SET_RECENTLY_ADDED_DIE, payload: dieId })
 
     setTimeout(() => {
-      setState('currentRoll', (prev) => ({
-        ...prev,
-        recentlyAddedDie: null
-      }))
+      dispatch({ type: ActionType.CLEAR_RECENTLY_ADDED_DIE })
     }, 300)
   }
 
@@ -192,26 +139,18 @@ export function AppProvider({ children }: PropsWithChildren) {
   function addDie(sides: number, quantity: number = 1) {
     triggerDiceAdd()
     const existingDieIndex = state.currentRoll.dicePool.findIndex(
-      (die) => die._type === 'numeric' && die.sides === sides
+      (die: PoolDie) => die._type === 'numeric' && die.sides === sides
     )
 
     if (existingDieIndex >= 0) {
-      setState('currentRoll', (prev) => {
-        const updatedDicePool = [...prev.dicePool]
-        const existingDie = updatedDicePool[existingDieIndex] as StandardPoolDie
-        existingDie.quantity += quantity
-        return {
-          ...prev,
-          dicePool: updatedDicePool
-        }
+      dispatch({
+        type: ActionType.INCREMENT_DIE_QUANTITY,
+        payload: { dieIndex: existingDieIndex, quantity }
       })
       animateDieAddition(state.currentRoll.dicePool[existingDieIndex].id)
     } else {
       const newDie = createStandardDie(sides, quantity)
-      setState('currentRoll', (prev) => ({
-        ...prev,
-        dicePool: [...prev.dicePool, newDie]
-      }))
+      dispatch({ type: ActionType.ADD_DIE_TO_POOL, payload: newDie })
       animateDieAddition(newDie.id)
     }
   }
@@ -238,86 +177,62 @@ export function AppProvider({ children }: PropsWithChildren) {
     }
 
     const newDie = createNotationDie(formattedNotation)
-
-    setState('currentRoll', (prev) => ({
-      ...prev,
-      dicePool: [...prev.dicePool, newDie]
-    }))
+    dispatch({ type: ActionType.ADD_DIE_TO_POOL, payload: newDie })
     animateDieAddition(newDie.id)
   }
 
   function removeDie(id: string) {
+    triggerDiceRemove()
     const dieIndex = state.currentRoll.dicePool.findIndex(
-      (die) => die.id === id
+      (die: PoolDie) => die.id === id
     )
 
     if (dieIndex >= 0) {
       const dieToUpdate = state.currentRoll.dicePool[dieIndex]
 
       if (dieToUpdate._type === 'numeric' && dieToUpdate.quantity > 1) {
-        setState('currentRoll', (prev) => {
-          const updatedDicePool = [...prev.dicePool]
-          updatedDicePool[dieIndex] = {
-            ...updatedDicePool[dieIndex],
-            quantity:
-              (updatedDicePool[dieIndex] as StandardPoolDie).quantity - 1
-          }
-          return {
-            ...prev,
-            dicePool: updatedDicePool
-          }
+        dispatch({
+          type: ActionType.DECREMENT_DIE_QUANTITY,
+          payload: { dieIndex }
         })
       } else {
-        setState('currentRoll', (prev) => ({
-          ...prev,
-          dicePool: prev.dicePool.filter((die) => die.id !== id)
-        }))
+        dispatch({ type: ActionType.REMOVE_DIE_FROM_POOL, payload: id })
       }
     }
   }
 
   function clearPool() {
-    setState('currentRoll', (prev) => ({
-      ...prev,
-      dicePool: [],
-      rollResult: null
-    }))
+    dispatch({ type: ActionType.CLEAR_DICE_POOL })
   }
 
   function rollDice() {
     if (state.currentRoll.dicePool.length === 0) return
 
-    const diceToRoll = state.currentRoll.dicePool.map((die) =>
+    const diceToRoll = state.currentRoll.dicePool.map((die: PoolDie) =>
       die._type === 'notation' ? die.sides.notation : die
     )
 
     const result = roll(...diceToRoll) as NumericRollResult
 
-    setState('currentRoll', (prev) => ({
-      ...prev,
-      rollResult: result
-    }))
+    dispatch({ type: ActionType.SET_ROLL_RESULT, payload: result })
     openRollResults()
   }
 
   function rollDiceFromSaved(savedDicePool: PoolDie[]) {
     if (savedDicePool.length === 0) return
 
-    const diceToRoll = savedDicePool.map((die) =>
+    const diceToRoll = savedDicePool.map((die: PoolDie) =>
       die._type === 'notation' ? die.sides.notation : die
     )
 
     const result = roll(...diceToRoll) as NumericRollResult
 
-    setState('currentRoll', (prev) => ({
-      ...prev,
-      rollResult: result
-    }))
+    dispatch({ type: ActionType.SET_ROLL_RESULT, payload: result })
     openRollResults()
   }
 
   const commonDiceNotation = state.currentRoll.dicePool
-    .map((die) =>
+    .map((die: PoolDie) =>
       die._type === 'notation'
         ? die.sides.notation
         : `${die.quantity}D${die.sides}`
@@ -375,86 +290,54 @@ export function AppProvider({ children }: PropsWithChildren) {
       createdAt: Date.now()
     }
 
-    const updatedRolls = [...state.savedRolls.rolls, newRoll]
-    setState('savedRolls', (prev) => ({
-      ...prev,
-      rolls: updatedRolls
-    }))
-    await persistSavedRolls(updatedRolls)
+    dispatch({ type: ActionType.ADD_SAVED_ROLL, payload: newRoll })
+    await persistSavedRolls([...state.savedRolls.rolls, newRoll])
     return newRoll
   }
 
   async function deleteRoll(id: string): Promise<void> {
-    const updatedRolls = state.savedRolls.rolls.filter((roll) => roll.id !== id)
-    setState('savedRolls', (prev) => ({
-      ...prev,
-      rolls: updatedRolls
-    }))
+    dispatch({ type: ActionType.REMOVE_SAVED_ROLL, payload: id })
+    const updatedRolls = state.savedRolls.rolls.filter(
+      (roll: SavedRoll) => roll.id !== id
+    )
     await persistSavedRolls(updatedRolls)
   }
 
   function openRollResults() {
-    setState('modals', (prev) => ({
-      ...prev,
-      showRollResults: true
-    }))
+    dispatch({ type: ActionType.OPEN_ROLL_RESULTS })
   }
 
   function closeRollResults() {
-    setState('modals', (prev) => ({
-      ...prev,
-      showRollResults: false
-    }))
+    dispatch({ type: ActionType.CLOSE_ROLL_RESULTS })
   }
 
   function openRollDetails() {
-    setState('modals', (prev) => ({
-      ...prev,
-      showRollResults: false,
-      showRollDetails: true
-    }))
+    dispatch({ type: ActionType.OPEN_ROLL_DETAILS })
   }
 
   function closeRollDetails() {
-    setState('modals', (prev) => ({
-      ...prev,
-      showRollDetails: false
-    }))
+    dispatch({ type: ActionType.CLOSE_ROLL_DETAILS })
   }
 
   function openDiceDetails(dieId: string) {
-    setState('modals', (prev) => ({
-      ...prev,
-      selectedDieId: dieId,
-      showDiceDetails: true
-    }))
+    dispatch({ type: ActionType.OPEN_DICE_DETAILS, payload: dieId })
   }
 
   function closeDiceDetails() {
-    setState('modals', (prev) => ({
-      ...prev,
-      showDiceDetails: false,
-      selectedDieId: null
-    }))
+    dispatch({ type: ActionType.CLOSE_DICE_DETAILS })
   }
 
   function openNotationInput() {
-    setState('modals', (prev) => ({
-      ...prev,
-      showNotationInput: true
-    }))
+    dispatch({ type: ActionType.OPEN_NOTATION_INPUT })
   }
 
   function closeNotationInput() {
-    setState('modals', (prev) => ({
-      ...prev,
-      showNotationInput: false
-    }))
+    dispatch({ type: ActionType.CLOSE_NOTATION_INPUT })
   }
 
   const contextValue: AppContextType = {
     state,
-    setState,
+    dispatch,
     addDie,
     addNotationDie,
     removeDie,
