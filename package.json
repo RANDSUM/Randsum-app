@@ -36,7 +36,7 @@
     "expo-splash-screen": "~0.29.24",
     "expo-status-bar": "~2.0.1",
     "expo-updates": "~0.27.4",
-    "react": "18.3.1",
+    "react": "19.1.0",
     "react-hook-form": "^7.56.1",
     "react-native": "0.76.9",
     "react-native-gesture-handler": "^2.25.0",
