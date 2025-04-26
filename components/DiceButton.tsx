@@ -1,4 +1,5 @@
 import { Button, useAppTheme } from '@/components/Themed'
+import { HapticService } from '@/utils/haptics'
 import { StyleSheet } from 'react-native'
 
 type DiceButtonProps = {

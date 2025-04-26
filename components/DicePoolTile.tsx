@@ -1,6 +1,7 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll, useModal } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { PoolDie } from '@/types/dice'
+import { HapticService } from '@/utils/haptics'
 import { useEffect, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
 
@@ -9,8 +10,13 @@ type DicePoolTileProps = {
 }
 
 export default function DicePoolTile({ die }: DicePoolTileProps) {
-  const { recentlyAddedDie, removeDie } = useCurrentRoll()
-  const { openDiceDetails } = useModal()
+  const {
+    state: {
+      currentRoll: { recentlyAddedDie }
+    },
+    removeDie,
+    openDiceDetails
+  } = useAppContext()
   const theme = useAppTheme()
   const shouldShake = die.id === recentlyAddedDie || false
   const shakeAnimation = useRef(new Animated.Value(0)).current

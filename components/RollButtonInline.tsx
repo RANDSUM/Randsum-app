@@ -1,10 +1,15 @@
 import { Button, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 
 export default function RollButtonInline() {
   const theme = useAppTheme()
-  const { rollDice, dicePool } = useCurrentRoll()
+  const {
+    rollDice,
+    state: {
+      currentRoll: { dicePool }
+    }
+  } = useAppContext()
   const disabled = dicePool.length === 0
 
   return (

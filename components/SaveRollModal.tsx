@@ -6,7 +6,7 @@ import {
   TextInput,
   useAppTheme
 } from '@/components/Themed'
-import { useCurrentRoll, useSavedRolls } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
@@ -22,8 +22,10 @@ export default function SaveRollModal({
 }: SaveRollModalProps) {
   const theme = useAppTheme()
   const router = useRouter()
-  const { dicePool } = useCurrentRoll()
-  const { saveRoll } = useSavedRolls()
+  const { 
+    state: { currentRoll: { dicePool } },
+    saveRoll
+  } = useAppContext()
   const [name, setName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')

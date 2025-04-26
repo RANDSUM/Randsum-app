@@ -6,7 +6,7 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { ScrollView, StyleSheet } from 'react-native'
 
 type RollDetailsModalProps = {
@@ -27,7 +27,11 @@ export default function RollDetailsModal({
   onDismiss
 }: RollDetailsModalProps) {
   const theme = useAppTheme()
-  const { rollResult, commonDiceNotation, groupRollResults } = useCurrentRoll()
+  const { 
+    state: { currentRoll: { rollResult } },
+    commonDiceNotation,
+    groupRollResults
+  } = useAppContext()
 
   if (!rollResult) {
     return null
@@ -44,7 +48,7 @@ export default function RollDetailsModal({
   }
 
   const getGroupsWithModifiers = (): DiceGroupWithModifier[] => {
-    return groupRollResults(rollResult).map((group) => {
+    return groupRollResults(rollResult).map((group: any) => {
       const modifier = extractModifier(group.label)
       return {
         ...group,

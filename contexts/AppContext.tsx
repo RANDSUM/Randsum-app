@@ -1,3 +1,4 @@
+import { AppAction } from '@/contexts/actions'
 import { NotationPoolDie, PoolDie, StandardPoolDie } from '@/types/dice'
 import { SavedRoll } from '@/types/savedRolls'
 import { HapticService } from '@/utils/haptics'
@@ -16,7 +17,7 @@ import React, {
   useEffect,
   useReducer
 } from 'react'
-import { AppAction, AppState, initialState, reducer } from './reducer'
+import { AppState, initialState, reducer } from './reducer'
 
 const STORAGE_KEY = 'RANDSUM_SAVED_ROLLS'
 
@@ -366,80 +367,4 @@ export function useAppContext() {
     throw new Error('useAppContext must be used within an AppProvider')
   }
   return context
-}
-export function useCurrentRoll() {
-  const {
-    state: { currentRoll },
-    addDie,
-    addNotationDie,
-    removeDie,
-    clearPool,
-    rollDice,
-    rollDiceFromSaved,
-    commonDiceNotation,
-    groupRollResults,
-    isNotationDie,
-    getNotation
-  } = useAppContext()
-
-  return {
-    dicePool: currentRoll.dicePool,
-    rollResult: currentRoll.rollResult,
-    recentlyAddedDie: currentRoll.recentlyAddedDie,
-    addDie,
-    addNotationDie,
-    removeDie,
-    clearPool,
-    rollDice,
-    rollDiceFromSaved,
-    commonDiceNotation,
-    groupRollResults,
-    isNotationDie,
-    getNotation
-  }
-}
-
-export function useSavedRolls() {
-  const {
-    state: { savedRolls },
-    saveRoll,
-    deleteRoll
-  } = useAppContext()
-
-  return {
-    savedRolls: savedRolls.rolls,
-    isLoading: savedRolls.isLoading,
-    saveRoll,
-    deleteRoll
-  }
-}
-
-export function useModal() {
-  const {
-    state: { modals },
-    openRollResults,
-    closeRollResults,
-    openRollDetails,
-    closeRollDetails,
-    openDiceDetails,
-    closeDiceDetails,
-    openNotationInput,
-    closeNotationInput
-  } = useAppContext()
-
-  return {
-    showRollResults: modals.showRollResults,
-    showRollDetails: modals.showRollDetails,
-    showDiceDetails: modals.showDiceDetails,
-    showNotationInput: modals.showNotationInput,
-    selectedDieId: modals.selectedDieId,
-    openRollResults,
-    closeRollResults,
-    openRollDetails,
-    closeRollDetails,
-    openDiceDetails,
-    closeDiceDetails,
-    openNotationInput,
-    closeNotationInput
-  }
 }

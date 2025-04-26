@@ -6,7 +6,8 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
-import { useCurrentRoll, useModal } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
+import { HapticService } from '@/utils/haptics'
 import { validateNotation } from '@randsum/notation'
 import { StyleSheet } from 'react-native'
 
@@ -22,8 +23,14 @@ export default function DiceDetailsModal({
   dieId
 }: DiceDetailsModalProps) {
   const theme = useAppTheme()
-  const { dicePool, addDie, removeDie } = useCurrentRoll()
-  const { closeDiceDetails } = useModal()
+  const {
+    state: {
+      currentRoll: { dicePool }
+    },
+    addDie,
+    removeDie,
+    closeDiceDetails
+  } = useAppContext()
 
   if (!dieId) {
     return null

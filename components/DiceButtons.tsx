@@ -1,14 +1,13 @@
 import DiceButton from '@/components/DiceButton'
 import SaveButton from '@/components/SaveButton'
 import { Button, View, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll, useModal } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 import ClearButton from './ClearButton'
 import RollButtonInline from './RollButtonInline'
 
 export default function DiceButtons() {
-  const { addDie } = useCurrentRoll()
-  const { openNotationInput } = useModal()
+  const { addDie, openNotationInput } = useAppContext()
 
   const theme = useAppTheme()
 

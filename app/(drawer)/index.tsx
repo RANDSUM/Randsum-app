@@ -5,22 +5,26 @@ import NotationInputModal from '@/components/NotationInputModal'
 import RollDetailsModal from '@/components/RollDetailsModal'
 import RollResultsModal from '@/components/RollResultsModal'
 import { View, useAppTheme } from '@/components/Themed'
-import { useModal } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 
 export default function Index() {
   const theme = useAppTheme()
   const {
-    showRollResults,
-    showRollDetails,
-    showDiceDetails,
-    showNotationInput,
-    selectedDieId,
+    state: {
+      modals: {
+        showRollResults,
+        showRollDetails,
+        showDiceDetails,
+        showNotationInput,
+        selectedDieId
+      }
+    },
     closeRollResults,
     closeRollDetails,
     closeDiceDetails,
     closeNotationInput
-  } = useModal()
+  } = useAppContext()
 
   return (
     <View

@@ -1,5 +1,5 @@
 import { Button, Card, Text, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll, useSavedRolls } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { SavedRoll } from '@/types/savedRolls'
 import { StyleSheet } from 'react-native'
 
@@ -9,8 +9,7 @@ type SavedRollItemProps = {
 
 export default function SavedRollItem({ roll }: SavedRollItemProps) {
   const theme = useAppTheme()
-  const { deleteRoll } = useSavedRolls()
-  const { rollDiceFromSaved } = useCurrentRoll()
+  const { deleteRoll, rollDiceFromSaved } = useAppContext()
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString()

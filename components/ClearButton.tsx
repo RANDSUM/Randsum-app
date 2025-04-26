@@ -1,11 +1,16 @@
 import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 export default function ClearButton() {
   const theme = useAppTheme()
-  const { clearPool, dicePool } = useCurrentRoll()
+  const {
+    clearPool,
+    state: {
+      currentRoll: { dicePool }
+    }
+  } = useAppContext()
   const [confirmVisible, setConfirmVisible] = useState(false)
   const disabled = dicePool.length === 0
 

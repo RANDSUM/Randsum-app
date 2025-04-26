@@ -1,6 +1,6 @@
 import NotationValidator from '@/components/NotationValidator'
 import { Button, Dialog, Portal, useAppTheme } from '@/components/Themed'
-import { useCurrentRoll } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { validateNotation } from '@randsum/notation'
 import { useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
@@ -15,7 +15,7 @@ export default function NotationInputModal({
   onDismiss
 }: NotationInputModalProps) {
   const theme = useAppTheme()
-  const { addNotationDie } = useCurrentRoll()
+  const { addNotationDie } = useAppContext()
   const [notation, setNotation] = useState('')
   const [validationResult, setValidationResult] = useState<ReturnType<
     typeof validateNotation

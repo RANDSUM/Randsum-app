@@ -6,7 +6,7 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
-import { useCurrentRoll, useModal } from '@/contexts/AppContext'
+import { useAppContext } from '@/contexts/AppContext'
 import { StyleSheet } from 'react-native'
 
 type RollResultsModalProps = {
@@ -19,8 +19,13 @@ export default function RollResultsModal({
   onDismiss
 }: RollResultsModalProps) {
   const theme = useAppTheme()
-  const { rollResult, commonDiceNotation } = useCurrentRoll()
-  const { openRollDetails } = useModal()
+  const {
+    state: {
+      currentRoll: { rollResult }
+    },
+    commonDiceNotation,
+    openRollDetails
+  } = useAppContext()
 
   if (!rollResult) {
     return null
