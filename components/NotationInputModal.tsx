@@ -11,9 +11,9 @@ type NotationFormData = {
 
 export default function NotationInputModal() {
   const theme = useAppTheme()
-  const visible = useStore((state) => state.modals.showNotationInput)
-  const closeNotationInput = useStore((state) => state.closeNotationInput)
-  const addNotationDie = useStore((state) => state.addNotationDie)
+  const visible = useStore.use.modals().showNotationInput
+  const closeNotationInput = useStore.use.closeNotationInput()
+  const addNotationDie = useStore.use.addNotationDie()
 
   const {
     control,

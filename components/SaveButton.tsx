@@ -6,7 +6,7 @@ import SaveRollModal from './SaveRollModal'
 
 export default function SaveButton() {
   const theme = useAppTheme()
-  const dicePool = useStore((state) => state.currentRoll.dicePool)
+  const dicePool = useStore.use.currentRoll().dicePool
   const [modalVisible, setModalVisible] = useState(false)
 
   const disabled = dicePool.length === 0

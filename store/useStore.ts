@@ -13,6 +13,7 @@ import { validateNotation } from '@randsum/notation'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
+import { createSelectors } from './selectors'
 
 const STORAGE_KEY = 'RANDSUM_APP_STATE'
 
@@ -94,7 +95,7 @@ const initialState: StoreState = {
   }
 }
 
-export const useStore = create<StoreState & StoreActions>()(
+const useStoreBase = create<StoreState & StoreActions>()(
   persist(
     (set, get) => ({
       ...initialState,
@@ -408,6 +409,9 @@ export const useStore = create<StoreState & StoreActions>()(
     }
   )
 )
+
+// Create the store with type-safe selectors
+export const useStore = createSelectors(useStoreBase)
 
 // Helper function to create a new saved roll
 export const createSavedRoll = (

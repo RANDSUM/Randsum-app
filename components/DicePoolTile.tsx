@@ -9,11 +9,9 @@ type DicePoolTileProps = {
 }
 
 export default function DicePoolTile({ die }: DicePoolTileProps) {
-  const recentlyAddedDie = useStore(
-    (state) => state.currentRoll.recentlyAddedDie
-  )
-  const openDiceDetails = useStore((state) => state.openDiceDetails)
-  const removeDie = useStore((state) => state.removeDie)
+  const recentlyAddedDie = useStore.use.currentRoll().recentlyAddedDie
+  const openDiceDetails = useStore.use.openDiceDetails()
+  const removeDie = useStore.use.removeDie()
 
   const theme = useAppTheme()
   const shouldShake = die.id === recentlyAddedDie || false

@@ -14,12 +14,12 @@ import { StyleSheet } from 'react-native'
 
 export default function DiceDetailsModal() {
   const theme = useAppTheme()
-  const dicePool = useStore((state) => state.currentRoll.dicePool)
-  const visible = useStore((state) => state.modals.showDiceDetails)
-  const selectedDieId = useStore((state) => state.modals.selectedDieId)
-  const closeDiceDetails = useStore((state) => state.closeDiceDetails)
-  const addDie = useStore((state) => state.addDie)
-  const removeDie = useStore((state) => state.removeDie)
+  const dicePool = useStore.use.currentRoll().dicePool
+  const visible = useStore.use.modals().showDiceDetails
+  const selectedDieId = useStore.use.modals().selectedDieId
+  const closeDiceDetails = useStore.use.closeDiceDetails()
+  const addDie = useStore.use.addDie()
+  const removeDie = useStore.use.removeDie()
 
   if (!selectedDieId) {
     return null

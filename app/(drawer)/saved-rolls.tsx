@@ -6,8 +6,8 @@ import { StyleSheet } from 'react-native'
 
 export default function SavedRolls() {
   const theme = useAppTheme()
-  const savedRolls = useStore((state) => state.savedRolls.rolls)
-  const isLoading = useStore((state) => state.savedRolls.isLoading)
+  const savedRolls = useStore.use.savedRolls().rolls
+  const isLoading = useStore.use.savedRolls().isLoading
 
   if (isLoading) {
     return (

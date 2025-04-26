@@ -4,7 +4,7 @@ import { useStore } from '@/store/useStore'
 import { StyleSheet } from 'react-native'
 
 export default function DicePool() {
-  const dicePool = useStore((state) => state.currentRoll.dicePool)
+  const dicePool = useStore.use.currentRoll().dicePool
 
   return (
     <View style={styles.diceContainer}>

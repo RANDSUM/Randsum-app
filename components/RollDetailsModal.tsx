@@ -20,10 +20,10 @@ interface DiceGroupWithModifier {
 
 export default function RollDetailsModal() {
   const theme = useAppTheme()
-  const rollResult = useStore((state) => state.currentRoll.rollResult)
-  const dicePool = useStore((state) => state.currentRoll.dicePool)
-  const visible = useStore((state) => state.modals.showRollDetails)
-  const closeRollDetails = useStore((state) => state.closeRollDetails)
+  const rollResult = useStore.use.currentRoll().rollResult
+  const dicePool = useStore.use.currentRoll().dicePool
+  const visible = useStore.use.modals().showRollDetails
+  const closeRollDetails = useStore.use.closeRollDetails()
 
   if (!rollResult) {
     return null

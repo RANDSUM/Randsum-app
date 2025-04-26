@@ -9,8 +9,8 @@ type SavedRollItemProps = {
 
 export default function SavedRollItem({ roll }: SavedRollItemProps) {
   const theme = useAppTheme()
-  const rollDiceFromSaved = useStore((state) => state.rollDiceFromSaved)
-  const removeSavedRoll = useStore((state) => state.removeSavedRoll)
+  const rollDiceFromSaved = useStore.use.rollDiceFromSaved()
+  const removeSavedRoll = useStore.use.removeSavedRoll()
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString()

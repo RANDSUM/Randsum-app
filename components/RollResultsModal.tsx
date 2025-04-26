@@ -12,11 +12,11 @@ import { StyleSheet } from 'react-native'
 
 export default function RollResultsModal() {
   const theme = useAppTheme()
-  const rollResult = useStore((state) => state.currentRoll.rollResult)
-  const dicePool = useStore((state) => state.currentRoll.dicePool)
-  const visible = useStore((state) => state.modals.showRollResults)
-  const closeRollResults = useStore((state) => state.closeRollResults)
-  const openRollDetails = useStore((state) => state.openRollDetails)
+  const rollResult = useStore.use.currentRoll().rollResult
+  const dicePool = useStore.use.currentRoll().dicePool
+  const visible = useStore.use.modals().showRollResults
+  const closeRollResults = useStore.use.closeRollResults()
+  const openRollDetails = useStore.use.openRollDetails()
 
   if (!rollResult) {
     return null

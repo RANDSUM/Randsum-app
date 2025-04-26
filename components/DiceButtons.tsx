@@ -7,8 +7,8 @@ import ClearButton from './ClearButton'
 import RollButtonInline from './RollButtonInline'
 
 export default function DiceButtons() {
-  const addDie = useStore((state) => state.addDie)
-  const openNotationInput = useStore((state) => state.openNotationInput)
+  const addDie = useStore.use.addDie()
+  const openNotationInput = useStore.use.openNotationInput()
   const theme = useAppTheme()
 
   const firstRowDice = [4, 6, 8]

@@ -5,8 +5,8 @@ import { StyleSheet } from 'react-native'
 
 export default function ClearButton() {
   const theme = useAppTheme()
-  const dicePool = useStore((state) => state.currentRoll.dicePool)
-  const clearDicePool = useStore((state) => state.clearDicePool)
+  const dicePool = useStore.use.currentRoll().dicePool
+  const clearDicePool = useStore.use.clearDicePool()
   const [confirmVisible, setConfirmVisible] = useState(false)
   const disabled = dicePool.length === 0
 

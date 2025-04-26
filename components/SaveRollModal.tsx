@@ -26,8 +26,8 @@ export default function SaveRollModal({
 }: SaveRollModalProps) {
   const theme = useAppTheme()
   const router = useRouter()
-  const dicePool = useStore((state) => state.currentRoll.dicePool)
-  const addSavedRoll = useStore((state) => state.addSavedRoll)
+  const dicePool = useStore.use.currentRoll().dicePool
+  const addSavedRoll = useStore.use.addSavedRoll()
 
   const {
     control,
