@@ -1,16 +1,13 @@
 import SavedRollItem from '@/components/SavedRollItem'
 import { ActivityIndicator, Text, View, useAppTheme } from '@/components/Themed'
-import { useAppContext } from '@/contexts/AppContext'
+import { useStore } from '@/store/useStore'
 import { FlashList } from '@shopify/flash-list'
 import { StyleSheet } from 'react-native'
 
 export default function SavedRolls() {
   const theme = useAppTheme()
-  const {
-    state: {
-      savedRolls: { rolls: savedRolls, isLoading }
-    }
-  } = useAppContext()
+  const savedRolls = useStore((state) => state.savedRolls.rolls)
+  const isLoading = useStore((state) => state.savedRolls.isLoading)
 
   if (isLoading) {
     return (

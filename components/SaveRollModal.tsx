@@ -6,10 +6,7 @@ import {
   TextInput,
   useAppTheme
 } from '@/components/Themed'
-import { Actions } from '@/contexts/actions'
-import { useAppContext } from '@/contexts/AppContext'
-import { SavedRoll } from '@/types/savedRolls'
-import { generateId } from '@/utils/id'
+import { createSavedRoll, useStore } from '@/store/useStore'
 import { useRouter } from 'expo-router'
 import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet } from 'react-native'
@@ -29,12 +26,8 @@ export default function SaveRollModal({
 }: SaveRollModalProps) {
   const theme = useAppTheme()
   const router = useRouter()
-  const {
-    dispatch,
-    state: {
-      currentRoll: { dicePool }
-    }
-  } = useAppContext()
+  const dicePool = useStore((state) => state.currentRoll.dicePool)
+  const addSavedRoll = useStore((state) => state.addSavedRoll)
 
   const {
     control,
@@ -48,15 +41,10 @@ export default function SaveRollModal({
   })
 
   const onSubmit = async (data: SaveRollFormData) => {
-    const newRoll: SavedRoll = {
-      id: generateId(),
-      name: data.name,
-      dicePool,
-      createdAt: Date.now()
-    }
+    const newRoll = createSavedRoll(data.name, dicePool)
 
     try {
-      dispatch(Actions.addSavedRoll(newRoll))
+      addSavedRoll(newRoll)
       handleDismiss()
       router.push('/(drawer)/saved-rolls')
     } catch (err) {

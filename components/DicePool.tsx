@@ -1,14 +1,10 @@
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
-import { useAppContext } from '@/contexts/AppContext'
+import { useStore } from '@/store/useStore'
 import { StyleSheet } from 'react-native'
 
 export default function DicePool() {
-  const {
-    state: {
-      currentRoll: { dicePool }
-    }
-  } = useAppContext()
+  const dicePool = useStore((state) => state.currentRoll.dicePool)
 
   return (
     <View style={styles.diceContainer}>

@@ -1,7 +1,5 @@
 import { Button, Dialog, Portal, useAppTheme } from '@/components/Themed'
-import { Actions } from '@/contexts/actions'
-import { useAppContext } from '@/contexts/AppContext'
-import { MetaActions } from '@/contexts/metaActions'
+import { useStore } from '@/store/useStore'
 import { validateNotation } from '@randsum/notation'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet } from 'react-native'
@@ -13,10 +11,9 @@ type NotationFormData = {
 
 export default function NotationInputModal() {
   const theme = useAppTheme()
-  const { state, dispatch } = useAppContext()
-  const {
-    modals: { showNotationInput: visible }
-  } = state
+  const visible = useStore((state) => state.modals.showNotationInput)
+  const closeNotationInput = useStore((state) => state.closeNotationInput)
+  const addNotationDie = useStore((state) => state.addNotationDie)
 
   const {
     control,
@@ -37,11 +34,11 @@ export default function NotationInputModal() {
     ? validateNotation(notationValue)
     : null
 
-  const onDismiss = () => dispatch(Actions.closeNotationInput())
+  const onDismiss = () => closeNotationInput()
 
   const onSubmit = (data: NotationFormData) => {
     if (validationResult?.valid) {
-      MetaActions.addNotationDie({ dispatch, state }, data.notation)
+      addNotationDie(data.notation)
       handleDismiss()
     }
   }

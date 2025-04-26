@@ -6,32 +6,32 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
-import { Actions } from '@/contexts/actions'
-import { useAppContext } from '@/contexts/AppContext'
-import { MetaActions } from '@/contexts/metaActions'
+import { useStore } from '@/store/useStore'
+import { PoolDie } from '@/types/dice'
 import { HapticService } from '@/utils/haptics'
 import { validateNotation } from '@randsum/notation'
 import { StyleSheet } from 'react-native'
 
 export default function DiceDetailsModal() {
   const theme = useAppTheme()
-  const { state, dispatch } = useAppContext()
-  const {
-    currentRoll: { dicePool },
-    modals: { showDiceDetails: visible, selectedDieId }
-  } = state
+  const dicePool = useStore((state) => state.currentRoll.dicePool)
+  const visible = useStore((state) => state.modals.showDiceDetails)
+  const selectedDieId = useStore((state) => state.modals.selectedDieId)
+  const closeDiceDetails = useStore((state) => state.closeDiceDetails)
+  const addDie = useStore((state) => state.addDie)
+  const removeDie = useStore((state) => state.removeDie)
 
   if (!selectedDieId) {
     return null
   }
 
-  const die = dicePool.find((die) => die.id === selectedDieId)
+  const die = dicePool.find((die: PoolDie) => die.id === selectedDieId)
   if (!die) {
     return null
   }
 
   const onDismiss = () => {
-    dispatch(Actions.closeDiceDetails())
+    closeDiceDetails()
   }
 
   const description =
@@ -46,23 +46,23 @@ export default function DiceDetailsModal() {
 
   const handleIncreaseQuantity = () => {
     if (die._type === 'numeric') {
-      MetaActions.addDie({ state, dispatch }, die.sides, 1)
+      addDie(die.sides, 1)
     }
   }
 
   const handleDecreaseQuantity = () => {
     HapticService.medium()
-    MetaActions.removeDie({ state, dispatch }, die.id)
+    removeDie(die.id)
   }
 
   const handleRemoveAll = () => {
     HapticService.medium()
     if (die._type === 'numeric') {
       for (let i = 0; i < die.quantity; i++) {
-        MetaActions.removeDie({ dispatch, state }, die.id)
+        removeDie(die.id)
       }
     } else {
-      MetaActions.removeDie({ dispatch, state }, die.id)
+      removeDie(die.id)
     }
     onDismiss()
   }

@@ -1,7 +1,5 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
-import { Actions } from '@/contexts/actions'
-import { useAppContext } from '@/contexts/AppContext'
-import { MetaActions } from '@/contexts/metaActions'
+import { useStore } from '@/store/useStore'
 import { PoolDie } from '@/types/dice'
 import { useEffect, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
@@ -11,10 +9,12 @@ type DicePoolTileProps = {
 }
 
 export default function DicePoolTile({ die }: DicePoolTileProps) {
-  const { state, dispatch } = useAppContext()
-  const {
-    currentRoll: { recentlyAddedDie }
-  } = state
+  const recentlyAddedDie = useStore(
+    (state) => state.currentRoll.recentlyAddedDie
+  )
+  const openDiceDetails = useStore((state) => state.openDiceDetails)
+  const removeDie = useStore((state) => state.removeDie)
+
   const theme = useAppTheme()
   const shouldShake = die.id === recentlyAddedDie || false
   const shakeAnimation = useRef(new Animated.Value(0)).current
@@ -45,13 +45,14 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
       ]).start()
     }
   }, [shouldShake, die.id, shakeAnimation])
+
   return (
     <Animated.View
       style={{
         transform: [{ translateX: shakeAnimation }]
       }}
     >
-      <Pressable onPress={() => dispatch(Actions.openDiceDetails(die.id))}>
+      <Pressable onPress={() => openDiceDetails(die.id)}>
         <Surface
           style={[
             styles.poolDie,
@@ -73,9 +74,7 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
             icon="close"
             size={14}
             iconColor={theme.colors.onTertiaryContainer}
-            onPress={() => {
-              MetaActions.removeDie({ state, dispatch }, die.id)
-            }}
+            onPress={() => removeDie(die.id)}
             style={styles.removeButton}
             containerColor="transparent"
           />

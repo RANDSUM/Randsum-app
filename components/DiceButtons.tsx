@@ -1,16 +1,14 @@
 import DiceButton from '@/components/DiceButton'
 import SaveButton from '@/components/SaveButton'
 import { Button, View, useAppTheme } from '@/components/Themed'
-import { Actions } from '@/contexts/actions'
-import { useAppContext } from '@/contexts/AppContext'
-import { MetaActions } from '@/contexts/metaActions'
+import { useStore } from '@/store/useStore'
 import { StyleSheet } from 'react-native'
 import ClearButton from './ClearButton'
 import RollButtonInline from './RollButtonInline'
 
 export default function DiceButtons() {
-  const { dispatch, state } = useAppContext()
-
+  const addDie = useStore((state) => state.addDie)
+  const openNotationInput = useStore((state) => state.openNotationInput)
   const theme = useAppTheme()
 
   const firstRowDice = [4, 6, 8]
@@ -20,25 +18,13 @@ export default function DiceButtons() {
     <View style={styles.buttonContainer}>
       <View style={styles.buttonRow}>
         {firstRowDice.map((sides) => (
-          <DiceButton
-            key={'D' + sides}
-            sides={sides}
-            onPress={(sides, quantity) =>
-              MetaActions.addDie({ dispatch, state }, sides, quantity)
-            }
-          />
+          <DiceButton key={'D' + sides} sides={sides} onPress={addDie} />
         ))}
       </View>
 
       <View style={styles.buttonRow}>
         {secondRowDice.map((sides) => (
-          <DiceButton
-            key={'D' + sides}
-            sides={sides}
-            onPress={(sides, quantity) =>
-              MetaActions.addDie({ dispatch, state }, sides, quantity)
-            }
-          />
+          <DiceButton key={'D' + sides} sides={sides} onPress={addDie} />
         ))}
       </View>
 
@@ -47,7 +33,7 @@ export default function DiceButtons() {
         <Button
           icon="text-box-outline"
           mode="contained"
-          onPress={() => dispatch(Actions.openNotationInput())}
+          onPress={openNotationInput}
           buttonColor={theme.colors.secondary}
           textColor={theme.colors.onSecondary}
           style={styles.diceButton}

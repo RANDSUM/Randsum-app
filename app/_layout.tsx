@@ -9,7 +9,6 @@ import 'react-native-reanimated'
 
 import Footer from '@/components/Footer'
 import { ThemeProvider } from '@/components/Themed'
-import { AppProvider } from '@/contexts/AppContext'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -40,11 +39,9 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <ThemeProvider>
-      <AppProvider>
-        <StatusBar style="light" />
-        <Slot />
-        <Footer />
-      </AppProvider>
+      <StatusBar style="light" />
+      <Slot />
+      <Footer />
     </ThemeProvider>
   )
 }
