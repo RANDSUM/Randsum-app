@@ -3,7 +3,7 @@ import { Button, Dialog, Portal, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { validateNotation } from '@randsum/notation'
 import { useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 
 type NotationInputModalProps = {
   visible: boolean
@@ -55,11 +55,13 @@ export default function NotationInputModal({
       >
         <Dialog.Title style={styles.title}>Custom Notation</Dialog.Title>
         <Dialog.Content style={styles.content}>
-          <NotationValidator
-            notation={notation}
-            onNotationChange={handleNotationChange}
-            validationResult={validationResult}
-          />
+          <ScrollView style={styles.modalScroll}>
+            <NotationValidator
+              notation={notation}
+              onNotationChange={handleNotationChange}
+              validationResult={validationResult}
+            />
+          </ScrollView>
         </Dialog.Content>
         <Dialog.Actions style={styles.actions}>
           <Button mode="outlined" onPress={handleDismiss} style={styles.button}>
@@ -97,6 +99,9 @@ const styles = StyleSheet.create({
   content: {
     paddingVertical: 8,
     maxHeight: 500
+  },
+  modalScroll: {
+    flex: 1
   },
   actions: {
     justifyContent: 'space-between',
