@@ -6,7 +6,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 export default function RollDetailsModal() {
   const router = useRouter()
   const theme = useAppTheme()
-  const { rollResult, getDiceNotation, groupRollResults } = useCurrentRoll()
+  const { rollResult, commonDiceNotation, groupRollResults } = useCurrentRoll()
 
   if (!rollResult) {
     router.back()
@@ -26,7 +26,7 @@ export default function RollDetailsModal() {
       />
 
       <ScrollView style={styles.modalScroll}>
-        <Text style={styles.modalNotation}>{getDiceNotation()}</Text>
+        <Text style={styles.modalNotation}>{commonDiceNotation}</Text>
         {groupRollResults(rollResult).map((group, groupIndex) => (
           <View key={groupIndex} style={styles.modalResultItem}>
             <Text style={styles.modalDieType}>{group.label}:</Text>

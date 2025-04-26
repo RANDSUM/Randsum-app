@@ -55,8 +55,32 @@ function RootLayoutNav() {
             }
           }}
         >
-          <Stack.Screen name="index" options={{ title: 'Dice Roller' }} />
-          <Stack.Screen name="theme" options={{ title: 'Theme Demo' }} />
+          <Stack.Screen name="index" options={{ title: 'RANDSUM' }} />
+          <Stack.Screen
+            name="notation-input"
+            options={{ title: 'Custom Notation' }}
+          />
+          <Stack.Screen
+            name="roll-results"
+            options={{
+              title: 'Roll Results',
+              presentation: 'modal'
+            }}
+          />
+          <Stack.Screen
+            name="roll-details"
+            options={{
+              title: 'Roll Details',
+              presentation: 'modal'
+            }}
+          />
+          <Stack.Screen
+            name="dice-details"
+            options={{
+              title: 'Die Details',
+              presentation: 'modal'
+            }}
+          />
         </Stack>
         <Footer />
       </CurrentRollProvider>

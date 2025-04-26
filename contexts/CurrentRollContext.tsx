@@ -1,4 +1,5 @@
 import { NotationPoolDie, PoolDie, StandardPoolDie } from '@/types/dice'
+import { triggerDiceAdd } from '@/utils/haptics'
 import {
   DiceNotation,
   NumericRollOptions,
@@ -13,7 +14,6 @@ import React, {
   useContext,
   useState
 } from 'react'
-import { triggerDiceAdd } from '@/utils/haptics'
 
 type CurrentRollContextType = {
   dicePool: PoolDie[]
@@ -24,7 +24,7 @@ type CurrentRollContextType = {
   removeDie: (id: string) => void
   clearPool: () => void
   rollDice: () => void
-  getDiceNotation: () => string
+  commonDiceNotation: string
   groupRollResults: (result: NumericRollResult) => {
     label: string
     total: number
@@ -169,15 +169,13 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     router.push('/roll-results')
   }
 
-  function getDiceNotation(): string {
-    return dicePool
-      .map((die) =>
-        die._type === 'notation'
-          ? die.sides.notation
-          : `${die.quantity}D${die.sides}`
-      )
-      .join('+')
-  }
+  const commonDiceNotation = dicePool
+    .map((die) =>
+      die._type === 'notation'
+        ? die.sides.notation
+        : `${die.quantity}D${die.sides}`
+    )
+    .join('+')
 
   function groupRollResults(result: NumericRollResult): {
     label: string
@@ -228,7 +226,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     removeDie,
     clearPool,
     rollDice,
-    getDiceNotation,
+    commonDiceNotation,
     groupRollResults,
     isNotationDie,
     getNotation
