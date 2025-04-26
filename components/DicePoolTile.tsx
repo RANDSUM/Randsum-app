@@ -2,7 +2,6 @@ import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { PoolDie } from '@/types/dice'
 import { triggerDiceRemove } from '@/utils/haptics'
-import { useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
 
@@ -11,8 +10,7 @@ type DicePoolTileProps = {
 }
 
 export default function DicePoolTile({ die }: DicePoolTileProps) {
-  const router = useRouter()
-  const { recentlyAddedDie, removeDie } = useCurrentRoll()
+  const { recentlyAddedDie, removeDie, showDiceDetailsModal } = useCurrentRoll()
   const theme = useAppTheme()
   const shouldShake = die.id === recentlyAddedDie || false
   const shakeAnimation = useRef(new Animated.Value(0)).current
@@ -55,7 +53,7 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
         transform: [{ translateX: shakeAnimation }]
       }}
     >
-      <Pressable onPress={() => router.push(`/dice-details?id=${die.id}`)}>
+      <Pressable onPress={() => showDiceDetailsModal(die.id)}>
         <Surface
           style={[
             styles.poolDie,

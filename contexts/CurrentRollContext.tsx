@@ -20,6 +20,9 @@ type CurrentRollContextType = {
   recentlyAddedDie: string | null
   showRollResults: boolean
   showRollDetails: boolean
+  showDiceDetails: boolean
+  showNotationInput: boolean
+  selectedDieId: string | null
   addDie: (sides: number, quantity?: number) => void
   addNotationDie: (notation: string) => void
   removeDie: (id: string) => void
@@ -29,6 +32,10 @@ type CurrentRollContextType = {
   closeRollResults: () => void
   closeRollDetails: () => void
   showRollDetailsModal: () => void
+  showDiceDetailsModal: (dieId: string) => void
+  closeDiceDetails: () => void
+  showNotationInputModal: () => void
+  closeNotationInput: () => void
   commonDiceNotation: string
   groupRollResults: (result: NumericRollResult) => {
     label: string
@@ -50,6 +57,9 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   const [recentlyAddedDie, setRecentlyAddedDie] = useState<string | null>(null)
   const [showRollResults, setShowRollResults] = useState(false)
   const [showRollDetails, setShowRollDetails] = useState(false)
+  const [showDiceDetails, setShowDiceDetails] = useState(false)
+  const [showNotationInput, setShowNotationInput] = useState(false)
+  const [selectedDieId, setSelectedDieId] = useState<string | null>(null)
 
   function isNotationDie(die: PoolDie): die is NotationPoolDie {
     return die._type === 'notation'
@@ -201,6 +211,24 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     setShowRollDetails(true)
   }
 
+  function showDiceDetailsModal(dieId: string) {
+    setSelectedDieId(dieId)
+    setShowDiceDetails(true)
+  }
+
+  function closeDiceDetails() {
+    setShowDiceDetails(false)
+    setSelectedDieId(null)
+  }
+
+  function showNotationInputModal() {
+    setShowNotationInput(true)
+  }
+
+  function closeNotationInput() {
+    setShowNotationInput(false)
+  }
+
   const commonDiceNotation = dicePool
     .map((die) =>
       die._type === 'notation'
@@ -255,6 +283,9 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     recentlyAddedDie,
     showRollResults,
     showRollDetails,
+    showDiceDetails,
+    showNotationInput,
+    selectedDieId,
     addDie,
     addNotationDie,
     removeDie,
@@ -264,6 +295,10 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     closeRollResults,
     closeRollDetails,
     showRollDetailsModal,
+    showDiceDetailsModal,
+    closeDiceDetails,
+    showNotationInputModal,
+    closeNotationInput,
     commonDiceNotation,
     groupRollResults,
     isNotationDie,

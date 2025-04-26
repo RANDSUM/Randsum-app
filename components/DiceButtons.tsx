@@ -2,14 +2,14 @@ import DiceButton from '@/components/DiceButton'
 import SaveButton from '@/components/SaveButton'
 import { Button, View, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { useRouter } from 'expo-router'
+
 import { StyleSheet } from 'react-native'
 import ClearButton from './ClearButton'
 import RollButtonInline from './RollButtonInline'
 
 export default function DiceButtons() {
-  const { addDie } = useCurrentRoll()
-  const router = useRouter()
+  const { addDie, showNotationInputModal } = useCurrentRoll()
+
   const theme = useAppTheme()
 
   const firstRowDice = [4, 6, 8]
@@ -34,7 +34,7 @@ export default function DiceButtons() {
         <Button
           icon="text-box-outline"
           mode="contained"
-          onPress={() => router.push('/notation-input')}
+          onPress={() => showNotationInputModal()}
           buttonColor={theme.colors.secondary}
           textColor={theme.colors.onSecondary}
           style={styles.diceButton}

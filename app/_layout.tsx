@@ -1,6 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useFonts } from 'expo-font'
-import { Stack } from 'expo-router'
+import { Slot } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
@@ -46,37 +46,7 @@ function RootLayoutNav() {
       <SavedRollsProvider>
         <CurrentRollProvider>
           <StatusBar style="light" />
-          <Stack
-            screenOptions={{
-              headerShown: false
-            }}
-          >
-            <Stack.Screen name="(drawer)" />
-
-            <Stack.Screen
-              name="dice-details"
-              options={{
-                presentation: 'modal',
-                headerShown: true,
-                headerStyle: {
-                  backgroundColor: theme.colors.elevation.level4
-                },
-                headerTintColor: theme.colors.onSurface,
-                title: 'Die Details'
-              }}
-            />
-            <Stack.Screen
-              name="notation-input"
-              options={{
-                headerShown: true,
-                headerStyle: {
-                  backgroundColor: theme.colors.elevation.level4
-                },
-                headerTintColor: theme.colors.onSurface,
-                title: 'Custom Notation'
-              }}
-            />
-          </Stack>
+          <Slot />
           <Footer />
         </CurrentRollProvider>
       </SavedRollsProvider>
