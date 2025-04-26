@@ -1,6 +1,7 @@
 import { Button, Card, Text, useAppTheme } from '@/components/Themed'
 import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
+import { MetaActions } from '@/contexts/metaActions'
 import { SavedRoll } from '@/types/savedRolls'
 import { StyleSheet } from 'react-native'
 
@@ -10,7 +11,7 @@ type SavedRollItemProps = {
 
 export default function SavedRollItem({ roll }: SavedRollItemProps) {
   const theme = useAppTheme()
-  const { dispatch, rollDiceFromSaved } = useAppContext()
+  const { dispatch, state } = useAppContext()
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString()
@@ -28,7 +29,7 @@ export default function SavedRollItem({ roll }: SavedRollItemProps) {
 
   const handleRoll = () => {
     // Roll the saved dice without modifying the current dice pool
-    rollDiceFromSaved(roll.dicePool)
+    MetaActions.rollDiceFromSaved({ dispatch, state }, roll.dicePool)
   }
 
   const handleDelete = async () => {

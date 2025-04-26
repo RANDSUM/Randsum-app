@@ -1,22 +1,21 @@
 import { Button, useAppTheme } from '@/components/Themed'
 import { useAppContext } from '@/contexts/AppContext'
+import { MetaActions } from '@/contexts/metaActions'
 import { StyleSheet } from 'react-native'
 
 export default function RollButtonInline() {
   const theme = useAppTheme()
+  const { state, dispatch } = useAppContext()
   const {
-    rollDice,
-    state: {
-      currentRoll: { dicePool }
-    }
-  } = useAppContext()
+    currentRoll: { dicePool }
+  } = state
   const disabled = dicePool.length === 0
 
   return (
     <Button
       icon="dice-multiple"
       mode="contained"
-      onPress={rollDice}
+      onPress={() => MetaActions.rollDice({ state, dispatch })}
       disabled={disabled}
       buttonColor={theme.colors.primary}
       textColor={theme.colors.onPrimary}

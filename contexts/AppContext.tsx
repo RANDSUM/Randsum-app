@@ -1,15 +1,5 @@
 import { Actions, AppAction } from '@/contexts/actions'
-import { NotationPoolDie, PoolDie, StandardPoolDie } from '@/types/dice'
 import { SavedRoll } from '@/types/savedRolls'
-import { HapticService } from '@/utils/haptics'
-import { generateId } from '@/utils/id'
-import {
-  DiceNotation,
-  NumericRollOptions,
-  NumericRollResult,
-  roll
-} from '@randsum/dice'
-import { validateNotation } from '@randsum/notation'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, {
   PropsWithChildren,
@@ -25,13 +15,6 @@ const STORAGE_KEY = 'RANDSUM_SAVED_ROLLS'
 type AppContextType = {
   state: AppState
   dispatch: React.Dispatch<AppAction>
-
-  addDie: (sides: number, quantity?: number) => void
-  addNotationDie: (notation: string) => void
-  removeDie: (id: string) => void
-  clearPool: () => void
-  rollDice: () => void
-  rollDiceFromSaved: (savedDicePool: PoolDie[]) => void
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
@@ -64,123 +47,13 @@ export function AppProvider({ children }: PropsWithChildren) {
     }
   }
 
-  function animateDieAddition(dieId: string) {
-    dispatch(Actions.setRecentlyAddedDie(dieId))
-
-    setTimeout(() => {
-      dispatch(Actions.clearRecentlyAddedDie())
-    }, 300)
-  }
-
-  function createStandardDie(
-    sides: number,
-    quantity: number = 1
-  ): StandardPoolDie {
-    return {
-      id: generateId(),
-      sides,
-      quantity,
-      _type: 'numeric'
+  useEffect(() => {
+    if (state.currentRoll.recentlyAddedDie) {
+      setTimeout(() => {
+        dispatch(Actions.clearRecentlyAddedDie())
+      }, 300)
     }
-  }
-
-  function createNotationDie(notation: DiceNotation): NotationPoolDie {
-    return {
-      id: generateId(),
-      sides: { notation },
-      quantity: 1,
-      _type: 'notation'
-    }
-  }
-
-  function addDie(sides: number, quantity: number = 1) {
-    HapticService.light()
-    const existingDieIndex = state.currentRoll.dicePool.findIndex(
-      (die: PoolDie) => die._type === 'numeric' && die.sides === sides
-    )
-
-    if (existingDieIndex >= 0) {
-      dispatch(Actions.incrementDieQuantity(existingDieIndex, quantity))
-      animateDieAddition(state.currentRoll.dicePool[existingDieIndex].id)
-    } else {
-      const newDie = createStandardDie(sides, quantity)
-      dispatch(Actions.addDieToPool(newDie))
-      animateDieAddition(newDie.id)
-    }
-  }
-
-  function addNotationDie(notation: string) {
-    HapticService.light()
-    const validationResult = validateNotation(notation)
-    if (!validationResult.valid) return
-
-    const formattedNotation = notation.replace(
-      /d(\d+|\{)/gi,
-      'D$1'
-    ) as DiceNotation
-
-    const {
-      modifiers,
-      quantity = 1,
-      sides
-    } = validationResult.digested as NumericRollOptions
-
-    if (!(Object.keys(modifiers || {}).length > 0)) {
-      addDie(sides, quantity)
-      return
-    }
-
-    const newDie = createNotationDie(formattedNotation)
-    dispatch(Actions.addDieToPool(newDie))
-    animateDieAddition(newDie.id)
-  }
-
-  function removeDie(id: string) {
-    HapticService.medium()
-    const dieIndex = state.currentRoll.dicePool.findIndex(
-      (die: PoolDie) => die.id === id
-    )
-
-    if (dieIndex >= 0) {
-      const dieToUpdate = state.currentRoll.dicePool[dieIndex]
-
-      if (dieToUpdate._type === 'numeric' && dieToUpdate.quantity > 1) {
-        dispatch(Actions.decrementDieQuantity(dieIndex))
-      } else {
-        dispatch(Actions.removeDieFromPool(id))
-      }
-    }
-  }
-
-  function clearPool() {
-    dispatch(Actions.clearDicePool())
-  }
-
-  function rollDice() {
-    if (state.currentRoll.dicePool.length === 0) return
-
-    const diceToRoll = state.currentRoll.dicePool.map((die: PoolDie) =>
-      die._type === 'notation' ? die.sides.notation : die
-    )
-
-    const result = roll(...diceToRoll) as NumericRollResult
-
-    dispatch(Actions.setRollResult(result))
-    dispatch(Actions.openRollResults())
-  }
-
-  function rollDiceFromSaved(savedDicePool: PoolDie[]) {
-    if (savedDicePool.length === 0) return
-
-    const diceToRoll = savedDicePool.map((die: PoolDie) =>
-      die._type === 'notation' ? die.sides.notation : die
-    )
-
-    const result = roll(...diceToRoll) as NumericRollResult
-
-    dispatch(Actions.setRollResult(result))
-    dispatch(Actions.openRollResults())
-  }
+  }, [state.currentRoll.recentlyAddedDie])
 
   useEffect(() => {
     persistSavedRolls(state.savedRolls.rolls)
@@ -188,14 +61,7 @@ export function AppProvider({ children }: PropsWithChildren) {
 
   const contextValue: AppContextType = {
     state,
-    dispatch,
-
-    addDie,
-    addNotationDie,
-    removeDie,
-    clearPool,
-    rollDice,
-    rollDiceFromSaved
+    dispatch
   }
 
   return (

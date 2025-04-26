@@ -2,19 +2,17 @@ import NotationValidator from '@/components/NotationValidator'
 import { Button, Dialog, Portal, useAppTheme } from '@/components/Themed'
 import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
+import { MetaActions } from '@/contexts/metaActions'
 import { validateNotation } from '@randsum/notation'
 import { useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
 export default function NotationInputModal() {
   const theme = useAppTheme()
+  const { state, dispatch } = useAppContext()
   const {
-    state: {
-      modals: { showNotationInput: visible }
-    },
-    addNotationDie,
-    dispatch
-  } = useAppContext()
+    modals: { showNotationInput: visible }
+  } = state
   const [notation, setNotation] = useState('')
   const [validationResult, setValidationResult] = useState<ReturnType<
     typeof validateNotation
@@ -33,7 +31,7 @@ export default function NotationInputModal() {
 
   const handleAddDie = () => {
     if (validationResult?.valid) {
-      addNotationDie(notation)
+      MetaActions.addNotationDie({ dispatch, state }, notation)
       handleDismiss()
     }
   }

@@ -8,21 +8,18 @@ import {
 } from '@/components/Themed'
 import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
+import { MetaActions } from '@/contexts/metaActions'
 import { HapticService } from '@/utils/haptics'
 import { validateNotation } from '@randsum/notation'
 import { StyleSheet } from 'react-native'
 
 export default function DiceDetailsModal() {
   const theme = useAppTheme()
+  const { state, dispatch } = useAppContext()
   const {
-    state: {
-      currentRoll: { dicePool },
-      modals: { showDiceDetails: visible, selectedDieId }
-    },
-    dispatch,
-    addDie,
-    removeDie
-  } = useAppContext()
+    currentRoll: { dicePool },
+    modals: { showDiceDetails: visible, selectedDieId }
+  } = state
 
   if (!selectedDieId) {
     return null
@@ -49,31 +46,27 @@ export default function DiceDetailsModal() {
 
   const handleIncreaseQuantity = () => {
     if (die._type === 'numeric') {
-      HapticService.light()
-      addDie(die.sides, 1)
+      MetaActions.addDie({ state, dispatch }, die.sides, 1)
     }
   }
 
   const handleDecreaseQuantity = () => {
     HapticService.medium()
-    removeDie(die.id)
+    MetaActions.removeDie({ state, dispatch }, die.id)
   }
 
   const handleRemoveAll = () => {
     HapticService.medium()
     if (die._type === 'numeric') {
-      // Remove all dice of this type by calling removeDie multiple times
       for (let i = 0; i < die.quantity; i++) {
-        removeDie(die.id)
+        MetaActions.removeDie({ dispatch, state }, die.id)
       }
     } else {
-      // For notation dice, just remove it once
-      removeDie(die.id)
+      MetaActions.removeDie({ dispatch, state }, die.id)
     }
     onDismiss()
   }
 
-  // Determine if we should show quantity buttons
   const showQuantityButtons = die._type === 'numeric'
 
   return (

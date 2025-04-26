@@ -1,4 +1,5 @@
 import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/Themed'
+import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
@@ -6,7 +7,7 @@ import { StyleSheet } from 'react-native'
 export default function ClearButton() {
   const theme = useAppTheme()
   const {
-    clearPool,
+    dispatch,
     state: {
       currentRoll: { dicePool }
     }
@@ -23,7 +24,7 @@ export default function ClearButton() {
   }
 
   const handleConfirm = () => {
-    clearPool()
+    dispatch(Actions.clearDicePool())
     hideConfirmation()
   }
 

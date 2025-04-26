@@ -3,12 +3,13 @@ import SaveButton from '@/components/SaveButton'
 import { Button, View, useAppTheme } from '@/components/Themed'
 import { Actions } from '@/contexts/actions'
 import { useAppContext } from '@/contexts/AppContext'
+import { MetaActions } from '@/contexts/metaActions'
 import { StyleSheet } from 'react-native'
 import ClearButton from './ClearButton'
 import RollButtonInline from './RollButtonInline'
 
 export default function DiceButtons() {
-  const { addDie, dispatch } = useAppContext()
+  const { dispatch, state } = useAppContext()
 
   const theme = useAppTheme()
 
@@ -19,13 +20,25 @@ export default function DiceButtons() {
     <View style={styles.buttonContainer}>
       <View style={styles.buttonRow}>
         {firstRowDice.map((sides) => (
-          <DiceButton key={'D' + sides} sides={sides} onPress={addDie} />
+          <DiceButton
+            key={'D' + sides}
+            sides={sides}
+            onPress={(sides, quantity) =>
+              MetaActions.addDie({ dispatch, state }, sides, quantity)
+            }
+          />
         ))}
       </View>
 
       <View style={styles.buttonRow}>
         {secondRowDice.map((sides) => (
-          <DiceButton key={'D' + sides} sides={sides} onPress={addDie} />
+          <DiceButton
+            key={'D' + sides}
+            sides={sides}
+            onPress={(sides, quantity) =>
+              MetaActions.addDie({ dispatch, state }, sides, quantity)
+            }
+          />
         ))}
       </View>
 

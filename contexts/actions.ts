@@ -23,6 +23,7 @@ export type ActionType =
   | 'CLOSE_DICE_DETAILS'
   | 'OPEN_NOTATION_INPUT'
   | 'CLOSE_NOTATION_INPUT'
+  | 'ADD_DIE'
 
 type SetRecentlyAddedDieAction = {
   type: 'SET_RECENTLY_ADDED_DIE'
