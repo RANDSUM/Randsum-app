@@ -326,7 +326,7 @@ export function AppProvider({ children }: PropsWithChildren) {
   }
 
   function closeNotationInput() {
-    dispatch({ type: ActionType.CLOSE_NOTATION_INPUT })
+    dispatch({ type: 'CLOSE_NOTATION_INPUT' })
   }
 
   const contextValue: AppContextType = {
