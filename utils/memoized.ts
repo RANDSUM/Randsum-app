@@ -26,6 +26,20 @@ export function useMemoizedRollResults(
 }
 
 /**
+ * Custom hook to memoize the extraction of modifiers from notation
+ * Prevents recalculation when notation hasn't changed
+ */
+export function useMemoizedExtractModifier(notation: string): number | null {
+  return useMemo(() => {
+    const modifierMatch = notation.match(/([+-]\d+)/)
+    if (modifierMatch) {
+      return parseInt(modifierMatch[1], 10)
+    }
+    return null
+  }, [notation])
+}
+
+/**
  * Custom hook to find a die by ID in the dice pool
  * Prevents recalculation when dicePool or selectedDieId haven't changed
  */
