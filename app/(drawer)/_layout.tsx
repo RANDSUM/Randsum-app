@@ -32,8 +32,8 @@ export default function DrawerLayout() {
         <Drawer.Screen
           name="index"
           options={{
-            title: 'Roller',
-            drawerLabel: 'Roller',
+            title: 'RANDSUM Dice Roller',
+            drawerLabel: 'Dice Roller',
             headerStyle: {
               backgroundColor: theme.colors.elevation.level4
             },
@@ -58,8 +58,8 @@ export default function DrawerLayout() {
         <Drawer.Screen
           name="validate"
           options={{
-            title: 'Validate Notation',
-            drawerLabel: 'Validate Notation',
+            title: 'Validate Dice Notation',
+            drawerLabel: 'Validate Dice Notation',
             headerStyle: {
               backgroundColor: theme.colors.elevation.level4
             },
