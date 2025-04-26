@@ -1,6 +1,5 @@
-import { Button, Dialog, Portal, Text, View, useAppTheme } from '@/components/Themed'
+import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
-import { PoolDie } from '@/types/dice'
 import { validateNotation } from '@randsum/notation'
 import { StyleSheet } from 'react-native'
 
@@ -32,7 +31,7 @@ export default function DiceDetailsModal({
       ? validateNotation(die.sides.notation).description
       : validateNotation(`${die.quantity}d${die.sides}`).description
 
-  const notation = 
+  const notation =
     die._type === 'notation'
       ? die.sides.notation
       : `${die.quantity}D${die.sides}`

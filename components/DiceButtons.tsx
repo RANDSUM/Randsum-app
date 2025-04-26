@@ -3,12 +3,14 @@ import SaveButton from '@/components/SaveButton'
 import { Button, View, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 
+import { useModal } from '@/contexts/ModalContext'
 import { StyleSheet } from 'react-native'
 import ClearButton from './ClearButton'
 import RollButtonInline from './RollButtonInline'
 
 export default function DiceButtons() {
-  const { addDie, showNotationInputModal } = useCurrentRoll()
+  const { addDie } = useCurrentRoll()
+  const { openNotationInput } = useModal()
 
   const theme = useAppTheme()
 
@@ -34,7 +36,7 @@ export default function DiceButtons() {
         <Button
           icon="text-box-outline"
           mode="contained"
-          onPress={() => showNotationInputModal()}
+          onPress={() => openNotationInput()}
           buttonColor={theme.colors.secondary}
           textColor={theme.colors.onSecondary}
           style={styles.diceButton}

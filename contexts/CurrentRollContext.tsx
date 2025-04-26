@@ -1,3 +1,4 @@
+import { useModal } from '@/contexts/ModalContext'
 import { NotationPoolDie, PoolDie, StandardPoolDie } from '@/types/dice'
 import { triggerDiceAdd } from '@/utils/haptics'
 import {
@@ -18,24 +19,12 @@ type CurrentRollContextType = {
   dicePool: PoolDie[]
   rollResult: NumericRollResult | null
   recentlyAddedDie: string | null
-  showRollResults: boolean
-  showRollDetails: boolean
-  showDiceDetails: boolean
-  showNotationInput: boolean
-  selectedDieId: string | null
   addDie: (sides: number, quantity?: number) => void
   addNotationDie: (notation: string) => void
   removeDie: (id: string) => void
   clearPool: () => void
   rollDice: () => void
   rollDiceFromSaved: (savedDicePool: PoolDie[]) => void
-  closeRollResults: () => void
-  closeRollDetails: () => void
-  showRollDetailsModal: () => void
-  showDiceDetailsModal: (dieId: string) => void
-  closeDiceDetails: () => void
-  showNotationInputModal: () => void
-  closeNotationInput: () => void
   commonDiceNotation: string
   groupRollResults: (result: NumericRollResult) => {
     label: string
@@ -55,11 +44,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
   const [dicePool, setDicePool] = useState<PoolDie[]>([])
   const [rollResult, setRollResult] = useState<NumericRollResult | null>(null)
   const [recentlyAddedDie, setRecentlyAddedDie] = useState<string | null>(null)
-  const [showRollResults, setShowRollResults] = useState(false)
-  const [showRollDetails, setShowRollDetails] = useState(false)
-  const [showDiceDetails, setShowDiceDetails] = useState(false)
-  const [showNotationInput, setShowNotationInput] = useState(false)
-  const [selectedDieId, setSelectedDieId] = useState<string | null>(null)
+  const { openRollResults } = useModal()
 
   function isNotationDie(die: PoolDie): die is NotationPoolDie {
     return die._type === 'notation'
@@ -182,7 +167,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     const result = roll(...diceToRoll) as NumericRollResult
 
     setRollResult(result)
-    setShowRollResults(true)
+    openRollResults()
   }
 
   function rollDiceFromSaved(savedDicePool: PoolDie[]) {
@@ -195,38 +180,7 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     const result = roll(...diceToRoll) as NumericRollResult
 
     setRollResult(result)
-    setShowRollResults(true)
-  }
-
-  function closeRollResults() {
-    setShowRollResults(false)
-  }
-
-  function closeRollDetails() {
-    setShowRollDetails(false)
-  }
-
-  function showRollDetailsModal() {
-    setShowRollResults(false)
-    setShowRollDetails(true)
-  }
-
-  function showDiceDetailsModal(dieId: string) {
-    setSelectedDieId(dieId)
-    setShowDiceDetails(true)
-  }
-
-  function closeDiceDetails() {
-    setShowDiceDetails(false)
-    setSelectedDieId(null)
-  }
-
-  function showNotationInputModal() {
-    setShowNotationInput(true)
-  }
-
-  function closeNotationInput() {
-    setShowNotationInput(false)
+    openRollResults()
   }
 
   const commonDiceNotation = dicePool
@@ -281,24 +235,12 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     dicePool,
     rollResult,
     recentlyAddedDie,
-    showRollResults,
-    showRollDetails,
-    showDiceDetails,
-    showNotationInput,
-    selectedDieId,
     addDie,
     addNotationDie,
     removeDie,
     clearPool,
     rollDice,
     rollDiceFromSaved,
-    closeRollResults,
-    closeRollDetails,
-    showRollDetailsModal,
-    showDiceDetailsModal,
-    closeDiceDetails,
-    showNotationInputModal,
-    closeNotationInput,
     commonDiceNotation,
     groupRollResults,
     isNotationDie,

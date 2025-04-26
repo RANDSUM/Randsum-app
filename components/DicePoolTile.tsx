@@ -10,7 +10,8 @@ type DicePoolTileProps = {
 }
 
 export default function DicePoolTile({ die }: DicePoolTileProps) {
-  const { recentlyAddedDie, removeDie, showDiceDetailsModal } = useCurrentRoll()
+  const { recentlyAddedDie, removeDie } = useCurrentRoll()
+  const { openDiceDetails } = useModal()
   const theme = useAppTheme()
   const shouldShake = die.id === recentlyAddedDie || false
   const shakeAnimation = useRef(new Animated.Value(0)).current
@@ -53,7 +54,7 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
         transform: [{ translateX: shakeAnimation }]
       }}
     >
-      <Pressable onPress={() => showDiceDetailsModal(die.id)}>
+      <Pressable onPress={() => openDiceDetails(die.id)}>
         <Surface
           style={[
             styles.poolDie,

@@ -8,8 +8,9 @@ import 'react-native-gesture-handler'
 import 'react-native-reanimated'
 
 import Footer from '@/components/Footer'
-import { ThemeProvider, useAppTheme } from '@/components/Themed'
+import { ThemeProvider } from '@/components/Themed'
 import { CurrentRollProvider } from '@/contexts/CurrentRollContext'
+import { ModalProvider } from '@/contexts/ModalContext'
 import { SavedRollsProvider } from '@/contexts/SavedRollsContext'
 
 export { ErrorBoundary } from 'expo-router'
@@ -39,16 +40,16 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const theme = useAppTheme()
-
   return (
     <ThemeProvider>
       <SavedRollsProvider>
-        <CurrentRollProvider>
-          <StatusBar style="light" />
-          <Slot />
-          <Footer />
-        </CurrentRollProvider>
+        <ModalProvider>
+          <CurrentRollProvider>
+            <StatusBar style="light" />
+            <Slot />
+            <Footer />
+          </CurrentRollProvider>
+        </ModalProvider>
       </SavedRollsProvider>
     </ThemeProvider>
   )
