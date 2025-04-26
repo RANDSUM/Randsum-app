@@ -43,13 +43,9 @@ export default function SaveRollModal({
   const onSubmit = async (data: SaveRollFormData) => {
     const newRoll = createSavedRoll(data.name, dicePool)
 
-    try {
-      addSavedRoll(newRoll)
-      handleDismiss()
-      router.push('/(drawer)/saved-rolls')
-    } catch (err) {
-      // Error is handled by form state
-    }
+    addSavedRoll(newRoll)
+    handleDismiss()
+    router.push('/(drawer)/saved-rolls')
   }
 
   const handleDismiss = () => {
