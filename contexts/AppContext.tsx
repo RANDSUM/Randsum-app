@@ -1,6 +1,6 @@
 import { NotationPoolDie, PoolDie, StandardPoolDie } from '@/types/dice'
 import { SavedRoll } from '@/types/savedRolls'
-import { triggerDiceAdd, triggerDiceRemove } from '@/utils/haptics'
+import { HapticService } from '@/utils/haptics'
 import {
   DiceNotation,
   NumericRollOptions,
@@ -16,13 +16,7 @@ import React, {
   useEffect,
   useReducer
 } from 'react'
-import {
-  ActionType,
-  AppAction,
-  AppState,
-  initialState,
-  reducer
-} from './reducer'
+import { AppAction, AppState, initialState, reducer } from './reducer'
 
 const STORAGE_KEY = 'RANDSUM_SAVED_ROLLS'
 
@@ -74,14 +68,14 @@ export function AppProvider({ children }: PropsWithChildren) {
         const storedRolls = await AsyncStorage.getItem(STORAGE_KEY)
         if (storedRolls) {
           dispatch({
-            type: ActionType.SET_SAVED_ROLLS,
+            type: 'SET_SAVED_ROLLS',
             payload: JSON.parse(storedRolls)
           })
         }
       } catch (error) {
         console.error('Failed to load saved rolls:', error)
       } finally {
-        dispatch({ type: ActionType.SET_SAVED_ROLLS_LOADING, payload: false })
+        dispatch({ type: 'SET_SAVED_ROLLS_LOADING', payload: false })
       }
     }
 
@@ -108,10 +102,10 @@ export function AppProvider({ children }: PropsWithChildren) {
   }
 
   function animateDieAddition(dieId: string) {
-    dispatch({ type: ActionType.SET_RECENTLY_ADDED_DIE, payload: dieId })
+    dispatch({ type: 'SET_RECENTLY_ADDED_DIE', payload: dieId })
 
     setTimeout(() => {
-      dispatch({ type: ActionType.CLEAR_RECENTLY_ADDED_DIE })
+      dispatch({ type: 'CLEAR_RECENTLY_ADDED_DIE' })
     }, 300)
   }
 
@@ -137,26 +131,26 @@ export function AppProvider({ children }: PropsWithChildren) {
   }
 
   function addDie(sides: number, quantity: number = 1) {
-    triggerDiceAdd()
+    HapticService.light()
     const existingDieIndex = state.currentRoll.dicePool.findIndex(
       (die: PoolDie) => die._type === 'numeric' && die.sides === sides
     )
 
     if (existingDieIndex >= 0) {
       dispatch({
-        type: ActionType.INCREMENT_DIE_QUANTITY,
+        type: 'INCREMENT_DIE_QUANTITY',
         payload: { dieIndex: existingDieIndex, quantity }
       })
       animateDieAddition(state.currentRoll.dicePool[existingDieIndex].id)
     } else {
       const newDie = createStandardDie(sides, quantity)
-      dispatch({ type: ActionType.ADD_DIE_TO_POOL, payload: newDie })
+      dispatch({ type: 'ADD_DIE_TO_POOL', payload: newDie })
       animateDieAddition(newDie.id)
     }
   }
 
   function addNotationDie(notation: string) {
-    triggerDiceAdd()
+    HapticService.light()
     const validationResult = validateNotation(notation)
     if (!validationResult.valid) return
 
@@ -177,12 +171,12 @@ export function AppProvider({ children }: PropsWithChildren) {
     }
 
     const newDie = createNotationDie(formattedNotation)
-    dispatch({ type: ActionType.ADD_DIE_TO_POOL, payload: newDie })
+    dispatch({ type: 'ADD_DIE_TO_POOL', payload: newDie })
     animateDieAddition(newDie.id)
   }
 
   function removeDie(id: string) {
-    triggerDiceRemove()
+    HapticService.medium()
     const dieIndex = state.currentRoll.dicePool.findIndex(
       (die: PoolDie) => die.id === id
     )
@@ -192,17 +186,17 @@ export function AppProvider({ children }: PropsWithChildren) {
 
       if (dieToUpdate._type === 'numeric' && dieToUpdate.quantity > 1) {
         dispatch({
-          type: ActionType.DECREMENT_DIE_QUANTITY,
+          type: 'DECREMENT_DIE_QUANTITY',
           payload: { dieIndex }
         })
       } else {
-        dispatch({ type: ActionType.REMOVE_DIE_FROM_POOL, payload: id })
+        dispatch({ type: 'REMOVE_DIE_FROM_POOL', payload: id })
       }
     }
   }
 
   function clearPool() {
-    dispatch({ type: ActionType.CLEAR_DICE_POOL })
+    dispatch({ type: 'CLEAR_DICE_POOL' })
   }
 
   function rollDice() {
@@ -214,7 +208,7 @@ export function AppProvider({ children }: PropsWithChildren) {
 
     const result = roll(...diceToRoll) as NumericRollResult
 
-    dispatch({ type: ActionType.SET_ROLL_RESULT, payload: result })
+    dispatch({ type: 'SET_ROLL_RESULT', payload: result })
     openRollResults()
   }
 
@@ -227,7 +221,7 @@ export function AppProvider({ children }: PropsWithChildren) {
 
     const result = roll(...diceToRoll) as NumericRollResult
 
-    dispatch({ type: ActionType.SET_ROLL_RESULT, payload: result })
+    dispatch({ type: 'SET_ROLL_RESULT', payload: result })
     openRollResults()
   }
 
@@ -290,13 +284,13 @@ export function AppProvider({ children }: PropsWithChildren) {
       createdAt: Date.now()
     }
 
-    dispatch({ type: ActionType.ADD_SAVED_ROLL, payload: newRoll })
+    dispatch({ type: 'ADD_SAVED_ROLL', payload: newRoll })
     await persistSavedRolls([...state.savedRolls.rolls, newRoll])
     return newRoll
   }
 
   async function deleteRoll(id: string): Promise<void> {
-    dispatch({ type: ActionType.REMOVE_SAVED_ROLL, payload: id })
+    dispatch({ type: 'REMOVE_SAVED_ROLL', payload: id })
     const updatedRolls = state.savedRolls.rolls.filter(
       (roll: SavedRoll) => roll.id !== id
     )
@@ -304,31 +298,31 @@ export function AppProvider({ children }: PropsWithChildren) {
   }
 
   function openRollResults() {
-    dispatch({ type: ActionType.OPEN_ROLL_RESULTS })
+    dispatch({ type: 'OPEN_ROLL_RESULTS' })
   }
 
   function closeRollResults() {
-    dispatch({ type: ActionType.CLOSE_ROLL_RESULTS })
+    dispatch({ type: 'CLOSE_ROLL_RESULTS' })
   }
 
   function openRollDetails() {
-    dispatch({ type: ActionType.OPEN_ROLL_DETAILS })
+    dispatch({ type: 'OPEN_ROLL_DETAILS' })
   }
 
   function closeRollDetails() {
-    dispatch({ type: ActionType.CLOSE_ROLL_DETAILS })
+    dispatch({ type: 'CLOSE_ROLL_DETAILS' })
   }
 
   function openDiceDetails(dieId: string) {
-    dispatch({ type: ActionType.OPEN_DICE_DETAILS, payload: dieId })
+    dispatch({ type: 'OPEN_DICE_DETAILS', payload: dieId })
   }
 
   function closeDiceDetails() {
-    dispatch({ type: ActionType.CLOSE_DICE_DETAILS })
+    dispatch({ type: 'CLOSE_DICE_DETAILS' })
   }
 
   function openNotationInput() {
-    dispatch({ type: ActionType.OPEN_NOTATION_INPUT })
+    dispatch({ type: 'OPEN_NOTATION_INPUT' })
   }
 
   function closeNotationInput() {

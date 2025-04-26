@@ -1,5 +1,4 @@
 import { Button, useAppTheme } from '@/components/Themed'
-import { triggerDiceAdd } from '@/utils/haptics'
 import { StyleSheet } from 'react-native'
 
 type DiceButtonProps = {
@@ -19,7 +18,7 @@ export default function DiceButton({ sides, onPress }: DiceButtonProps) {
   }
 
   const handlePress = () => {
-    triggerDiceAdd()
+    HapticService.light()
     onPress(sides)
   }
 

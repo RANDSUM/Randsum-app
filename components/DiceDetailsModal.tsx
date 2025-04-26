@@ -7,7 +7,6 @@ import {
   useAppTheme
 } from '@/components/Themed'
 import { useCurrentRoll, useModal } from '@/contexts/AppContext'
-import { triggerDiceAdd, triggerDiceRemove } from '@/utils/haptics'
 import { validateNotation } from '@randsum/notation'
 import { StyleSheet } from 'react-native'
 
@@ -47,18 +46,18 @@ export default function DiceDetailsModal({
 
   const handleIncreaseQuantity = () => {
     if (die._type === 'numeric') {
-      triggerDiceAdd()
+      HapticService.light()
       addDie(die.sides, 1)
     }
   }
 
   const handleDecreaseQuantity = () => {
-    triggerDiceRemove()
+    HapticService.medium()
     removeDie(die.id)
   }
 
   const handleRemoveAll = () => {
-    triggerDiceRemove()
+    HapticService.medium()
     if (die._type === 'numeric') {
       // Remove all dice of this type by calling removeDie multiple times
       for (let i = 0; i < die.quantity; i++) {

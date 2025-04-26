@@ -62,20 +62,6 @@ export default function DrawerLayout() {
           }}
         />
         <Drawer.Screen
-          name="notation-input"
-          options={{
-            title: 'Custom Notation',
-            drawerLabel: 'Custom Notation',
-            headerStyle: {
-              backgroundColor: theme.colors.elevation.level4
-            },
-            drawerContentStyle: {
-              backgroundColor: theme.colors.background
-            },
-            drawerItemStyle: { display: 'none' }
-          }}
-        />
-        <Drawer.Screen
           name="validate"
           options={{
             title: 'Validate Notation',

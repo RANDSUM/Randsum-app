@@ -1,7 +1,6 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll, useModal } from '@/contexts/AppContext'
 import { PoolDie } from '@/types/dice'
-import { triggerDiceRemove } from '@/utils/haptics'
 import { useEffect, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
 
@@ -44,7 +43,7 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
   }, [shouldShake, die.id, shakeAnimation])
 
   const handleRemove = () => {
-    triggerDiceRemove()
+    HapticService.medium()
     removeDie(die.id)
   }
 
