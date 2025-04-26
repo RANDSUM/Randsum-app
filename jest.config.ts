@@ -23,7 +23,14 @@ const config: Config = {
   ],
   coverageReporters: ['json-summary', 'text', 'lcov'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1'
+    '^@/(.*)$': '<rootDir>/$1',
+    '^@components/(.*)$': '<rootDir>/components/$1',
+    '^@store/(.*)$': '<rootDir>/store/$1',
+    '^@utils/(.*)$': '<rootDir>/utils/$1',
+    '^@types/(.*)$': '<rootDir>/types/$1',
+    '^@constants/(.*)$': '<rootDir>/constants/$1',
+    '^@assets/(.*)$': '<rootDir>/assets/$1',
+    '^@hooks/(.*)$': '<rootDir>/hooks/$1'
   },
   setupFilesAfterEnv: ['<rootDir>/__tests__/setup.ts'],
   verbose: true
