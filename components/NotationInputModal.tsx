@@ -27,7 +27,7 @@ export default function NotationInputModal() {
       setValidationResult(null)
     }
   }
-  const onDismiss = () => () => dispatch(Actions.closeNotationInput())
+  const onDismiss = () => dispatch(Actions.closeNotationInput())
 
   const handleAddDie = () => {
     if (validationResult?.valid) {
