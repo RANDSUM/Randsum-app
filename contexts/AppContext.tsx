@@ -19,7 +19,6 @@ import React, {
 
 const STORAGE_KEY = 'RANDSUM_SAVED_ROLLS'
 
-// Define the state structure
 type AppState = {
   currentRoll: {
     dicePool: PoolDie[]
@@ -39,7 +38,6 @@ type AppState = {
   }
 }
 
-// Define the context type
 type AppContextType = {
   state: AppState
   setState: <K extends keyof AppState>(
@@ -47,7 +45,6 @@ type AppContextType = {
     updater: (prevState: AppState[K]) => AppState[K]
   ) => void
 
-  // Current Roll functions
   addDie: (sides: number, quantity?: number) => void
   addNotationDie: (notation: string) => void
   removeDie: (id: string) => void
@@ -64,11 +61,9 @@ type AppContextType = {
   isNotationDie: (die: PoolDie) => die is NotationPoolDie
   getNotation: (die: PoolDie) => string
 
-  // Saved Rolls functions
   saveRoll: (name: string, dicePool: PoolDie[]) => Promise<SavedRoll>
   deleteRoll: (id: string) => Promise<void>
 
-  // Modal functions
   openRollResults: () => void
   closeRollResults: () => void
   openRollDetails: () => void
@@ -79,10 +74,8 @@ type AppContextType = {
   closeNotationInput: () => void
 }
 
-// Create the context
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
-// Initial state
 const initialState: AppState = {
   currentRoll: {
     dicePool: [],
@@ -102,11 +95,9 @@ const initialState: AppState = {
   }
 }
 
-// Provider component
 export function AppProvider({ children }: PropsWithChildren) {
   const [state, setStateInternal] = useState<AppState>(initialState)
 
-  // Generic setState function that updates a specific section of state
   const setState = <K extends keyof AppState>(
     section: K,
     updater: (prevState: AppState[K]) => AppState[K]
@@ -117,12 +108,10 @@ export function AppProvider({ children }: PropsWithChildren) {
     }))
   }
 
-  // Helper functions
   function generateId() {
     return Math.random().toString(36).substring(2, 9)
   }
 
-  // Load saved rolls on mount
   useEffect(() => {
     loadSavedRolls()
   }, [])
@@ -154,7 +143,6 @@ export function AppProvider({ children }: PropsWithChildren) {
     }
   }
 
-  // Current Roll functions
   function isNotationDie(die: PoolDie): die is NotationPoolDie {
     return die._type === 'notation'
   }
@@ -376,7 +364,6 @@ export function AppProvider({ children }: PropsWithChildren) {
     })
   }
 
-  // Saved Rolls functions
   async function saveRoll(
     name: string,
     dicePool: PoolDie[]
@@ -406,7 +393,6 @@ export function AppProvider({ children }: PropsWithChildren) {
     await persistSavedRolls(updatedRolls)
   }
 
-  // Modal functions
   function openRollResults() {
     setState('modals', (prev) => ({
       ...prev,
@@ -466,12 +452,9 @@ export function AppProvider({ children }: PropsWithChildren) {
     }))
   }
 
-  // Create the context value
   const contextValue: AppContextType = {
     state,
     setState,
-
-    // Current Roll functions
     addDie,
     addNotationDie,
     removeDie,
@@ -482,12 +465,8 @@ export function AppProvider({ children }: PropsWithChildren) {
     groupRollResults,
     isNotationDie,
     getNotation,
-
-    // Saved Rolls functions
     saveRoll,
     deleteRoll,
-
-    // Modal functions
     openRollResults,
     closeRollResults,
     openRollDetails,
@@ -503,7 +482,6 @@ export function AppProvider({ children }: PropsWithChildren) {
   )
 }
 
-// Hook to use the context
 export function useAppContext() {
   const context = useContext(AppContext)
 
@@ -512,8 +490,6 @@ export function useAppContext() {
   }
   return context
 }
-
-// Compatibility hooks for easier migration
 export function useCurrentRoll() {
   const {
     state: { currentRoll },
