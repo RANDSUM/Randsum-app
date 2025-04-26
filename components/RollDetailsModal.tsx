@@ -14,6 +14,14 @@ type RollDetailsModalProps = {
   onDismiss: () => void
 }
 
+interface DiceGroupWithModifier {
+  label: string
+  total: number
+  results: number[]
+  rejectedRolls: number[]
+  modifier: number | null
+}
+
 export default function RollDetailsModal({
   visible,
   onDismiss
@@ -24,6 +32,28 @@ export default function RollDetailsModal({
   if (!rollResult) {
     return null
   }
+
+  const extractModifier = (notation: string): number | null => {
+    // Look for +n or -n in the notation
+    // This handles cases like "4D20+5" or "2D6-3"
+    const modifierMatch = notation.match(/([+-]\d+)/)
+    if (modifierMatch) {
+      return parseInt(modifierMatch[1], 10)
+    }
+    return null
+  }
+
+  const getGroupsWithModifiers = (): DiceGroupWithModifier[] => {
+    return groupRollResults(rollResult).map((group) => {
+      const modifier = extractModifier(group.label)
+      return {
+        ...group,
+        modifier
+      }
+    })
+  }
+
+  const groupsWithModifiers = getGroupsWithModifiers()
 
   return (
     <Portal>
@@ -36,7 +66,7 @@ export default function RollDetailsModal({
         <Dialog.Content style={styles.content}>
           <ScrollView style={styles.modalScroll}>
             <Text style={styles.modalNotation}>{commonDiceNotation}</Text>
-            {groupRollResults(rollResult).map((group, groupIndex) => (
+            {groupsWithModifiers.map((group, groupIndex) => (
               <View key={groupIndex} style={styles.modalResultItem}>
                 <Text style={styles.modalDieType}>{group.label}:</Text>
                 <View style={styles.diceResultsRow}>
@@ -49,6 +79,22 @@ export default function RollDetailsModal({
                         <Text style={styles.modalDieValueText}>{roll}</Text>
                       </View>
                     ))}
+                    {group.modifier !== null && (
+                      <View
+                        style={[styles.modalDieValue, styles.modifierValue]}
+                      >
+                        <Text
+                          style={[
+                            styles.modalDieValueText,
+                            styles.modifierValueText
+                          ]}
+                        >
+                          {group.modifier >= 0
+                            ? `+${group.modifier}`
+                            : group.modifier}
+                        </Text>
+                      </View>
+                    )}
                     {group.rejectedRolls.map((roll, index) => (
                       <View
                         key={`rejected-${index}`}
@@ -152,6 +198,14 @@ const styles = StyleSheet.create({
   },
   modalDieValueText: {
     fontWeight: 'bold'
+  },
+  modifierValue: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)'
+  },
+  modifierValueText: {
+    color: 'rgba(255, 255, 255, 0.9)'
   },
   droppedDie: {
     opacity: 0.4,
