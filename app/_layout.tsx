@@ -4,11 +4,13 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
+import 'react-native-gesture-handler'
 import 'react-native-reanimated'
 
 import Footer from '@/components/Footer'
 import { ThemeProvider, useAppTheme } from '@/components/Themed'
 import { CurrentRollProvider } from '@/contexts/CurrentRollContext'
+import { SavedRollsProvider } from '@/contexts/SavedRollsContext'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -41,49 +43,43 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider>
-      <CurrentRollProvider>
-        <StatusBar style="light" />
-        <Stack
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: theme.colors.elevation.level4
-            },
-            headerTintColor: theme.colors.onSurface,
-            headerShadowVisible: false,
-            contentStyle: {
-              backgroundColor: theme.colors.background
-            }
-          }}
-        >
-          <Stack.Screen name="index" options={{ title: 'RANDSUM' }} />
-          <Stack.Screen
-            name="notation-input"
-            options={{ title: 'Custom Notation' }}
-          />
-          <Stack.Screen
-            name="roll-results"
-            options={{
-              title: 'Roll Results',
-              presentation: 'modal'
+      <SavedRollsProvider>
+        <CurrentRollProvider>
+          <StatusBar style="light" />
+          <Stack
+            screenOptions={{
+              headerShown: false
             }}
-          />
-          <Stack.Screen
-            name="roll-details"
-            options={{
-              title: 'Roll Details',
-              presentation: 'modal'
-            }}
-          />
-          <Stack.Screen
-            name="dice-details"
-            options={{
-              title: 'Die Details',
-              presentation: 'modal'
-            }}
-          />
-        </Stack>
-        <Footer />
-      </CurrentRollProvider>
+          >
+            <Stack.Screen name="(drawer)" />
+
+            <Stack.Screen
+              name="dice-details"
+              options={{
+                presentation: 'modal',
+                headerShown: true,
+                headerStyle: {
+                  backgroundColor: theme.colors.elevation.level4
+                },
+                headerTintColor: theme.colors.onSurface,
+                title: 'Die Details'
+              }}
+            />
+            <Stack.Screen
+              name="notation-input"
+              options={{
+                headerShown: true,
+                headerStyle: {
+                  backgroundColor: theme.colors.elevation.level4
+                },
+                headerTintColor: theme.colors.onSurface,
+                title: 'Custom Notation'
+              }}
+            />
+          </Stack>
+          <Footer />
+        </CurrentRollProvider>
+      </SavedRollsProvider>
     </ThemeProvider>
   )
 }

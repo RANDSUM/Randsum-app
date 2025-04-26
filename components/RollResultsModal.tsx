@@ -1,0 +1,111 @@
+import {
+  Button,
+  Dialog,
+  Portal,
+  Text,
+  View,
+  useAppTheme
+} from '@/components/Themed'
+import { useCurrentRoll } from '@/contexts/CurrentRollContext'
+import { StyleSheet } from 'react-native'
+
+type RollResultsModalProps = {
+  visible: boolean
+  onDismiss: () => void
+}
+
+export default function RollResultsModal({
+  visible,
+  onDismiss
+}: RollResultsModalProps) {
+  const theme = useAppTheme()
+  const { rollResult, commonDiceNotation, showRollDetailsModal } =
+    useCurrentRoll()
+
+  if (!rollResult) {
+    return null
+  }
+
+  const handleShowDetails = () => {
+    onDismiss()
+    showRollDetailsModal()
+  }
+
+  return (
+    <Portal>
+      <Dialog
+        visible={visible}
+        onDismiss={onDismiss}
+        style={[styles.dialog, { backgroundColor: theme.colors.background }]}
+      >
+        <Dialog.Title style={styles.title}>Roll Results</Dialog.Title>
+        <Dialog.Content style={styles.content}>
+          <Text style={styles.modalNotation}>{commonDiceNotation}</Text>
+          <View style={styles.centeredContent}>
+            <Text variant="displayLarge" style={styles.modalTotal}>
+              {rollResult.total}
+            </Text>
+          </View>
+        </Dialog.Content>
+        <Dialog.Actions style={styles.actions}>
+          <Button
+            mode="outlined"
+            onPress={handleShowDetails}
+            style={styles.detailsButton}
+          >
+            Show Details
+          </Button>
+          <Button
+            mode="contained"
+            buttonColor={theme.colors.primary}
+            textColor={theme.colors.onPrimary}
+            onPress={onDismiss}
+          >
+            Close
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal>
+  )
+}
+
+const styles = StyleSheet.create({
+  dialog: {
+    borderRadius: 12,
+    padding: 8,
+    maxWidth: '90%',
+    width: 400,
+    alignSelf: 'center'
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: 24
+  },
+  content: {
+    paddingVertical: 16
+  },
+  modalNotation: {
+    textAlign: 'center',
+    fontSize: 16,
+    marginBottom: 16,
+    opacity: 0.8
+  },
+  centeredContent: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalTotal: {
+    textAlign: 'center',
+    fontSize: 72,
+    lineHeight: 80,
+    fontWeight: 'bold'
+  },
+  actions: {
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 16
+  },
+  detailsButton: {
+    marginRight: 8
+  }
+})

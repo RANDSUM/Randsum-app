@@ -1,10 +1,10 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
 import { useCurrentRoll } from '@/contexts/CurrentRollContext'
 import { PoolDie } from '@/types/dice'
+import { triggerDiceRemove } from '@/utils/haptics'
 import { useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
-import { triggerDiceRemove } from '@/utils/haptics'
 
 type DicePoolTileProps = {
   die: PoolDie

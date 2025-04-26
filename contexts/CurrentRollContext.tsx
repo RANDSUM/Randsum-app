@@ -7,7 +7,6 @@ import {
   roll
 } from '@randsum/dice'
 import { validateNotation } from '@randsum/notation'
-import { useRouter } from 'expo-router'
 import React, {
   PropsWithChildren,
   createContext,
@@ -19,11 +18,17 @@ type CurrentRollContextType = {
   dicePool: PoolDie[]
   rollResult: NumericRollResult | null
   recentlyAddedDie: string | null
+  showRollResults: boolean
+  showRollDetails: boolean
   addDie: (sides: number, quantity?: number) => void
   addNotationDie: (notation: string) => void
   removeDie: (id: string) => void
   clearPool: () => void
   rollDice: () => void
+  rollDiceFromSaved: (savedDicePool: PoolDie[]) => void
+  closeRollResults: () => void
+  closeRollDetails: () => void
+  showRollDetailsModal: () => void
   commonDiceNotation: string
   groupRollResults: (result: NumericRollResult) => {
     label: string
@@ -40,10 +45,11 @@ const CurrentRollContext = createContext<CurrentRollContextType | undefined>(
 )
 
 export function CurrentRollProvider({ children }: PropsWithChildren) {
-  const router = useRouter()
   const [dicePool, setDicePool] = useState<PoolDie[]>([])
   const [rollResult, setRollResult] = useState<NumericRollResult | null>(null)
   const [recentlyAddedDie, setRecentlyAddedDie] = useState<string | null>(null)
+  const [showRollResults, setShowRollResults] = useState(false)
+  const [showRollDetails, setShowRollDetails] = useState(false)
 
   function isNotationDie(die: PoolDie): die is NotationPoolDie {
     return die._type === 'notation'
@@ -166,7 +172,33 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     const result = roll(...diceToRoll) as NumericRollResult
 
     setRollResult(result)
-    router.push('/roll-results')
+    setShowRollResults(true)
+  }
+
+  function rollDiceFromSaved(savedDicePool: PoolDie[]) {
+    if (savedDicePool.length === 0) return
+
+    const diceToRoll = savedDicePool.map((die) =>
+      die._type === 'notation' ? die.sides.notation : die
+    )
+
+    const result = roll(...diceToRoll) as NumericRollResult
+
+    setRollResult(result)
+    setShowRollResults(true)
+  }
+
+  function closeRollResults() {
+    setShowRollResults(false)
+  }
+
+  function closeRollDetails() {
+    setShowRollDetails(false)
+  }
+
+  function showRollDetailsModal() {
+    setShowRollResults(false)
+    setShowRollDetails(true)
   }
 
   const commonDiceNotation = dicePool
@@ -221,11 +253,17 @@ export function CurrentRollProvider({ children }: PropsWithChildren) {
     dicePool,
     rollResult,
     recentlyAddedDie,
+    showRollResults,
+    showRollDetails,
     addDie,
     addNotationDie,
     removeDie,
     clearPool,
     rollDice,
+    rollDiceFromSaved,
+    closeRollResults,
+    closeRollDetails,
+    showRollDetailsModal,
     commonDiceNotation,
     groupRollResults,
     isNotationDie,
