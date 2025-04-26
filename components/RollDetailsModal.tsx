@@ -7,6 +7,7 @@ import {
   useAppTheme
 } from '@/components/Themed'
 import { useAppContext } from '@/contexts/AppContext'
+import { getCommonDiceNotation } from '@/utils/diceNotation'
 import { ScrollView, StyleSheet } from 'react-native'
 
 type RollDetailsModalProps = {
@@ -27,15 +28,18 @@ export default function RollDetailsModal({
   onDismiss
 }: RollDetailsModalProps) {
   const theme = useAppTheme()
-  const { 
-    state: { currentRoll: { rollResult } },
-    commonDiceNotation,
+  const {
+    state: {
+      currentRoll: { rollResult, dicePool }
+    },
     groupRollResults
   } = useAppContext()
 
   if (!rollResult) {
     return null
   }
+
+  const commonDiceNotation = getCommonDiceNotation(dicePool)
 
   const extractModifier = (notation: string): number | null => {
     // Look for +n or -n in the notation

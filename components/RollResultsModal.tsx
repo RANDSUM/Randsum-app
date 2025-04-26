@@ -7,6 +7,7 @@ import {
   useAppTheme
 } from '@/components/Themed'
 import { useAppContext } from '@/contexts/AppContext'
+import { getCommonDiceNotation } from '@/utils/diceNotation'
 import { StyleSheet } from 'react-native'
 
 type RollResultsModalProps = {
@@ -21,15 +22,15 @@ export default function RollResultsModal({
   const theme = useAppTheme()
   const {
     state: {
-      currentRoll: { rollResult }
+      currentRoll: { rollResult, dicePool }
     },
-    commonDiceNotation,
     openRollDetails
   } = useAppContext()
 
   if (!rollResult) {
     return null
   }
+  const commonDiceNotation = getCommonDiceNotation(dicePool)
 
   const handleShowDetails = () => {
     onDismiss()

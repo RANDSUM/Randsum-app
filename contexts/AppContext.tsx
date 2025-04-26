@@ -31,7 +31,6 @@ type AppContextType = {
   clearPool: () => void
   rollDice: () => void
   rollDiceFromSaved: (savedDicePool: PoolDie[]) => void
-  commonDiceNotation: string
   groupRollResults: (result: NumericRollResult) => {
     label: string
     total: number
@@ -217,14 +216,6 @@ export function AppProvider({ children }: PropsWithChildren) {
     openRollResults()
   }
 
-  const commonDiceNotation = state.currentRoll.dicePool
-    .map((die: PoolDie) =>
-      die._type === 'notation'
-        ? die.sides.notation
-        : `${die.quantity}D${die.sides}`
-    )
-    .join('+')
-
   function groupRollResults(result: NumericRollResult): {
     label: string
     total: number
@@ -324,13 +315,13 @@ export function AppProvider({ children }: PropsWithChildren) {
   const contextValue: AppContextType = {
     state,
     dispatch,
+
     addDie,
     addNotationDie,
     removeDie,
     clearPool,
     rollDice,
     rollDiceFromSaved,
-    commonDiceNotation,
     groupRollResults,
     isNotationDie,
     getNotation,
