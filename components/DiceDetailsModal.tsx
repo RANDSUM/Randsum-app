@@ -7,9 +7,10 @@ import {
   useAppTheme
 } from '@/components/Themed'
 import { useStore } from '@/store'
-import { PoolDie } from '@/types/dice'
 import { HapticService } from '@/utils/haptics'
+import { useMemoizedFindDie } from '@/utils/memoized'
 import { validateNotation } from '@randsum/notation'
+import { useCallback, useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 
 export default function DiceDetailsModal() {
@@ -21,41 +22,43 @@ export default function DiceDetailsModal() {
   const addDie = useStore.use.addDie()
   const removeDie = useStore.use.removeDie()
 
-  if (!selectedDieId) {
-    return null
-  }
+  // Memoized die lookup to prevent unnecessary recalculations
+  const die = useMemoizedFindDie(dicePool, selectedDieId)
 
-  const die = dicePool.find((die: PoolDie) => die.id === selectedDieId)
-  if (!die) {
-    return null
-  }
-
-  const onDismiss = () => {
+  // Memoized values and callbacks
+  const onDismiss = useCallback(() => {
     closeDiceDetails()
-  }
+  }, [closeDiceDetails])
 
-  const description =
-    die._type === 'notation'
+  const description = useMemo(() => {
+    if (!die) return ''
+    return die._type === 'notation'
       ? validateNotation(die.sides.notation).description
       : validateNotation(`${die.quantity}d${die.sides}`).description
+  }, [die])
 
-  const notation =
-    die._type === 'notation'
+  const notation = useMemo(() => {
+    if (!die) return ''
+    return die._type === 'notation'
       ? die.sides.notation
       : `${die.quantity}D${die.sides}`
+  }, [die])
 
-  const handleIncreaseQuantity = () => {
+  const handleIncreaseQuantity = useCallback(() => {
+    if (!die) return
     if (die._type === 'numeric') {
       addDie(die.sides, 1)
     }
-  }
+  }, [die, addDie])
 
-  const handleDecreaseQuantity = () => {
+  const handleDecreaseQuantity = useCallback(() => {
+    if (!die) return
     HapticService.medium()
     removeDie(die.id)
-  }
+  }, [die, removeDie])
 
-  const handleRemoveAll = () => {
+  const handleRemoveAll = useCallback(() => {
+    if (!die) return
     HapticService.medium()
     if (die._type === 'numeric') {
       for (let i = 0; i < die.quantity; i++) {
@@ -65,9 +68,13 @@ export default function DiceDetailsModal() {
       removeDie(die.id)
     }
     onDismiss()
-  }
+  }, [die, removeDie, onDismiss])
 
-  const showQuantityButtons = die._type === 'numeric'
+  const showQuantityButtons = useMemo(() => die?._type === 'numeric', [die])
+
+  if (!die) {
+    return null
+  }
 
   return (
     <Portal>

@@ -7,16 +7,12 @@ import {
   useAppTheme
 } from '@/components/Themed'
 import { useStore } from '@/store'
-import { getCommonDiceNotation } from '@/utils/diceNotation'
-import { groupRollResults } from '@/utils/diceResults'
+import {
+  useMemoizedDiceNotation,
+  useMemoizedRollResults
+} from '@/utils/memoized'
+import { useCallback, useMemo } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
-interface DiceGroupWithModifier {
-  label: string
-  total: number
-  results: number[]
-  rejectedRolls: number[]
-  modifier: number | null
-}
 
 export default function RollDetailsModal() {
   const theme = useAppTheme()
@@ -25,35 +21,39 @@ export default function RollDetailsModal() {
   const visible = useStore.use.modals().showRollDetails
   const closeRollDetails = useStore.use.closeRollDetails()
 
-  if (!rollResult) {
-    return null
-  }
+  // Memoized values to prevent unnecessary recalculations
+  const commonDiceNotation = useMemoizedDiceNotation(dicePool)
+  const rollGroups = useMemoizedRollResults(rollResult)
 
-  const commonDiceNotation = getCommonDiceNotation(dicePool)
-
-  const extractModifier = (notation: string): number | null => {
-    // Look for +n or -n in the notation
-    // This handles cases like "4D20+5" or "2D6-3"
+  // Memoized function to extract modifiers from notation
+  const extractModifier = useCallback((notation: string): number | null => {
     const modifierMatch = notation.match(/([+-]\d+)/)
     if (modifierMatch) {
       return parseInt(modifierMatch[1], 10)
     }
     return null
-  }
+  }, [])
 
-  const getGroupsWithModifiers = (): DiceGroupWithModifier[] => {
-    return groupRollResults(rollResult).map((group: any) => {
+  // Memoized function to add modifiers to groups
+  const groupsWithModifiers = useMemo(() => {
+    if (!rollResult) return []
+
+    return rollGroups.map((group) => {
       const modifier = extractModifier(group.label)
       return {
         ...group,
         modifier
       }
     })
-  }
+  }, [rollResult, rollGroups, extractModifier])
 
-  const groupsWithModifiers = getGroupsWithModifiers()
-  const onDismiss = () => {
+  // Memoized callback for dismissing the modal
+  const onDismiss = useCallback(() => {
     closeRollDetails()
+  }, [closeRollDetails])
+
+  if (!rollResult) {
+    return null
   }
 
   return (

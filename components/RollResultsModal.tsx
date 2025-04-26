@@ -7,7 +7,8 @@ import {
   useAppTheme
 } from '@/components/Themed'
 import { useStore } from '@/store'
-import { getCommonDiceNotation } from '@/utils/diceNotation'
+import { useMemoizedDiceNotation } from '@/utils/memoized'
+import { useCallback } from 'react'
 import { StyleSheet } from 'react-native'
 
 export default function RollResultsModal() {
@@ -18,19 +19,21 @@ export default function RollResultsModal() {
   const closeRollResults = useStore.use.closeRollResults()
   const openRollDetails = useStore.use.openRollDetails()
 
-  if (!rollResult) {
-    return null
-  }
+  // Memoized dice notation to prevent unnecessary recalculations
+  const commonDiceNotation = useMemoizedDiceNotation(dicePool)
 
-  const commonDiceNotation = getCommonDiceNotation(dicePool)
-
-  const onDismiss = () => {
+  // Memoized callbacks to prevent unnecessary re-renders
+  const onDismiss = useCallback(() => {
     closeRollResults()
-  }
+  }, [closeRollResults])
 
-  const handleShowDetails = () => {
+  const handleShowDetails = useCallback(() => {
     onDismiss()
     openRollDetails()
+  }, [onDismiss, openRollDetails])
+
+  if (!rollResult) {
+    return null
   }
 
   return (

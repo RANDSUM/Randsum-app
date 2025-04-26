@@ -9,8 +9,8 @@ type WithSelectors<S> = S extends { getState: () => infer T }
   : never
 
 /**
- * Creates type-safe selectors for a Zustand store
- * This allows for better type inference and autocompletion when accessing store values
+ * Creates type-safe selectors for a Zustand store with memoization
+ * This allows for better type inference, autocompletion, and performance when accessing store values
  *
  * @param _store The Zustand store to create selectors for
  * @returns The original store enhanced with auto-generated selectors
@@ -18,12 +18,10 @@ type WithSelectors<S> = S extends { getState: () => infer T }
 export const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
   _store: S
 ) => {
-  type StateType = ReturnType<(typeof _store)['getState']>
-  type UseStoreType = { [K in keyof StateType]: () => StateType[K] }
-
   const store = _store as WithSelectors<typeof _store>
-  store.use = {} as UseStoreType
+  store.use = {} as any
 
+  // Create memoized selectors for top-level state
   for (const k of Object.keys(store.getState())) {
     ;(store.use as Record<string, () => unknown>)[k] = () =>
       store((s) => s[k as keyof typeof s])

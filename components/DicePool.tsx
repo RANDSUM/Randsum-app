@@ -1,9 +1,13 @@
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
 import { useStore } from '@/store'
+import { memo } from 'react'
 import { StyleSheet } from 'react-native'
 
-export default function DicePool() {
+// Memoized DicePoolTile to prevent unnecessary re-renders
+const MemoizedDicePoolTile = memo(DicePoolTile)
+
+function DicePool() {
   const dicePool = useStore.use.currentRoll().dicePool
 
   return (
@@ -12,7 +16,7 @@ export default function DicePool() {
         {dicePool.length > 0 ? (
           <View style={styles.poolContainer}>
             {dicePool.map((item) => {
-              return <DicePoolTile key={item.id} die={item} />
+              return <MemoizedDicePoolTile key={item.id} die={item} />
             })}
           </View>
         ) : (
@@ -24,6 +28,9 @@ export default function DicePool() {
     </View>
   )
 }
+
+// Memoize the entire component to prevent unnecessary re-renders
+export default memo(DicePool)
 
 const styles = StyleSheet.create({
   diceContainer: {

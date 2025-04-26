@@ -1,7 +1,7 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
 import { useStore } from '@/store'
 import { PoolDie } from '@/types/dice'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
 
 type DicePoolTileProps = {
@@ -14,11 +14,18 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
   const removeDie = useStore.use.removeDie()
 
   const theme = useAppTheme()
-  const shouldShake = die.id === recentlyAddedDie || false
+
+  // Memoize the shouldShake value to prevent unnecessary calculations
+  const shouldShake = useMemo(
+    () => die.id === recentlyAddedDie || false,
+    [die.id, recentlyAddedDie]
+  )
+
   const shakeAnimation = useRef(new Animated.Value(0)).current
 
-  useEffect(() => {
-    if (shouldShake) {
+  // Memoize the animation sequence to prevent recreation on each render
+  const animationSequence = useMemo(
+    () =>
       Animated.sequence([
         Animated.timing(shakeAnimation, {
           toValue: 5,
@@ -40,9 +47,33 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
           duration: 50,
           useNativeDriver: true
         })
-      ]).start()
+      ]),
+    [shakeAnimation]
+  )
+
+  useEffect(() => {
+    if (shouldShake) {
+      animationSequence.start()
     }
-  }, [shouldShake, die.id, shakeAnimation])
+  }, [shouldShake, animationSequence])
+
+  // Memoize handlers to prevent recreation on each render
+  const handlePress = useCallback(() => {
+    openDiceDetails(die.id)
+  }, [die.id, openDiceDetails])
+
+  const handleRemove = useCallback(() => {
+    removeDie(die.id)
+  }, [die.id, removeDie])
+
+  // Memoize the die notation to prevent recalculation on each render
+  const dieNotation = useMemo(
+    () =>
+      die._type === 'notation'
+        ? die.sides.notation
+        : `${die.quantity}D${die.sides}`,
+    [die]
+  )
 
   return (
     <Animated.View
@@ -50,7 +81,7 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
         transform: [{ translateX: shakeAnimation }]
       }}
     >
-      <Pressable onPress={() => openDiceDetails(die.id)}>
+      <Pressable onPress={handlePress}>
         <Surface
           style={[
             styles.poolDie,
@@ -64,15 +95,13 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
               { color: theme.colors.onTertiaryContainer }
             ]}
           >
-            {die._type === 'notation'
-              ? die.sides.notation
-              : `${die.quantity}D${die.sides}`}
+            {dieNotation}
           </Text>
           <IconButton
             icon="close"
             size={14}
             iconColor={theme.colors.onTertiaryContainer}
-            onPress={() => removeDie(die.id)}
+            onPress={handleRemove}
             style={styles.removeButton}
             containerColor="transparent"
           />
