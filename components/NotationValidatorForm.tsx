@@ -5,13 +5,11 @@ import { StyleSheet } from 'react-native'
 
 type NotationValidatorFormProps = {
   notation: string
-  onNotationChange: (text: string) => void
   validationResult: ReturnType<typeof validateNotation> | null
 }
 
 export default function NotationValidatorForm({
   notation,
-  onNotationChange,
   validationResult
 }: NotationValidatorFormProps) {
   const theme = useAppTheme()
@@ -22,7 +20,6 @@ export default function NotationValidatorForm({
       <TextInput
         label="Enter Dice Notation"
         value={notation}
-        onChangeText={onNotationChange}
         style={styles.input}
         placeholder="e.g. 2D6+3 or 4D8L"
         autoCapitalize="none"

@@ -18,17 +18,10 @@ export default function Validate() {
     mode: 'onChange'
   })
 
-  // Watch the notation field to validate in real-time
   const notationValue = watch('notation')
   const validationResult = notationValue?.trim()
     ? validateNotation(notationValue)
     : null
-
-  const handleNotationChange = (text: string) => {
-    // This function is passed to the NotationValidatorForm component
-    // and will be called by the form's Controller
-    return text
-  }
 
   return (
     <View
@@ -36,7 +29,6 @@ export default function Validate() {
     >
       <NotationValidatorForm
         notation={notationValue || ''}
-        onNotationChange={handleNotationChange}
         validationResult={validationResult}
       />
     </View>
