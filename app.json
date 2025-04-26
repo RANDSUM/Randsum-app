@@ -40,7 +40,8 @@
     },
     "extra": {
       "router": {
-        "origin": false
+        "origin": false,
+        "initialRoute": "/(drawer)"
       },
       "eas": {
         "projectId": "d50b53cf-026b-45e8-823d-c96fb621a521"

@@ -8,14 +8,12 @@ module.exports = function (api) {
         {
           root: ['.'],
           alias: {
-            '@': './',
             '@components': './components',
             '@store': './store',
             '@utils': './utils',
             '@types': './types',
             '@constants': './constants',
-            '@assets': './assets',
-            '@hooks': './hooks'
+            '@assets': './assets'
           }
         }
       ],
