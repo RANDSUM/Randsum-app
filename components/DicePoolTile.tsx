@@ -89,22 +89,24 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
           ]}
           elevation={2}
         >
-          <Text
-            style={[
-              styles.dieNotation,
-              { color: theme.colors.onTertiaryContainer }
-            ]}
-          >
-            {dieNotation}
-          </Text>
-          <IconButton
-            icon="close"
-            size={14}
-            iconColor={theme.colors.onTertiaryContainer}
-            onPress={handleRemove}
-            style={styles.removeButton}
-            containerColor="transparent"
-          />
+          <Animated.View style={styles.contentContainer}>
+            <Text
+              style={[
+                styles.dieNotation,
+                { color: theme.colors.onTertiaryContainer }
+              ]}
+            >
+              {dieNotation}
+            </Text>
+            <IconButton
+              icon="close"
+              size={14}
+              iconColor={theme.colors.onTertiaryContainer}
+              onPress={handleRemove}
+              style={styles.removeButton}
+              containerColor="transparent"
+            />
+          </Animated.View>
         </Surface>
       </Pressable>
     </Animated.View>
@@ -113,16 +115,19 @@ export default function DicePoolTile({ die }: DicePoolTileProps) {
 
 const styles = StyleSheet.create({
   poolDie: {
-    flexDirection: 'row',
-    alignItems: 'center',
     borderRadius: 8,
     padding: 8,
     margin: 4,
     height: 56,
     minHeight: 56,
-    maxHeight: 56,
+    maxHeight: 56
+  },
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    flex: 1
   },
   dieNotation: {
     fontWeight: 'bold',
