@@ -1,11 +1,16 @@
 import ClearButton from '@/components/ClearButton'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
-import { fireEvent, screen } from '@testing-library/react-native'
+import { screen, userEvent } from '@testing-library/react-native'
 
 describe('<ClearButton />', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.useFakeTimers()
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
   })
 
   test('renders the Clear button', () => {
@@ -46,7 +51,7 @@ describe('<ClearButton />', () => {
     expect(clearButton).not.toBeDisabled()
   })
 
-  test('shows confirmation dialog when pressed', () => {
+  test('shows confirmation dialog when pressed', async () => {
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [{ id: 'rumi_1', sides: 20, quantity: 1, _type: 'numeric' }],
       rollResult: null,
@@ -56,7 +61,7 @@ describe('<ClearButton />', () => {
     appRender(<ClearButton />)
 
     const clearButton = screen.getByText('Clear')
-    fireEvent.press(clearButton)
+    await userEvent.press(clearButton)
 
     const dialogTitle = screen.getByText('Clear Dice Pool?')
     const dialogContent = screen.getByText(
@@ -67,7 +72,7 @@ describe('<ClearButton />', () => {
     expect(dialogContent).toBeTruthy()
   })
 
-  test('calls clearDicePool when confirmed', () => {
+  test('calls clearDicePool when confirmed', async () => {
     const mockClearDicePool = jest.fn()
     jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
 
@@ -80,15 +85,15 @@ describe('<ClearButton />', () => {
     appRender(<ClearButton />)
 
     const clearButton = screen.getByText('Clear')
-    fireEvent.press(clearButton)
+    await userEvent.press(clearButton)
 
     const confirmButton = screen.getAllByText('Clear')[1]
-    fireEvent.press(confirmButton)
+    await userEvent.press(confirmButton)
 
     expect(mockClearDicePool).toHaveBeenCalledTimes(1)
   })
 
-  test('does not call clearDicePool when canceled', () => {
+  test('does not call clearDicePool when canceled', async () => {
     const mockClearDicePool = jest.fn()
     jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
 
@@ -101,10 +106,10 @@ describe('<ClearButton />', () => {
     appRender(<ClearButton />)
 
     const clearButton = screen.getByText('Clear')
-    fireEvent.press(clearButton)
+    await userEvent.press(clearButton)
 
     const cancelButton = screen.getByText('Cancel')
-    fireEvent.press(cancelButton)
+    await userEvent.press(cancelButton)
 
     expect(mockClearDicePool).not.toHaveBeenCalled()
   })
