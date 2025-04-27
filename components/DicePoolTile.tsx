@@ -1,5 +1,5 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/Themed'
-import { useStore } from '@/store'
+import { AppStore } from '@/store'
 import { PoolDie } from '@/types/dice'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
@@ -9,9 +9,9 @@ type DicePoolTileProps = {
 }
 
 export default function DicePoolTile({ die }: DicePoolTileProps) {
-  const recentlyAddedDie = useStore.use.currentRoll().recentlyAddedDie
-  const openDiceDetails = useStore.use.openDiceDetails()
-  const removeDie = useStore.use.removeDie()
+  const recentlyAddedDie = AppStore.use.currentRoll().recentlyAddedDie
+  const openDiceDetails = AppStore.use.openDiceDetails()
+  const removeDie = AppStore.use.removeDie()
 
   const theme = useAppTheme()
 

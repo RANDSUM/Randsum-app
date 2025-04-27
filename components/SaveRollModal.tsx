@@ -6,7 +6,7 @@ import {
   TextInput,
   useAppTheme
 } from '@/components/Themed'
-import { createSavedRoll, useStore } from '@/store'
+import { AppStore, createSavedRoll } from '@/store'
 import { useRouter } from 'expo-router'
 import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet } from 'react-native'
@@ -26,8 +26,8 @@ export default function SaveRollModal({
 }: SaveRollModalProps) {
   const theme = useAppTheme()
   const router = useRouter()
-  const dicePool = useStore.use.currentRoll().dicePool
-  const addSavedRoll = useStore.use.addSavedRoll()
+  const dicePool = AppStore.use.currentRoll().dicePool
+  const addSavedRoll = AppStore.use.addSavedRoll()
 
   const {
     control,

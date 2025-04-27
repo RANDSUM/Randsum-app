@@ -6,7 +6,7 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
-import { useStore } from '@/store'
+import { AppStore } from '@/store'
 import { HapticService } from '@/utils/haptics'
 import { useMemoizedFindDie } from '@/utils/memoized'
 import { validateNotation } from '@randsum/notation'
@@ -15,12 +15,12 @@ import { StyleSheet } from 'react-native'
 
 export default function DiceDetailsModal() {
   const theme = useAppTheme()
-  const dicePool = useStore.use.currentRoll().dicePool
-  const visible = useStore.use.modals().showDiceDetails
-  const selectedDieId = useStore.use.modals().selectedDieId
-  const closeDiceDetails = useStore.use.closeDiceDetails()
-  const addDie = useStore.use.addDie()
-  const removeDie = useStore.use.removeDie()
+  const dicePool = AppStore.use.currentRoll().dicePool
+  const visible = AppStore.use.modals().showDiceDetails
+  const selectedDieId = AppStore.use.modals().selectedDieId
+  const closeDiceDetails = AppStore.use.closeDiceDetails()
+  const addDie = AppStore.use.addDie()
+  const removeDie = AppStore.use.removeDie()
 
   // Memoized die lookup to prevent unnecessary recalculations
   const die = useMemoizedFindDie(dicePool, selectedDieId)

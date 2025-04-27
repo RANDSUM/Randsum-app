@@ -6,7 +6,7 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
-import { useStore } from '@/store'
+import { AppStore } from '@/store'
 import {
   useMemoizedDiceNotation,
   useMemoizedRollResults
@@ -16,10 +16,10 @@ import { ScrollView, StyleSheet } from 'react-native'
 
 export default function RollDetailsModal() {
   const theme = useAppTheme()
-  const rollResult = useStore.use.currentRoll().rollResult
-  const dicePool = useStore.use.currentRoll().dicePool
-  const visible = useStore.use.modals().showRollDetails
-  const closeRollDetails = useStore.use.closeRollDetails()
+  const rollResult = AppStore.use.currentRoll().rollResult
+  const dicePool = AppStore.use.currentRoll().dicePool
+  const visible = AppStore.use.modals().showRollDetails
+  const closeRollDetails = AppStore.use.closeRollDetails()
 
   // Memoized values to prevent unnecessary recalculations
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)

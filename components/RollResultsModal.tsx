@@ -6,18 +6,18 @@ import {
   View,
   useAppTheme
 } from '@/components/Themed'
-import { useStore } from '@/store'
+import { AppStore } from '@/store'
 import { useMemoizedDiceNotation } from '@/utils/memoized'
 import { useCallback } from 'react'
 import { StyleSheet } from 'react-native'
 
 export default function RollResultsModal() {
   const theme = useAppTheme()
-  const rollResult = useStore.use.currentRoll().rollResult
-  const dicePool = useStore.use.currentRoll().dicePool
-  const visible = useStore.use.modals().showRollResults
-  const closeRollResults = useStore.use.closeRollResults()
-  const openRollDetails = useStore.use.openRollDetails()
+  const rollResult = AppStore.use.currentRoll().rollResult
+  const dicePool = AppStore.use.currentRoll().dicePool
+  const visible = AppStore.use.modals().showRollResults
+  const closeRollResults = AppStore.use.closeRollResults()
+  const openRollDetails = AppStore.use.openRollDetails()
 
   // Memoized dice notation to prevent unnecessary recalculations
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)

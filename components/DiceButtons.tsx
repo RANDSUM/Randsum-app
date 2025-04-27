@@ -1,14 +1,14 @@
 import DiceButton from '@/components/DiceButton'
 import SaveButton from '@/components/SaveButton'
 import { Button, View, useAppTheme } from '@/components/Themed'
-import { useStore } from '@/store'
+import { AppStore } from '@/store'
 import { StyleSheet } from 'react-native'
 import ClearButton from './ClearButton'
 import RollButtonInline from './RollButtonInline'
 
 export default function DiceButtons() {
-  const addDie = useStore.use.addDie()
-  const openNotationInput = useStore.use.openNotationInput()
+  const addDie = AppStore.use.addDie()
+  const openNotationInput = AppStore.use.openNotationInput()
   const theme = useAppTheme()
 
   const firstRowDice = [4, 6, 8]

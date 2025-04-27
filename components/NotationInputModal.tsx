@@ -1,5 +1,5 @@
 import { Button, Dialog, Portal, useAppTheme } from '@/components/Themed'
-import { useStore } from '@/store'
+import { AppStore } from '@/store'
 import { validateNotation } from '@randsum/notation'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet } from 'react-native'
@@ -11,9 +11,9 @@ type NotationFormData = {
 
 export default function NotationInputModal() {
   const theme = useAppTheme()
-  const visible = useStore.use.modals().showNotationInput
-  const closeNotationInput = useStore.use.closeNotationInput()
-  const addNotationDie = useStore.use.addNotationDie()
+  const visible = AppStore.use.modals().showNotationInput
+  const closeNotationInput = AppStore.use.closeNotationInput()
+  const addNotationDie = AppStore.use.addNotationDie()
 
   const {
     control,

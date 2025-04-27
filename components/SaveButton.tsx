@@ -1,12 +1,12 @@
 import { Button, useAppTheme } from '@/components/Themed'
-import { useStore } from '@/store'
+import { AppStore } from '@/store'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import SaveRollModal from './SaveRollModal'
 
 export default function SaveButton() {
   const theme = useAppTheme()
-  const dicePool = useStore.use.currentRoll().dicePool
+  const dicePool = AppStore.use.currentRoll().dicePool
   const [modalVisible, setModalVisible] = useState(false)
 
   const disabled = dicePool.length === 0
