@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@/components/Themed'
+import { ThemeProvider } from '@/components'
 import { render } from '@testing-library/react-native'
 import { PropsWithChildren, ReactElement } from 'react'
 

@@ -1,3 +1,4 @@
+import { Footer, ThemeProvider } from '@/components'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useFonts } from 'expo-font'
 import { Slot } from 'expo-router'
@@ -6,9 +7,6 @@ import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
 import 'react-native-gesture-handler'
 import 'react-native-reanimated'
-
-import Footer from '@/components/Footer'
-import { ThemeProvider } from '@/components/Themed'
 
 export { ErrorBoundary } from 'expo-router'
 
