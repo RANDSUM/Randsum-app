@@ -10,7 +10,7 @@ jest.mock('expo-font', () => ({
 }))
 
 jest.mock('@/store', () => ({
-  AppStore: {
+  Store: {
     use: {
       // DiceSlice state
       currentRoll: jest.fn().mockReturnValue({

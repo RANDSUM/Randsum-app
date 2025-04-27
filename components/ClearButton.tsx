@@ -1,12 +1,12 @@
 import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/Themed'
-import { AppStore } from '@/store'
+import { Store } from '@/store'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 export default function ClearButton() {
   const theme = useAppTheme()
-  const dicePool = AppStore.use.currentRoll().dicePool
-  const clearDicePool = AppStore.use.clearDicePool()
+  const dicePool = Store.use.currentRoll().dicePool
+  const clearDicePool = Store.use.clearDicePool()
   const [confirmVisible, setConfirmVisible] = useState(false)
   const disabled = dicePool.length === 0
 

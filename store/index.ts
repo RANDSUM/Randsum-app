@@ -12,7 +12,7 @@ import { StoreState } from './types'
 
 const STORAGE_KEY = 'RANDSUM_APP_STATE'
 
-const AppStoreBase = create<StoreState>()(
+const StoreBase = create<StoreState>()(
   persist(
     (...a) => ({
       ...createDiceSlice(...a),
@@ -35,7 +35,7 @@ const AppStoreBase = create<StoreState>()(
 )
 
 // Create the store with type-safe selectors
-export const AppStore = createSelectors(AppStoreBase)
+export const Store = createSelectors(StoreBase)
 
 // Helper function to create a new saved roll
 export const createSavedRoll = (

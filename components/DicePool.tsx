@@ -1,6 +1,6 @@
 import DicePoolTile from '@/components/DicePoolTile'
 import { Text, View } from '@/components/Themed'
-import { AppStore } from '@/store'
+import { Store } from '@/store'
 import { memo } from 'react'
 import { StyleSheet } from 'react-native'
 
@@ -8,7 +8,7 @@ import { StyleSheet } from 'react-native'
 const MemoizedDicePoolTile = memo(DicePoolTile)
 
 function DicePool() {
-  const dicePool = AppStore.use.currentRoll().dicePool
+  const dicePool = Store.use.currentRoll().dicePool
 
   return (
     <View style={styles.diceContainer}>
