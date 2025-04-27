@@ -1,26 +1,48 @@
 name: CI
 on: [push]
+
 jobs:
   build:
-    name: Build, lint, and test on ${{ matrix.os }}
+    name: Compile, Lint, Format, and Test
 
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest]
+        os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set timezone
+        uses: szenius/set-timezone@v2.0
         with:
-          fetch-depth: 0
+          timezoneLinux: 'America/New_York'
+
       - name: Read .tool-versions
-        id: tool-versions
-        run: echo "nodejs_version=$(grep nodejs .tool-versions | cut -d' ' -f2)" >> $GITHUB_OUTPUT
-      - uses: actions/setup-node@v4
+        uses: marocchino/tool-versions-action@v1
+        id: versions
+
+      - name: Use Node ${{ steps.versions.outputs.nodejs }}
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ steps.tool-versions.outputs.nodejs_version }}
+          node-version: ${{ steps.versions.outputs.nodejs }}
           cache: 'npm'
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run format
-      - run: npm run test:ci
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: Generate Expo Route Types
+        run: npm run expo:types
+
+      - name: Check types
+        run: npm run ts:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format
+        run: npm run format
+
+      - name: Test
+        run: npm run test

@@ -13,6 +13,8 @@
     "test:ci": "jest --ci --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "expo:types": "npx expo customize tsconfig.json",
+    "ts:check": "tsc --noEmit",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "deploy:web": "expo export --platform web && eas-cli deploy",
