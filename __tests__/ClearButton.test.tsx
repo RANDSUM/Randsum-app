@@ -3,6 +3,14 @@ import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
 import { screen, userEvent } from '@testing-library/react-native'
 
+const elements = {
+  clearButton: () => screen.getByText('Clear'),
+  dialogTitle: () => screen.getByText('Clear Dice Pool?'),
+  cancelButton: () => screen.getByText('Cancel'),
+  dialogContent: () =>
+    screen.getByText('Are you sure you want to clear all dice from the pool?')
+}
+
 describe('<ClearButton />', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -16,9 +24,7 @@ describe('<ClearButton />', () => {
   test('renders the Clear button', () => {
     appRender(<ClearButton />)
 
-    const clearButton = screen.getByText('Clear')
-
-    expect(clearButton).toBeTruthy()
+    expect(elements.clearButton()).toBeTruthy()
   })
 
   test('button is disabled when dice pool is empty', () => {
@@ -30,9 +36,7 @@ describe('<ClearButton />', () => {
 
     appRender(<ClearButton />)
 
-    const clearButton = screen.getByText('Clear')
-
-    expect(clearButton).toBeDisabled()
+    expect(elements.clearButton()).toBeDisabled()
   })
 
   test('button is enabled when dice pool has items', () => {
@@ -46,9 +50,7 @@ describe('<ClearButton />', () => {
 
     appRender(<ClearButton />)
 
-    const clearButton = screen.getByText('Clear')
-
-    expect(clearButton).not.toBeDisabled()
+    expect(elements.clearButton()).not.toBeDisabled()
   })
 
   test('shows confirmation dialog when pressed', async () => {
@@ -60,16 +62,10 @@ describe('<ClearButton />', () => {
 
     appRender(<ClearButton />)
 
-    const clearButton = screen.getByText('Clear')
-    await userEvent.press(clearButton)
+    await userEvent.press(elements.clearButton())
 
-    const dialogTitle = screen.getByText('Clear Dice Pool?')
-    const dialogContent = screen.getByText(
-      'Are you sure you want to clear all dice from the pool?'
-    )
-
-    expect(dialogTitle).toBeTruthy()
-    expect(dialogContent).toBeTruthy()
+    expect(elements.dialogTitle()).toBeTruthy()
+    expect(elements.dialogContent()).toBeTruthy()
   })
 
   test('calls clearDicePool when confirmed', async () => {
@@ -84,11 +80,8 @@ describe('<ClearButton />', () => {
 
     appRender(<ClearButton />)
 
-    const clearButton = screen.getByText('Clear')
-    await userEvent.press(clearButton)
-
-    const confirmButton = screen.getAllByText('Clear')[1]
-    await userEvent.press(confirmButton)
+    await userEvent.press(elements.clearButton())
+    await userEvent.press(screen.getAllByText('Clear')[1])
 
     expect(mockClearDicePool).toHaveBeenCalledTimes(1)
   })
@@ -105,11 +98,8 @@ describe('<ClearButton />', () => {
 
     appRender(<ClearButton />)
 
-    const clearButton = screen.getByText('Clear')
-    await userEvent.press(clearButton)
-
-    const cancelButton = screen.getByText('Cancel')
-    await userEvent.press(cancelButton)
+    await userEvent.press(elements.clearButton())
+    await userEvent.press(elements.cancelButton())
 
     expect(mockClearDicePool).not.toHaveBeenCalled()
   })
