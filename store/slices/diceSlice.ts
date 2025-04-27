@@ -1,5 +1,5 @@
 import { StoreState } from '@/store/types'
-import { DiceType, PoolDie } from '@/types/dice'
+import { PoolDie } from '@/types/dice'
 import { createDie } from '@/utils/diceFactory'
 import { HapticService } from '@/utils/haptics'
 import {
@@ -60,7 +60,7 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
 
     // Find existing die with same sides
     const existingDie = dicePool.find(
-      (die) => die.type === DiceType.STANDARD && die.sides === sides
+      (die) => die.type === 'standard' && die.sides === sides
     )
 
     if (existingDie) {
@@ -70,7 +70,7 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     } else {
       // Create new die
       const newDie = createDie({
-        type: DiceType.STANDARD,
+        type: 'standard',
         sides,
         quantity
       })
@@ -109,7 +109,7 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
 
     // Create new notation die
     const newDie = createDie({
-      type: DiceType.NOTATION,
+      type: 'notation',
       notation: formattedNotation,
       quantity: 1
     })
@@ -225,7 +225,7 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     if (dicePool.length === 0) return
 
     const diceToRoll = dicePool.map((die) =>
-      die.type === DiceType.NOTATION ? die.notation : die
+      die.type === 'notation' ? die.notation : die
     )
 
     const result = roll(...diceToRoll) as NumericRollResult
@@ -247,7 +247,7 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     if (savedDicePool.length === 0) return
 
     const diceToRoll = savedDicePool.map((die) =>
-      die.type === DiceType.NOTATION ? die.notation : die
+      die.type === 'notation' ? die.notation : die
     )
 
     const result = roll(...diceToRoll) as NumericRollResult

@@ -1,9 +1,6 @@
 import { DiceNotation } from '@randsum/dice'
 
-export enum DiceType {
-  STANDARD = 'standard',
-  NOTATION = 'notation'
-}
+export type DiceType = 'standard' | 'notation'
 
 export type BaseDie = {
   id: string
@@ -12,12 +9,12 @@ export type BaseDie = {
 }
 
 export type StandardDie = BaseDie & {
-  type: DiceType.STANDARD
+  type: 'standard'
   sides: number
 }
 
 export type NotationDie = BaseDie & {
-  type: DiceType.NOTATION
+  type: 'notation'
   notation: DiceNotation
 }
 
@@ -26,12 +23,12 @@ export type PoolDie = StandardDie | NotationDie
 export const sidesToLabel = (sides: number): string => `D${sides}`
 
 export const getDieNotation = (die: PoolDie): string => {
-  if (die.type === DiceType.NOTATION) {
+  if (die.type === 'notation') {
     return die.notation
   }
   return `${die.quantity}D${die.sides}`
 }
 
 export const hasModifiers = (die: PoolDie): boolean => {
-  return die.type === DiceType.NOTATION
+  return die.type === 'notation'
 }

@@ -1,15 +1,15 @@
-import { DiceType, PoolDie } from '@/types/dice'
+import { PoolDie } from '@/types/dice'
 import { generateId } from '@/utils/id'
 import { DiceNotation } from '@randsum/dice'
 
 type CreateDieOptions =
   | {
-      type: DiceType.STANDARD
+      type: 'standard'
       sides: number
       quantity?: number
     }
   | {
-      type: DiceType.NOTATION
+      type: 'notation'
       notation: DiceNotation
       quantity?: number
     }
@@ -18,17 +18,17 @@ export function createDie(options: CreateDieOptions): PoolDie {
   const id = generateId()
   const quantity = options.quantity || 1
 
-  if (options.type === DiceType.STANDARD) {
+  if (options.type === 'standard') {
     return {
       id,
-      type: DiceType.STANDARD,
+      type: 'standard',
       sides: options.sides,
       quantity
     }
   } else {
     return {
       id,
-      type: DiceType.NOTATION,
+      type: 'notation',
       notation: options.notation,
       quantity
     }

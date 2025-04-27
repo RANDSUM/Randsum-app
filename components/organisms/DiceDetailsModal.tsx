@@ -7,7 +7,6 @@ import {
   useAppTheme
 } from '@/components/atoms'
 import { Store } from '@/store'
-import { DiceType } from '@/types/dice'
 import { HapticService } from '@/utils/haptics'
 import { useMemoizedFindDie } from '@/utils/memoized'
 import { validateNotation } from '@randsum/notation'
@@ -41,14 +40,14 @@ export function DiceDetailsModal() {
   }, [die, removeDie, onDismiss])
 
   const handleIncreaseQuantity = useCallback(() => {
-    if (die && die.type === DiceType.STANDARD) {
+    if (die && die.type === 'standard') {
       HapticService.light()
       addDie(die.sides)
     }
   }, [die, addDie])
 
   const handleDecreaseQuantity = useCallback(() => {
-    if (die && die.type === DiceType.STANDARD && die.quantity > 1) {
+    if (die && die.type === 'standard' && die.quantity > 1) {
       HapticService.light()
       decrementDieQuantity(die.id)
     }
@@ -57,7 +56,7 @@ export function DiceDetailsModal() {
   // Memoized computed values
   const notation = useMemo(() => {
     if (!die) return ''
-    return die.type === DiceType.NOTATION
+    return die.type === 'notation'
       ? die.notation
       : `${die.quantity}D${die.sides}`
   }, [die])
@@ -65,7 +64,7 @@ export function DiceDetailsModal() {
   const description = useMemo(() => {
     if (!die) return ''
 
-    if (die.type === DiceType.NOTATION) {
+    if (die.type === 'notation') {
       const validationResult = validateNotation(die.notation)
       if (validationResult.valid && validationResult.description.length > 0) {
         return validationResult.description.join('\n')
@@ -79,7 +78,7 @@ export function DiceDetailsModal() {
   }, [die])
 
   const showQuantityButtons = useMemo(() => {
-    return die && die.type === DiceType.STANDARD
+    return die && die.type === 'standard'
   }, [die])
 
   if (!die) {
