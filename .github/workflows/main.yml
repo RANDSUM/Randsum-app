@@ -13,10 +13,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: oven-sh/setup-bun@v2
+      - name: Read .tool-versions
+        id: tool-versions
+        run: echo "nodejs_version=$(grep nodejs .tool-versions | cut -d' ' -f2)" >> $GITHUB_OUTPUT
+      - uses: actions/setup-node@v4
         with:
-          bun-version: latest
-      - run: bun install
-      - run: bun lint
-      - run: bun format
-      - run: bun test:ci
+          node-version: ${{ steps.tool-versions.outputs.nodejs_version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format
+      - run: npm run test:ci
