@@ -16,8 +16,10 @@ import { ScrollView, StyleSheet } from 'react-native'
 
 export default function RollDetailsModal() {
   const theme = useAppTheme()
-  const rollResult = Store.use.currentRoll().rollResult
-  const dicePool = Store.use.currentRoll().dicePool
+  const currentRoll = Store.use.currentRoll()
+  const rollResult = currentRoll.rollResult
+  const dicePool = currentRoll.dicePool
+  const rollSource = currentRoll.rollSource
   const visible = Store.use.modals().showRollDetails
   const closeRollDetails = Store.use.closeRollDetails()
 
@@ -66,6 +68,9 @@ export default function RollDetailsModal() {
         <Dialog.Title style={styles.title}>Roll Details</Dialog.Title>
         <Dialog.Content style={styles.content}>
           <ScrollView style={styles.modalScroll}>
+            {rollSource.type === 'saved' && rollSource.name && (
+              <Text style={styles.savedRollName}>{rollSource.name}</Text>
+            )}
             <Text style={styles.modalNotation}>{commonDiceNotation}</Text>
             {groupsWithModifiers.map((group, groupIndex) => (
               <View key={groupIndex} style={styles.modalResultItem}>
@@ -159,6 +164,13 @@ const styles = StyleSheet.create({
   },
   modalScroll: {
     flex: 1
+  },
+  savedRollName: {
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 4,
+    color: 'rgba(255, 255, 255, 0.9)'
   },
   modalNotation: {
     textAlign: 'center',

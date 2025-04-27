@@ -28,7 +28,7 @@ export default function SavedRollItem({ roll }: SavedRollItemProps) {
 
   const handleRoll = () => {
     // Roll the saved dice without modifying the current dice pool
-    rollDiceFromSaved(roll.dicePool)
+    rollDiceFromSaved(roll.dicePool, roll.name)
   }
 
   const handleDelete = async () => {
@@ -43,9 +43,6 @@ export default function SavedRollItem({ roll }: SavedRollItemProps) {
         </Text>
         <Text variant="bodyMedium" style={styles.notation}>
           {getDiceNotation()}
-        </Text>
-        <Text variant="bodySmall" style={styles.date}>
-          Saved on {formatDate(roll.createdAt)}
         </Text>
       </Card.Content>
       <Card.Actions style={styles.actions}>

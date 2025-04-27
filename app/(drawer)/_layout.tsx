@@ -1,7 +1,7 @@
 import DiceDetailsModal from '@/components/DiceDetailsModal'
 import NotationInputModal from '@/components/NotationInputModal'
 import RollDetailsModal from '@/components/RollDetailsModal'
-import RollResultsModal from '@/components/RollResultsModal'
+import RollResultsToast from '@/components/RollResultsToast'
 import { useAppTheme } from '@/components/Themed'
 import { Drawer } from 'expo-router/drawer'
 
@@ -69,7 +69,7 @@ export default function DrawerLayout() {
           }}
         />
       </Drawer>
-      <RollResultsModal />
+      <RollResultsToast />
       <RollDetailsModal />
       <DiceDetailsModal />
       <NotationInputModal />

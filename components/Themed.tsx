@@ -11,6 +11,7 @@ import {
   Modal as PaperModal,
   Portal as PaperPortal,
   Provider as PaperProvider,
+  Snackbar as PaperSnackbar,
   Surface as PaperSurface,
   Text as PaperText,
   TextInput as PaperTextInput,
@@ -66,6 +67,7 @@ export const ActivityIndicator = PaperActivityIndicator
 export const FAB = PaperFAB
 export const FABGroup = PaperFAB.Group
 export const Dialog = PaperDialog
+export const Snackbar = PaperSnackbar
 
 export function View(props: React.ComponentProps<typeof PaperSurface>) {
   const { style, ...otherProps } = props

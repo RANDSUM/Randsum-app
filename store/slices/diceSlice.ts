@@ -15,6 +15,10 @@ export type CurrentRollState = {
   dicePool: PoolDie[]
   rollResult: NumericRollResult | null
   recentlyAddedDie: string | null
+  rollSource: {
+    type: 'standard' | 'saved'
+    name?: string
+  }
 }
 
 export type DiceActions = {
@@ -28,7 +32,7 @@ export type DiceActions = {
   decrementDieQuantity: (dieIndex: number) => void
   setRollResult: (result: NumericRollResult) => void
   rollDice: () => void
-  rollDiceFromSaved: (savedDicePool: PoolDie[]) => void
+  rollDiceFromSaved: (savedDicePool: PoolDie[], savedRollName?: string) => void
 }
 
 export type DiceSlice = {
@@ -38,7 +42,10 @@ export type DiceSlice = {
 export const initialDiceState: CurrentRollState = {
   dicePool: [],
   rollResult: null,
-  recentlyAddedDie: null
+  recentlyAddedDie: null,
+  rollSource: {
+    type: 'standard'
+  }
 }
 
 export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
@@ -210,11 +217,21 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     )
 
     const result = roll(...diceToRoll) as NumericRollResult
-    get().setRollResult(result)
+
+    set((state) => ({
+      currentRoll: {
+        ...state.currentRoll,
+        rollResult: result,
+        rollSource: {
+          type: 'standard'
+        }
+      }
+    }))
+
     get().openRollResults()
   },
 
-  rollDiceFromSaved: (savedDicePool) => {
+  rollDiceFromSaved: (savedDicePool: PoolDie[], savedRollName?: string) => {
     if (savedDicePool.length === 0) return
 
     const diceToRoll = savedDicePool.map((die: PoolDie) =>
@@ -222,7 +239,18 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     )
 
     const result = roll(...diceToRoll) as NumericRollResult
-    get().setRollResult(result)
+
+    set((state) => ({
+      currentRoll: {
+        ...state.currentRoll,
+        rollResult: result,
+        rollSource: {
+          type: 'saved',
+          name: savedRollName
+        }
+      }
+    }))
+
     get().openRollResults()
   }
 })

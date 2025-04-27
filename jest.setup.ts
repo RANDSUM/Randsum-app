@@ -16,7 +16,10 @@ jest.mock('@/store', () => ({
       currentRoll: jest.fn().mockReturnValue({
         dicePool: [],
         rollResult: null,
-        recentlyAddedDie: null
+        recentlyAddedDie: null,
+        rollSource: {
+          type: 'standard'
+        }
       }),
       // DiceSlice actions
       addDie: jest.fn(),
