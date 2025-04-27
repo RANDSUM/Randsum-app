@@ -22,6 +22,7 @@ jest.mock('@/store', () => ({
       addDie: jest.fn(),
       addNotationDie: jest.fn(),
       removeDie: jest.fn(),
+      removeAllDice: jest.fn(),
       clearDicePool: jest.fn(),
       setRecentlyAddedDie: jest.fn(),
       clearRecentlyAddedDie: jest.fn(),
