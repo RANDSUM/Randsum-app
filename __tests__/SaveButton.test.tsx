@@ -4,7 +4,8 @@ import { appRender } from '@/test/appRender'
 import { screen, userEvent } from '@testing-library/react-native'
 
 const elements = {
-  saveButton: () => screen.getByText('Save')
+  saveButton: () => screen.getByText('Save'),
+  modalTitle: () => screen.getByText('Save Roll')
 }
 
 describe('<SaveButton />', () => {
@@ -61,8 +62,7 @@ describe('<SaveButton />', () => {
 
     await user.press(elements.saveButton())
 
-    const modalTitle = screen.getByText('Save Roll')
-    expect(modalTitle).toBeTruthy()
+    expect(elements.modalTitle()).toBeTruthy()
 
     unmount()
   })
