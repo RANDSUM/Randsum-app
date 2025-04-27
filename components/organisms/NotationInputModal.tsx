@@ -28,7 +28,6 @@ export function NotationInputModal() {
     mode: 'onChange'
   })
 
-  // Watch the notation field to validate in real-time
   const notationValue = watch('notation')
   const validationResult = notationValue.trim()
     ? validateNotation(notationValue)

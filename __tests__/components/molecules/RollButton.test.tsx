@@ -23,7 +23,6 @@ describe('<RollButton />', () => {
     })
 
     const { getByText } = appRender(<RollButton />)
-    // Check that the button is rendered
     expect(getByText('Roll')).toBeTruthy()
   })
 

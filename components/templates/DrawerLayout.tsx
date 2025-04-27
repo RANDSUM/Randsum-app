@@ -13,7 +13,7 @@ type DrawerLayoutProps = {
 
 export function DrawerLayout({ children }: DrawerLayoutProps) {
   const theme = useAppTheme()
-  
+
   return (
     <>
       <Drawer

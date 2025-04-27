@@ -58,17 +58,14 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     HapticService.light()
     const { dicePool } = get().currentRoll
 
-    // Find existing die with same sides
     const existingDie = dicePool.find(
       (die) => die.type === 'standard' && die.sides === sides
     )
 
     if (existingDie) {
-      // Increment quantity of existing die
       get().incrementDieQuantity(existingDie.id, quantity)
       get().setRecentlyAddedDie(existingDie.id)
     } else {
-      // Create new die
       const newDie = createDie({
         type: 'standard',
         sides,
@@ -101,13 +98,11 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
       sides
     } = validationResult.digested as NumericRollOptions
 
-    // If no modifiers, treat as standard die
     if (!(Object.keys(modifiers || {}).length > 0)) {
       get().addDie(sides, quantity)
       return
     }
 
-    // Create new notation die
     const newDie = createDie({
       type: 'notation',
       notation: formattedNotation,
@@ -131,10 +126,8 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     if (!dieToRemove) return
 
     if (dieToRemove.quantity > 1) {
-      // Decrement quantity if more than 1
       get().decrementDieQuantity(id)
     } else {
-      // Remove die completely
       set((state) => ({
         currentRoll: {
           ...state.currentRoll,
@@ -162,7 +155,6 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
       }
     }))
 
-    // Clear the recently added die after a delay
     setTimeout(() => {
       get().clearRecentlyAddedDie()
     }, 300)

@@ -4,7 +4,6 @@ import { Store } from '@/store'
 import { memo } from 'react'
 import { StyleSheet } from 'react-native'
 
-// Memoized DicePoolTile to prevent unnecessary re-renders
 const MemoizedDicePoolTile = memo(DicePoolTile)
 
 function DicePoolComponent() {
@@ -29,7 +28,6 @@ function DicePoolComponent() {
   )
 }
 
-// Memoize the entire component to prevent unnecessary re-renders
 export const DicePool = memo(DicePoolComponent)
 
 const styles = StyleSheet.create({

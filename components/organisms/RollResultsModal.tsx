@@ -19,10 +19,8 @@ export function RollResultsModal() {
   const closeRollResults = Store.use.closeRollResults()
   const openRollDetails = Store.use.openRollDetails()
 
-  // Memoized dice notation to prevent unnecessary recalculations
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)
 
-  // Memoized callbacks to prevent unnecessary re-renders
   const onDismiss = useCallback(() => {
     closeRollResults()
   }, [closeRollResults])

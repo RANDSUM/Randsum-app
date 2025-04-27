@@ -21,7 +21,6 @@ export const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
   const store = _store as WithSelectors<typeof _store>
   store.use = {} as any
 
-  // Create memoized selectors for top-level state
   for (const k of Object.keys(store.getState())) {
     ;(store.use as Record<string, () => unknown>)[k] = () =>
       store((s) => s[k as keyof typeof s])

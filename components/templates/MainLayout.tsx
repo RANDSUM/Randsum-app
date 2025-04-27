@@ -7,7 +7,7 @@ type MainLayoutProps = {
 
 export function MainLayout({ children }: MainLayoutProps) {
   const theme = useAppTheme()
-  
+
   return (
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}

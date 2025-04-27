@@ -21,13 +21,10 @@ export function DiceDetailsModal() {
   const closeDiceDetails = Store.use.closeDiceDetails()
   const addDie = Store.use.addDie()
   const removeDie = Store.use.removeDie()
-  const incrementDieQuantity = Store.use.incrementDieQuantity()
   const decrementDieQuantity = Store.use.decrementDieQuantity()
 
-  // Memoized die lookup to prevent unnecessary recalculations
   const die = useMemoizedFindDie(dicePool, selectedDieId)
 
-  // Memoized values and callbacks
   const onDismiss = useCallback(() => {
     closeDiceDetails()
   }, [closeDiceDetails])
@@ -53,7 +50,6 @@ export function DiceDetailsModal() {
     }
   }, [die, decrementDieQuantity])
 
-  // Memoized computed values
   const notation = useMemo(() => {
     if (!die) return ''
     return die.type === 'notation'

@@ -18,7 +18,6 @@ describe('<Button />', () => {
       <Button style={{ width: 200 }}>Styled Button</Button>
     )
     const button = getByText('Styled Button')
-    // Just check that the button has styles
     expect(button.props.style).toBeTruthy()
   })
 
@@ -34,8 +33,6 @@ describe('<Button />', () => {
 
   test('renders in disabled state', () => {
     const { getByText } = appRender(<Button disabled>Disabled Button</Button>)
-    // In React Native Paper, disabled is a prop passed to the underlying component
-    // and may not be directly accessible in the test environment
     expect(getByText('Disabled Button')).toBeTruthy()
   })
 })

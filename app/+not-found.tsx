@@ -34,6 +34,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 14,
-    color: '#7D26CD' // Updated to match spooky theme primary color
+    color: '#7D26CD'
   }
 })

@@ -1,5 +1,10 @@
 import { Button, View, useAppTheme } from '@/components/atoms'
-import { ClearButton, DiceButton, RollButton, SaveButton } from '@/components/molecules'
+import {
+  ClearButton,
+  DiceButton,
+  RollButton,
+  SaveButton
+} from '@/components/molecules'
 import { Store } from '@/store'
 import { StyleSheet } from 'react-native'
 

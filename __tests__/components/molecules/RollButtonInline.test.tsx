@@ -45,7 +45,6 @@ describe('<RollButtonInline />', () => {
     const { getByText } = appRender(<RollButtonInline />)
     const rollText = getByText('Roll')
 
-    // Verify the button is not disabled by checking it can be pressed
     expect(rollText).toBeTruthy()
   })
 

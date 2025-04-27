@@ -1,5 +1,4 @@
-import { CustomDarkTheme } from '@/constants/Theme'
-import { Button as PaperButton, MD3Theme, useTheme } from 'react-native-paper'
+import { MD3Theme, Button as PaperButton, useTheme } from 'react-native-paper'
 
 export function Button(props: React.ComponentProps<typeof PaperButton>) {
   const theme = useTheme<MD3Theme>()

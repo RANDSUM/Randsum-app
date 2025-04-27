@@ -10,7 +10,6 @@ describe('<RollDetailsModal />', () => {
   })
 
   test('displays saved roll name when roll source is from saved roll', () => {
-    // Mock a roll result with dice pools
     const mockRollResult = {
       total: 18,
       dicePools: {
@@ -32,7 +31,6 @@ describe('<RollDetailsModal />', () => {
       result: [18]
     } as unknown as NumericRollResult
 
-    // Mock the current roll with a saved roll source
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [{ id: 'die_1', sides: 20, quantity: 1, _type: 'numeric' }],
       rollResult: mockRollResult,
@@ -43,7 +41,6 @@ describe('<RollDetailsModal />', () => {
       }
     })
 
-    // Mock the modals state to show the roll details
     jest.mocked(Store.use.modals).mockReturnValue({
       showRollResults: false,
       showRollDetails: true,
@@ -54,15 +51,12 @@ describe('<RollDetailsModal />', () => {
 
     appRender(<RollDetailsModal />)
 
-    // Check that the saved roll name is displayed
     expect(screen.getByText('Critical Hit')).toBeTruthy()
 
-    // Check that the dice notation is also displayed
     expect(screen.getByText('1D20')).toBeTruthy()
   })
 
   test('displays only dice notation when roll source is standard', () => {
-    // Mock a roll result with dice pools
     const mockRollResult = {
       total: 18,
       dicePools: {
@@ -84,7 +78,6 @@ describe('<RollDetailsModal />', () => {
       result: [18]
     } as unknown as NumericRollResult
 
-    // Mock the current roll with a standard roll source
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [{ id: 'die_1', sides: 6, quantity: 3, _type: 'numeric' }],
       rollResult: mockRollResult,
@@ -94,7 +87,6 @@ describe('<RollDetailsModal />', () => {
       }
     })
 
-    // Mock the modals state to show the roll details
     jest.mocked(Store.use.modals).mockReturnValue({
       showRollResults: false,
       showRollDetails: true,
@@ -105,10 +97,8 @@ describe('<RollDetailsModal />', () => {
 
     appRender(<RollDetailsModal />)
 
-    // Check that the saved roll name is not displayed
     expect(screen.queryByText('Critical Hit')).toBeNull()
 
-    // Check that the dice notation is displayed
     expect(screen.getByText('3D6')).toBeTruthy()
   })
 })

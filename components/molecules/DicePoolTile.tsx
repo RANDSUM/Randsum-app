@@ -15,13 +15,11 @@ export function DicePoolTile({ die }: DicePoolTileProps) {
 
   const theme = useAppTheme()
 
-  // Memoize the shouldShake value to prevent unnecessary calculations
   const shouldShake = useMemo(
     () => die.id === recentlyAddedDie || false,
     [die.id, recentlyAddedDie]
   )
 
-  // Animation setup
   const shakeAnimation = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
@@ -51,7 +49,6 @@ export function DicePoolTile({ die }: DicePoolTileProps) {
     }
   }, [shouldShake, shakeAnimation])
 
-  // Memoize handlers to prevent recreation on each render
   const handlePress = useCallback(() => {
     openDiceDetails(die.id)
   }, [die.id, openDiceDetails])
@@ -60,7 +57,6 @@ export function DicePoolTile({ die }: DicePoolTileProps) {
     removeDie(die.id)
   }, [die.id, removeDie])
 
-  // Memoize the die notation to prevent recalculation on each render
   const dieNotation = useMemo(() => getDieNotation(die), [die])
 
   return (

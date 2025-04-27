@@ -23,7 +23,6 @@ export function RollDetailsModal() {
   const visible = Store.use.modals().showRollDetails
   const closeRollDetails = Store.use.closeRollDetails()
 
-  // Memoized values to prevent unnecessary recalculations
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)
   const rollGroups = useMemoizedRollResults(rollResult)
 
@@ -31,7 +30,6 @@ export function RollDetailsModal() {
     closeRollDetails()
   }, [closeRollDetails])
 
-  // Memoized computed values
   const rollTitle = useMemo(() => {
     if (rollSource.type === 'saved' && rollSource.name) {
       return rollSource.name
@@ -64,8 +62,7 @@ export function RollDetailsModal() {
                       style={[
                         styles.resultCell,
                         {
-                          backgroundColor:
-                            theme.colors.elevation.level2
+                          backgroundColor: theme.colors.elevation.level2
                         }
                       ]}
                     >

@@ -62,22 +62,19 @@ describe('<DiceRollerPage />', () => {
 
     appRender(<DiceRollerPage />)
 
-    // Just check that the button is rendered
     expect(elements.rollButton()).toBeTruthy()
   })
 
   test('roll button is enabled when dice pool has items', () => {
-    // Create a mock dice pool with a standard die
     const mockDicePool: PoolDie[] = [
       {
         id: 'rumi_1',
         sides: 20,
         quantity: 1,
-        _type: 'numeric'
+        type: 'standard'
       }
     ]
 
-    // Mock the store response
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: mockDicePool,
       rollResult: null,
@@ -85,10 +82,8 @@ describe('<DiceRollerPage />', () => {
       rollSource: { type: 'standard' }
     })
 
-    // Render the component and check the button
     appRender(<DiceRollerPage />)
 
-    // Check that the button is rendered
     expect(elements.rollButton()).toBeTruthy()
   })
 
@@ -126,7 +121,7 @@ describe('<DiceRollerPage />', () => {
         id: 'megamind_1',
         sides: 12,
         quantity: 2,
-        _type: 'numeric'
+        type: 'standard'
       }
     ]
 

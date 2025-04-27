@@ -1,4 +1,12 @@
-import { Button, Card, Dialog, Portal, Text, View, useAppTheme } from '@/components/atoms'
+import {
+  Button,
+  Card,
+  Dialog,
+  Portal,
+  Text,
+  View,
+  useAppTheme
+} from '@/components/atoms'
 import { Store } from '@/store'
 import { SavedRoll } from '@/types/savedRolls'
 import { useState } from 'react'
@@ -14,22 +22,15 @@ export function SavedRollItem({ roll }: SavedRollItemProps) {
   const removeSavedRoll = Store.use.removeSavedRoll()
   const [confirmVisible, setConfirmVisible] = useState(false)
 
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp).toLocaleDateString()
-  }
-
   const getDiceNotation = () => {
     return roll.dicePool
       .map((die) =>
-        die._type === 'notation'
-          ? die.sides.notation
-          : `${die.quantity}D${die.sides}`
+        die.type === 'notation' ? die.notation : `${die.quantity}D${die.sides}`
       )
       .join(' + ')
   }
 
   const handleRoll = () => {
-    // Roll the saved dice without modifying the current dice pool
     rollDiceFromSaved(roll.dicePool, roll.name)
   }
 
@@ -89,12 +90,16 @@ export function SavedRollItem({ roll }: SavedRollItemProps) {
           <Dialog.Title>Delete Saved Roll?</Dialog.Title>
           <Dialog.Content>
             <Text>
-              Are you sure you want to delete "{roll.name}"? This action cannot be undone.
+              Are you sure you want to delete "{roll.name}"? This action cannot
+              be undone.
             </Text>
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={hideConfirmation}>Cancel</Button>
-            <Button onPress={handleConfirmDelete} textColor={theme.colors.error}>
+            <Button
+              onPress={handleConfirmDelete}
+              textColor={theme.colors.error}
+            >
               Delete
             </Button>
           </Dialog.Actions>

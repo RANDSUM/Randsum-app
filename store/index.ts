@@ -34,10 +34,8 @@ const StoreBase = create<StoreState>()(
   )
 )
 
-// Create the store with type-safe selectors
 export const Store = createSelectors(StoreBase)
 
-// Helper function to create a new saved roll
 export const createSavedRoll = (
   name: string,
   dicePool: PoolDie[]
