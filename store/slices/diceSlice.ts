@@ -1,6 +1,6 @@
 import { StoreState } from '@/store/types'
-import { PoolDie } from '@/types/dice'
-import { createNotationDie, createStandardDie } from '@/utils/diceFactory'
+import { DiceType, PoolDie } from '@/types/dice'
+import { createDie } from '@/utils/diceFactory'
 import { HapticService } from '@/utils/haptics'
 import {
   DiceNotation,
@@ -28,8 +28,8 @@ export type DiceActions = {
   clearDicePool: () => void
   setRecentlyAddedDie: (id: string) => void
   clearRecentlyAddedDie: () => void
-  incrementDieQuantity: (dieIndex: number, quantity: number) => void
-  decrementDieQuantity: (dieIndex: number) => void
+  incrementDieQuantity: (id: string, quantity?: number) => void
+  decrementDieQuantity: (id: string) => void
   setRollResult: (result: NumericRollResult) => void
   rollDice: () => void
   rollDiceFromSaved: (savedDicePool: PoolDie[], savedRollName?: string) => void
@@ -57,15 +57,24 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
   addDie: (sides, quantity = 1) => {
     HapticService.light()
     const { dicePool } = get().currentRoll
-    const existingDieIndex = dicePool.findIndex(
-      (die: PoolDie) => die._type === 'numeric' && die.sides === sides
+
+    // Find existing die with same sides
+    const existingDie = dicePool.find(
+      (die) => die.type === DiceType.STANDARD && die.sides === sides
     )
 
-    if (existingDieIndex >= 0) {
-      get().incrementDieQuantity(existingDieIndex, quantity)
-      get().setRecentlyAddedDie(dicePool[existingDieIndex].id)
+    if (existingDie) {
+      // Increment quantity of existing die
+      get().incrementDieQuantity(existingDie.id, quantity)
+      get().setRecentlyAddedDie(existingDie.id)
     } else {
-      const newDie = createStandardDie(sides, quantity)
+      // Create new die
+      const newDie = createDie({
+        type: DiceType.STANDARD,
+        sides,
+        quantity
+      })
+
       set((state) => ({
         currentRoll: {
           ...state.currentRoll,
@@ -92,12 +101,19 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
       sides
     } = validationResult.digested as NumericRollOptions
 
+    // If no modifiers, treat as standard die
     if (!(Object.keys(modifiers || {}).length > 0)) {
       get().addDie(sides, quantity)
       return
     }
 
-    const newDie = createNotationDie(formattedNotation)
+    // Create new notation die
+    const newDie = createDie({
+      type: DiceType.NOTATION,
+      notation: formattedNotation,
+      quantity: 1
+    })
+
     set((state) => ({
       currentRoll: {
         ...state.currentRoll,
@@ -110,21 +126,21 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
   removeDie: (id) => {
     HapticService.medium()
     const { dicePool } = get().currentRoll
-    const dieIndex = dicePool.findIndex((die: PoolDie) => die.id === id)
+    const dieToRemove = dicePool.find((die) => die.id === id)
 
-    if (dieIndex >= 0) {
-      const dieToUpdate = dicePool[dieIndex]
+    if (!dieToRemove) return
 
-      if (dieToUpdate._type === 'numeric' && dieToUpdate.quantity > 1) {
-        get().decrementDieQuantity(dieIndex)
-      } else {
-        set((state) => ({
-          currentRoll: {
-            ...state.currentRoll,
-            dicePool: state.currentRoll.dicePool.filter((die) => die.id !== id)
-          }
-        }))
-      }
+    if (dieToRemove.quantity > 1) {
+      // Decrement quantity if more than 1
+      get().decrementDieQuantity(id)
+    } else {
+      // Remove die completely
+      set((state) => ({
+        currentRoll: {
+          ...state.currentRoll,
+          dicePool: state.currentRoll.dicePool.filter((die) => die.id !== id)
+        }
+      }))
     }
   },
 
@@ -161,12 +177,12 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     }))
   },
 
-  incrementDieQuantity: (dieIndex, quantity) => {
+  incrementDieQuantity: (id, quantity = 1) => {
     set((state) => ({
       currentRoll: {
         ...state.currentRoll,
-        dicePool: state.currentRoll.dicePool.map((die, index) => {
-          if (index === dieIndex && die._type === 'numeric') {
+        dicePool: state.currentRoll.dicePool.map((die) => {
+          if (die.id === id) {
             return {
               ...die,
               quantity: die.quantity + quantity
@@ -178,16 +194,12 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     }))
   },
 
-  decrementDieQuantity: (dieIndex) => {
+  decrementDieQuantity: (id) => {
     set((state) => ({
       currentRoll: {
         ...state.currentRoll,
-        dicePool: state.currentRoll.dicePool.map((die, index) => {
-          if (
-            index === dieIndex &&
-            die._type === 'numeric' &&
-            die.quantity > 1
-          ) {
+        dicePool: state.currentRoll.dicePool.map((die) => {
+          if (die.id === id && die.quantity > 1) {
             return {
               ...die,
               quantity: die.quantity - 1
@@ -212,8 +224,8 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
     const { dicePool } = get().currentRoll
     if (dicePool.length === 0) return
 
-    const diceToRoll = dicePool.map((die: PoolDie) =>
-      die._type === 'notation' ? die.sides.notation : die
+    const diceToRoll = dicePool.map((die) =>
+      die.type === DiceType.NOTATION ? die.notation : die
     )
 
     const result = roll(...diceToRoll) as NumericRollResult
@@ -234,8 +246,8 @@ export const createDiceSlice: StateCreator<StoreState, [], [], DiceSlice> = (
   rollDiceFromSaved: (savedDicePool: PoolDie[], savedRollName?: string) => {
     if (savedDicePool.length === 0) return
 
-    const diceToRoll = savedDicePool.map((die: PoolDie) =>
-      die._type === 'notation' ? die.sides.notation : die
+    const diceToRoll = savedDicePool.map((die) =>
+      die.type === DiceType.NOTATION ? die.notation : die
     )
 
     const result = roll(...diceToRoll) as NumericRollResult

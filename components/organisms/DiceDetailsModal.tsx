@@ -7,6 +7,7 @@ import {
   useAppTheme
 } from '@/components/atoms'
 import { Store } from '@/store'
+import { DiceType } from '@/types/dice'
 import { HapticService } from '@/utils/haptics'
 import { useMemoizedFindDie } from '@/utils/memoized'
 import { validateNotation } from '@randsum/notation'
@@ -21,6 +22,8 @@ export function DiceDetailsModal() {
   const closeDiceDetails = Store.use.closeDiceDetails()
   const addDie = Store.use.addDie()
   const removeDie = Store.use.removeDie()
+  const incrementDieQuantity = Store.use.incrementDieQuantity()
+  const decrementDieQuantity = Store.use.decrementDieQuantity()
 
   // Memoized die lookup to prevent unnecessary recalculations
   const die = useMemoizedFindDie(dicePool, selectedDieId)
@@ -38,40 +41,36 @@ export function DiceDetailsModal() {
   }, [die, removeDie, onDismiss])
 
   const handleIncreaseQuantity = useCallback(() => {
-    if (die && die._type === 'numeric') {
+    if (die && die.type === DiceType.STANDARD) {
       HapticService.light()
       addDie(die.sides)
     }
   }, [die, addDie])
 
   const handleDecreaseQuantity = useCallback(() => {
-    if (die && die._type === 'numeric' && die.quantity > 1) {
+    if (die && die.type === DiceType.STANDARD && die.quantity > 1) {
       HapticService.light()
-      // Find the index of the die in the pool
-      const dieIndex = dicePool.findIndex((d) => d.id === die.id)
-      if (dieIndex >= 0) {
-        Store.getState().decrementDieQuantity(dieIndex)
-      }
+      decrementDieQuantity(die.id)
     }
-  }, [die, dicePool])
+  }, [die, decrementDieQuantity])
 
   // Memoized computed values
   const notation = useMemo(() => {
     if (!die) return ''
-    return die._type === 'notation'
-      ? die.sides.notation
+    return die.type === DiceType.NOTATION
+      ? die.notation
       : `${die.quantity}D${die.sides}`
   }, [die])
 
   const description = useMemo(() => {
     if (!die) return ''
 
-    if (die._type === 'notation') {
-      const validationResult = validateNotation(die.sides.notation)
+    if (die.type === DiceType.NOTATION) {
+      const validationResult = validateNotation(die.notation)
       if (validationResult.valid && validationResult.description.length > 0) {
         return validationResult.description.join('\n')
       }
-      return `Custom notation: ${die.sides.notation}`
+      return `Custom notation: ${die.notation}`
     }
 
     return `${die.quantity} ${die.quantity === 1 ? 'die' : 'dice'} with ${
@@ -80,7 +79,7 @@ export function DiceDetailsModal() {
   }, [die])
 
   const showQuantityButtons = useMemo(() => {
-    return die && die._type === 'numeric'
+    return die && die.type === DiceType.STANDARD
   }, [die])
 
   if (!die) {

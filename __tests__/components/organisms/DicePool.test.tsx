@@ -1,7 +1,7 @@
 import { DicePool } from '@/components/organisms'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
-import { PoolDie } from '@/types/dice'
+import { DiceType, PoolDie } from '@/types/dice'
 import { screen } from '@testing-library/react-native'
 
 describe('<DicePool />', () => {
@@ -28,13 +28,13 @@ describe('<DicePool />', () => {
         id: 'rumi_1',
         sides: 20,
         quantity: 1,
-        _type: 'numeric'
+        type: DiceType.STANDARD
       },
       {
         id: 'mollie_2',
         sides: 6,
         quantity: 3,
-        _type: 'numeric'
+        type: DiceType.STANDARD
       }
     ]
 
@@ -55,9 +55,9 @@ describe('<DicePool />', () => {
     const mockDicePool: PoolDie[] = [
       {
         id: 'jarvis_1',
-        sides: { notation: '2D8+3' },
+        notation: '2D8+3',
         quantity: 1,
-        _type: 'notation'
+        type: DiceType.NOTATION
       }
     ]
 

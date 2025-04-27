@@ -1,6 +1,6 @@
 import { IconButton, Surface, Text, useAppTheme } from '@/components/atoms'
 import { Store } from '@/store'
-import { PoolDie } from '@/types/dice'
+import { PoolDie, getDieNotation } from '@/types/dice'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
 
@@ -61,13 +61,7 @@ export function DicePoolTile({ die }: DicePoolTileProps) {
   }, [die.id, removeDie])
 
   // Memoize the die notation to prevent recalculation on each render
-  const dieNotation = useMemo(
-    () =>
-      die._type === 'notation'
-        ? die.sides.notation
-        : `${die.quantity}D${die.sides}`,
-    [die]
-  )
+  const dieNotation = useMemo(() => getDieNotation(die), [die])
 
   return (
     <Animated.View
