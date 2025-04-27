@@ -3,6 +3,10 @@ import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
 import { screen, userEvent } from '@testing-library/react-native'
 
+const elements = {
+  saveButton: () => screen.getByText('Save')
+}
+
 describe('<SaveButton />', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -16,8 +20,7 @@ describe('<SaveButton />', () => {
   test('renders the Save button', () => {
     appRender(<SaveButton />)
 
-    const saveButton = screen.getByText('Save')
-    expect(saveButton).toBeTruthy()
+    expect(elements.saveButton()).toBeTruthy()
   })
 
   test('button is disabled when dice pool is empty', () => {
@@ -29,8 +32,7 @@ describe('<SaveButton />', () => {
 
     appRender(<SaveButton />)
 
-    const saveButton = screen.getByText('Save')
-    expect(saveButton).toBeDisabled()
+    expect(elements.saveButton()).toBeDisabled()
   })
 
   test('button is enabled when dice pool has items', () => {
@@ -44,8 +46,7 @@ describe('<SaveButton />', () => {
 
     appRender(<SaveButton />)
 
-    const saveButton = screen.getByText('Save')
-    expect(saveButton).not.toBeDisabled()
+    expect(elements.saveButton()).not.toBeDisabled()
   })
 
   test('shows save roll modal when pressed', async () => {
@@ -58,8 +59,7 @@ describe('<SaveButton />', () => {
 
     const { unmount } = appRender(<SaveButton />)
 
-    const saveButton = screen.getByText('Save')
-    await user.press(saveButton)
+    await user.press(elements.saveButton())
 
     const modalTitle = screen.getByText('Save Roll')
     expect(modalTitle).toBeTruthy()

@@ -1,7 +1,11 @@
 import DiceButton from '@/components/DiceButton'
 import { appRender } from '@/test/appRender'
 import { HapticService } from '@/utils/haptics'
-import { fireEvent, screen } from '@testing-library/react-native'
+import { screen, userEvent } from '@testing-library/react-native'
+
+const elements = {
+  button: (sides: number) => screen.getByText(`D${sides}`)
+}
 
 jest.mock('@/utils/haptics', () => ({
   HapticService: {
@@ -15,29 +19,29 @@ describe('<DiceButton />', () => {
   })
 
   test('renders with correct label', () => {
+    const sides = 20
     const mockOnPress = jest.fn()
-    appRender(<DiceButton sides={20} onPress={mockOnPress} />)
+    appRender(<DiceButton sides={sides} onPress={mockOnPress} />)
 
-    const button = screen.getByText('D20')
-    expect(button).toBeTruthy()
+    expect(elements.button(sides)).toBeTruthy()
   })
 
-  test('calls onPress with correct sides when pressed', () => {
+  test('calls onPress with correct sides when pressed', async () => {
+    const sides = 12
     const mockOnPress = jest.fn()
-    appRender(<DiceButton sides={12} onPress={mockOnPress} />)
+    appRender(<DiceButton sides={sides} onPress={mockOnPress} />)
 
-    const button = screen.getByText('D12')
-    fireEvent.press(button)
+    await userEvent.press(elements.button(sides))
 
-    expect(mockOnPress).toHaveBeenCalledWith(12)
+    expect(mockOnPress).toHaveBeenCalledWith(sides)
   })
 
-  test('triggers haptic feedback when pressed', () => {
+  test('triggers haptic feedback when pressed', async () => {
+    const sides = 6
     const mockOnPress = jest.fn()
-    appRender(<DiceButton sides={6} onPress={mockOnPress} />)
+    appRender(<DiceButton sides={sides} onPress={mockOnPress} />)
 
-    const button = screen.getByText('D6')
-    fireEvent.press(button)
+    await userEvent.press(elements.button(sides))
 
     expect(HapticService.light).toHaveBeenCalled()
   })
