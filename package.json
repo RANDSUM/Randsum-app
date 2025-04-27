@@ -17,11 +17,11 @@
     "ts:check": "tsc --noEmit",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "deploy:web": "expo export --platform web && eas-cli deploy",
-    "deploy:web:prod": "expo export --platform web && eas-cli deploy --prod",
-    "build:dev": "eas-cli build --platform ios --profile development-simulator --non-interactive --no-wait && eas-cli build --platform android --profile development --non-interactive --no-wait",
-    "build:preview": "eas-cli build --platform all --profile preview --non-interactive --no-wait",
-    "submit:production": "eas-cli build --platform all --profile production --non-interactive --auto-submit --no-wait"
+    "deploy:web": "expo export --platform web && npx eas-cli deploy",
+    "deploy:web:prod": "expo export --platform web && npx eas-cli deploy --prod",
+    "build:dev": "npx eas-cli build --platform ios --profile development-simulator --non-interactive --no-wait && npx eas-cli build --platform android --profile development --non-interactive --no-wait",
+    "build:preview": "npx eas-cli build --platform all --profile preview --non-interactive --no-wait",
+    "submit:production": "npx eas-cli build --platform all --profile production --non-interactive --auto-submit --no-wait"
   },
   "jest": {
     "preset": "jest-expo",
