@@ -1,12 +1,12 @@
-import { NotationPoolDie, PoolDie } from '@/types/dice'
+import { NotationDie, PoolDie } from '@/types/dice'
 
-export const isNotationDie = (die: PoolDie): die is NotationPoolDie => {
-  return die._type === 'notation'
+export const isNotationDie = (die: PoolDie): die is NotationDie => {
+  return die.type === 'notation'
 }
 
 export const getNotation = (die: PoolDie): string => {
   if (isNotationDie(die)) {
-    return die.sides.notation
+    return die.notation
   }
   return ''
 }
