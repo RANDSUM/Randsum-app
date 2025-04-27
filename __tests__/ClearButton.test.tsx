@@ -1,7 +1,7 @@
 import ClearButton from '@/components/ClearButton'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
-import { screen, userEvent } from '@testing-library/react-native'
+import { fireEvent, screen } from '@testing-library/react-native'
 
 describe('<ClearButton />', () => {
   beforeEach(() => {
@@ -17,7 +17,6 @@ describe('<ClearButton />', () => {
   })
 
   test('button is disabled when dice pool is empty', () => {
-    // Mock empty dice pool
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [],
       rollResult: null,
@@ -32,7 +31,6 @@ describe('<ClearButton />', () => {
   })
 
   test('button is enabled when dice pool has items', () => {
-    // Mock dice pool with items
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [
         { id: 'jack_kirby_1', sides: 20, quantity: 1, _type: 'numeric' }
@@ -48,8 +46,7 @@ describe('<ClearButton />', () => {
     expect(clearButton).not.toBeDisabled()
   })
 
-  test('shows confirmation dialog when pressed', async () => {
-    // Mock dice pool with items
+  test('shows confirmation dialog when pressed', () => {
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [{ id: 'rumi_1', sides: 20, quantity: 1, _type: 'numeric' }],
       rollResult: null,
@@ -59,9 +56,8 @@ describe('<ClearButton />', () => {
     appRender(<ClearButton />)
 
     const clearButton = screen.getByText('Clear')
-    await userEvent.press(clearButton)
+    fireEvent.press(clearButton)
 
-    // Check if dialog is shown
     const dialogTitle = screen.getByText('Clear Dice Pool?')
     const dialogContent = screen.getByText(
       'Are you sure you want to clear all dice from the pool?'
@@ -71,11 +67,10 @@ describe('<ClearButton />', () => {
     expect(dialogContent).toBeTruthy()
   })
 
-  test('calls clearDicePool when confirmed', async () => {
+  test('calls clearDicePool when confirmed', () => {
     const mockClearDicePool = jest.fn()
     jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
 
-    // Mock dice pool with items
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [{ id: 'mollie_1', sides: 12, quantity: 2, _type: 'numeric' }],
       rollResult: null,
@@ -84,22 +79,19 @@ describe('<ClearButton />', () => {
 
     appRender(<ClearButton />)
 
-    // Open dialog
     const clearButton = screen.getByText('Clear')
-    await userEvent.press(clearButton)
+    fireEvent.press(clearButton)
 
-    // Press confirm button
-    const confirmButton = screen.getAllByText('Clear')[1] // Second "Clear" is the confirm button
-    await userEvent.press(confirmButton)
+    const confirmButton = screen.getAllByText('Clear')[1]
+    fireEvent.press(confirmButton)
 
     expect(mockClearDicePool).toHaveBeenCalledTimes(1)
   })
 
-  test('does not call clearDicePool when canceled', async () => {
+  test('does not call clearDicePool when canceled', () => {
     const mockClearDicePool = jest.fn()
     jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
 
-    // Mock dice pool with items
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [{ id: 'megamind_1', sides: 8, quantity: 3, _type: 'numeric' }],
       rollResult: null,
@@ -108,13 +100,11 @@ describe('<ClearButton />', () => {
 
     appRender(<ClearButton />)
 
-    // Open dialog
     const clearButton = screen.getByText('Clear')
-    await userEvent.press(clearButton)
+    fireEvent.press(clearButton)
 
-    // Press cancel button
     const cancelButton = screen.getByText('Cancel')
-    await userEvent.press(cancelButton)
+    fireEvent.press(cancelButton)
 
     expect(mockClearDicePool).not.toHaveBeenCalled()
   })
