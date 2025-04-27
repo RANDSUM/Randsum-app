@@ -40,7 +40,7 @@ describe('<SaveButton />', () => {
   test('button is enabled when dice pool has items', () => {
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [
-        { id: 'megamind_1', sides: 20, quantity: 1, _type: 'numeric' }
+        { id: 'megamind_1', sides: 20, quantity: 1, type: 'standard' }
       ],
       rollResult: null,
       recentlyAddedDie: null,
@@ -54,7 +54,7 @@ describe('<SaveButton />', () => {
 
   test('shows save roll modal when pressed', async () => {
     jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'mollie_1', sides: 12, quantity: 2, _type: 'numeric' }],
+      dicePool: [{ id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }],
       rollResult: null,
       recentlyAddedDie: null,
       rollSource: { type: 'standard' }

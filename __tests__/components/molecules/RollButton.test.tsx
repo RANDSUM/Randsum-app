@@ -32,7 +32,7 @@ describe('<RollButton />', () => {
         id: 'rumi_1',
         sides: 20,
         quantity: 1,
-        _type: 'numeric'
+        type: 'standard'
       }
     ]
 
@@ -56,7 +56,7 @@ describe('<RollButton />', () => {
         id: 'megamind_1',
         sides: 12,
         quantity: 2,
-        _type: 'numeric'
+        type: 'standard'
       }
     ]
 

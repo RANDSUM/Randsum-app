@@ -43,7 +43,7 @@ describe('<ClearButton />', () => {
   test('button is enabled when dice pool has items', () => {
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [
-        { id: 'jack_kirby_1', sides: 20, quantity: 1, _type: 'numeric' }
+        { id: 'jack_kirby_1', sides: 20, quantity: 1, type: 'standard' }
       ],
       rollResult: null,
       recentlyAddedDie: null,
@@ -57,7 +57,7 @@ describe('<ClearButton />', () => {
 
   test('shows confirmation dialog when pressed', async () => {
     jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'rumi_1', sides: 20, quantity: 1, _type: 'numeric' }],
+      dicePool: [{ id: 'rumi_1', sides: 20, quantity: 1, type: 'standard' }],
       rollResult: null,
       recentlyAddedDie: null,
       rollSource: { type: 'standard' }
@@ -76,7 +76,7 @@ describe('<ClearButton />', () => {
     jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
 
     jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'mollie_1', sides: 12, quantity: 2, _type: 'numeric' }],
+      dicePool: [{ id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }],
       rollResult: null,
       recentlyAddedDie: null,
       rollSource: { type: 'standard' }
@@ -95,7 +95,7 @@ describe('<ClearButton />', () => {
     jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
 
     jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'megamind_1', sides: 8, quantity: 3, _type: 'numeric' }],
+      dicePool: [{ id: 'megamind_1', sides: 8, quantity: 3, type: 'standard' }],
       rollResult: null,
       recentlyAddedDie: null,
       rollSource: { type: 'standard' }

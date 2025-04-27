@@ -16,6 +16,7 @@ describe('<RollDetailsModal />', () => {
         die_1: {
           argument: '1d20',
           options: { sides: 20, quantity: 1 },
+
           notation: '1d20',
           description: ['Roll 1 twenty-sided die']
         }
@@ -32,7 +33,7 @@ describe('<RollDetailsModal />', () => {
     } as unknown as NumericRollResult
 
     jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, _type: 'numeric' }],
+      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, type: 'standard' }],
       rollResult: mockRollResult,
       recentlyAddedDie: null,
       rollSource: {
@@ -79,7 +80,7 @@ describe('<RollDetailsModal />', () => {
     } as unknown as NumericRollResult
 
     jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'die_1', sides: 6, quantity: 3, _type: 'numeric' }],
+      dicePool: [{ id: 'die_1', sides: 6, quantity: 3, type: 'standard' }],
       rollResult: mockRollResult,
       recentlyAddedDie: null,
       rollSource: {

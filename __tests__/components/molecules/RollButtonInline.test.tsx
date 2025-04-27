@@ -35,7 +35,7 @@ describe('<RollButtonInline />', () => {
   test('button is enabled when dice pool has items', () => {
     jest.mocked(Store.use.currentRoll).mockReturnValue({
       dicePool: [
-        { id: 'dark_souls_2', sides: 20, quantity: 1, _type: 'numeric' }
+        { id: 'dark_souls_2', sides: 20, quantity: 1, type: 'standard' }
       ],
       rollResult: null,
       recentlyAddedDie: null,
@@ -53,7 +53,7 @@ describe('<RollButtonInline />', () => {
     jest.mocked(Store.use.rollDice).mockReturnValue(mockRollDice)
 
     jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'mollie_1', sides: 12, quantity: 2, _type: 'numeric' }],
+      dicePool: [{ id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }],
       rollResult: null,
       recentlyAddedDie: null,
       rollSource: { type: 'standard' }

@@ -54,7 +54,7 @@ export function RollDetailsModal() {
           <ScrollView style={styles.scrollView}>
             {rollGroups.map((group, index) => (
               <View key={index} style={styles.resultGroup}>
-                <Text style={styles.groupTitle}>{group.title}</Text>
+                <Text style={styles.groupTitle}>{group.label}</Text>
                 <View style={styles.resultRow}>
                   {group.results.map((result, resultIndex) => (
                     <View

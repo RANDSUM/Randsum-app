@@ -32,7 +32,7 @@ describe('<RollResultsModal />', () => {
     } as unknown as NumericRollResult
 
     jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, _type: 'numeric' }],
+      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, type: 'standard' }],
       rollResult: mockRollResult,
       recentlyAddedDie: null,
       rollSource: { type: 'standard' }
@@ -84,7 +84,7 @@ describe('<RollResultsModal />', () => {
     } as unknown as NumericRollResult
 
     jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, _type: 'numeric' }],
+      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, type: 'standard' }],
       rollResult: mockRollResult,
       recentlyAddedDie: null,
       rollSource: { type: 'standard' }
