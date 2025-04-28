@@ -1,9 +1,10 @@
-import { View } from '@/components/atoms'
-import { NotationValidatorForm } from '@/components/molecules'
-import { MainLayout } from '@/components/templates'
 import { validateNotation } from '@randsum/notation'
 import { useForm } from 'react-hook-form'
 import { StyleSheet } from 'react-native'
+
+import { View } from '@/components/atoms'
+import { NotationValidatorForm } from '@/components/molecules'
+import { MainLayout } from '@/components/templates'
 
 type NotationFormData = {
   notation: string

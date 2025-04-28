@@ -1,8 +1,9 @@
+import { screen } from '@testing-library/react-native'
+
 import { DicePool } from '@/components/organisms'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
 import { PoolDie } from '@/types/dice'
-import { screen } from '@testing-library/react-native'
 
 describe('<DicePool />', () => {
   beforeEach(() => {

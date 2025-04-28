@@ -1,14 +1,16 @@
-import { PoolDie } from '@/types/dice'
-import { SavedRoll } from '@/types/savedRolls'
-import { generateId } from '@/utils/id'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
+
 import { createSelectors } from './selectors'
 import { createDiceSlice } from './slices/diceSlice'
 import { createModalsSlice } from './slices/modalsSlice'
 import { createSavedRollsSlice } from './slices/savedRollsSlice'
 import { StoreState } from './types'
+
+import { generateId } from '@/utils/id'
+import { SavedRoll } from '@/types/savedRolls'
+import { PoolDie } from '@/types/dice'
 
 const STORAGE_KEY = 'RANDSUM_APP_STATE'
 

@@ -1,6 +1,7 @@
+import { DiceNotation } from '@randsum/dice'
+
 import { PoolDie } from '@/types/dice'
 import { generateId } from '@/utils/id'
-import { DiceNotation } from '@randsum/dice'
 
 type CreateDieOptions =
   | {

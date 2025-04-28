@@ -1,6 +1,7 @@
+import { screen } from '@testing-library/react-native'
+
 import { Button } from '@/components/atoms'
 import { appRender } from '@/test/appRender'
-import { screen } from '@testing-library/react-native'
 
 describe('<Button />', () => {
   test('renders with text', () => {

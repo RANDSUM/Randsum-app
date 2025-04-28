@@ -1,7 +1,8 @@
-import { Text, TextInput, View, useAppTheme } from '@/components/atoms'
-import { NotationGuide } from '@/components/molecules'
 import { validateNotation } from '@randsum/notation'
 import { StyleSheet } from 'react-native'
+
+import { Text, TextInput, View, useAppTheme } from '@/components/atoms'
+import { NotationGuide } from '@/components/molecules'
 
 type NotationValidatorProps = {
   notation: string

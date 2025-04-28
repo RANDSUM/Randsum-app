@@ -1,3 +1,6 @@
+import { Tabs } from 'expo-router/tabs'
+import { StyleSheet } from 'react-native'
+
 import { useAppTheme } from '@/components/atoms'
 import {
   DiceDetailsModal,
@@ -5,8 +8,6 @@ import {
   RollDetailsModal,
   RollResultsToast
 } from '@/components/organisms'
-import { Tabs } from 'expo-router/tabs'
-import { StyleSheet } from 'react-native'
 
 type TabsLayoutProps = {
   children: React.ReactNode

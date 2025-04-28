@@ -1,8 +1,9 @@
+import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { Animated, Pressable, StyleSheet } from 'react-native'
+
 import { IconButton, Surface, Text, useAppTheme } from '@/components/atoms'
 import { Store } from '@/store'
 import { PoolDie, getDieNotation } from '@/types/dice'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
-import { Animated, Pressable, StyleSheet } from 'react-native'
 
 type DicePoolTileProps = {
   die: PoolDie

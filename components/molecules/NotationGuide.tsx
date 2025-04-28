@@ -1,5 +1,6 @@
-import { Text, View } from '@/components/atoms'
 import { StyleSheet } from 'react-native'
+
+import { Text, View } from '@/components/atoms'
 
 export function NotationGuide() {
   return (

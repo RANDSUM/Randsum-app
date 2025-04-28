@@ -1,8 +1,9 @@
+import { useCallback } from 'react'
+import { StyleSheet, View } from 'react-native'
+
 import { Portal, Snackbar, Text, useAppTheme } from '@/components/atoms'
 import { Store } from '@/store'
 import { useMemoizedDiceNotation } from '@/utils/memoized'
-import { useCallback } from 'react'
-import { StyleSheet, View } from 'react-native'
 
 export function RollResultsToast() {
   const theme = useAppTheme()

@@ -1,4 +1,5 @@
 import { StateCreator } from 'zustand'
+
 import { StoreState } from '../types'
 
 export type ModalsState = {

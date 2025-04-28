@@ -1,7 +1,9 @@
-import { Text, TextInput, View, useAppTheme } from '@/components/atoms'
 import { validateNotation } from '@randsum/notation'
 import { StyleSheet } from 'react-native'
+
 import { NotationGuide } from './NotationGuide'
+
+import { Text, TextInput, View, useAppTheme } from '@/components/atoms'
 
 type NotationValidatorFormProps = {
   notation: string

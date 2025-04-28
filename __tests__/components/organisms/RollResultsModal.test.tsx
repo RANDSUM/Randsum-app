@@ -1,8 +1,9 @@
+import { NumericRollResult } from '@randsum/dice'
+import { screen, userEvent } from '@testing-library/react-native'
+
 import { RollResultsModal } from '@/components/organisms'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
-import { NumericRollResult } from '@randsum/dice'
-import { screen, userEvent } from '@testing-library/react-native'
 
 describe('<RollResultsModal />', () => {
   beforeEach(() => {

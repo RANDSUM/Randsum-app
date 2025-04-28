@@ -1,3 +1,6 @@
+import { useCallback } from 'react'
+import { StyleSheet } from 'react-native'
+
 import {
   Button,
   Dialog,
@@ -8,8 +11,6 @@ import {
 } from '@/components/atoms'
 import { Store } from '@/store'
 import { useMemoizedDiceNotation } from '@/utils/memoized'
-import { useCallback } from 'react'
-import { StyleSheet } from 'react-native'
 
 export function RollResultsModal() {
   const theme = useAppTheme()

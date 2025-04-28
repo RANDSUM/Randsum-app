@@ -1,3 +1,7 @@
+import { validateNotation } from '@randsum/notation'
+import { useCallback, useMemo } from 'react'
+import { StyleSheet } from 'react-native'
+
 import {
   Button,
   Dialog,
@@ -9,9 +13,6 @@ import {
 import { Store } from '@/store'
 import { HapticService } from '@/utils/haptics'
 import { useMemoizedFindDie } from '@/utils/memoized'
-import { validateNotation } from '@randsum/notation'
-import { useCallback, useMemo } from 'react'
-import { StyleSheet } from 'react-native'
 
 export function DiceDetailsModal() {
   const theme = useAppTheme()

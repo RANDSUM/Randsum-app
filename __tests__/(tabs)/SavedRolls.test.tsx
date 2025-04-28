@@ -1,7 +1,8 @@
+import { screen } from '@testing-library/react-native'
+
 import SavedRolls from '@/app/(tabs)/saved-rolls'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
-import { screen } from '@testing-library/react-native'
 
 const elements = {
   loadingIndicator: () => screen.queryByRole('progressbar'),

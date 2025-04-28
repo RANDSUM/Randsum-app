@@ -1,7 +1,8 @@
-import { useAppTheme } from '@/components/atoms'
-import { TabsLayout } from '@/components/templates'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Tabs } from 'expo-router/tabs'
+
+import { useAppTheme } from '@/components/atoms'
+import { TabsLayout } from '@/components/templates'
 
 export default function TabsLayoutRoute() {
   const theme = useAppTheme()

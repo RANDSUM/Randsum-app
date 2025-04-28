@@ -1,3 +1,6 @@
+import { useCallback, useMemo } from 'react'
+import { ScrollView, StyleSheet } from 'react-native'
+
 import {
   Button,
   Dialog,
@@ -11,8 +14,6 @@ import {
   useMemoizedDiceNotation,
   useMemoizedRollResults
 } from '@/utils/memoized'
-import { useCallback, useMemo } from 'react'
-import { ScrollView, StyleSheet } from 'react-native'
 
 export function RollDetailsModal() {
   const theme = useAppTheme()

@@ -1,7 +1,8 @@
+import { screen, userEvent } from '@testing-library/react-native'
+
 import { ClearButton } from '@/components/molecules'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
-import { screen, userEvent } from '@testing-library/react-native'
 
 const elements = {
   clearButton: () => screen.getByText('Clear'),

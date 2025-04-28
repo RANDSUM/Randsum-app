@@ -1,5 +1,6 @@
-import { View, useAppTheme } from '@/components/atoms'
 import { StyleSheet } from 'react-native'
+
+import { View, useAppTheme } from '@/components/atoms'
 
 type MainLayoutProps = {
   children: React.ReactNode

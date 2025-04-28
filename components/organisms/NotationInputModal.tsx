@@ -1,9 +1,10 @@
-import { Button, Dialog, Portal, useAppTheme } from '@/components/atoms'
-import { NotationValidatorForm } from '@/components/molecules'
-import { Store } from '@/store'
 import { validateNotation } from '@randsum/notation'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet } from 'react-native'
+
+import { Button, Dialog, Portal, useAppTheme } from '@/components/atoms'
+import { NotationValidatorForm } from '@/components/molecules'
+import { Store } from '@/store'
 
 type NotationFormData = {
   notation: string

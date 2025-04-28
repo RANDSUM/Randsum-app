@@ -1,5 +1,6 @@
-import { Text, View, useAppTheme } from '@/components/atoms'
 import { StyleSheet } from 'react-native'
+
+import { Text, View, useAppTheme } from '@/components/atoms'
 
 export function Footer() {
   const theme = useAppTheme()

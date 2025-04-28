@@ -1,6 +1,7 @@
+import { StyleSheet } from 'react-native'
+
 import { Button, useAppTheme } from '@/components/atoms'
 import { HapticService } from '@/utils/haptics'
-import { StyleSheet } from 'react-native'
 
 type DiceButtonProps = {
   sides: number

@@ -1,6 +1,8 @@
-import { SavedRoll } from '@/types/savedRolls'
 import { StateCreator } from 'zustand'
+
 import { StoreState } from '../types'
+
+import { SavedRoll } from '@/types/savedRolls'
 
 export type SavedRollsState = {
   rolls: SavedRoll[]

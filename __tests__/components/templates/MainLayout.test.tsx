@@ -1,7 +1,8 @@
+import { screen } from '@testing-library/react-native'
+
 import { Text } from '@/components/atoms'
 import { MainLayout } from '@/components/templates'
 import { appRender } from '@/test/appRender'
-import { screen } from '@testing-library/react-native'
 
 describe('<MainLayout />', () => {
   test('renders children correctly', () => {

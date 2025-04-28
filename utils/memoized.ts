@@ -1,8 +1,10 @@
-import { PoolDie } from '@/types/dice'
 import { NumericRollResult } from '@randsum/dice'
 import { useMemo } from 'react'
+
 import { getCommonDiceNotation } from './diceNotation'
 import { groupRollResults } from './diceResults'
+
+import { PoolDie } from '@/types/dice'
 
 /**
  * Custom hook to memoize the common dice notation string

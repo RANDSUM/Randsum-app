@@ -1,8 +1,9 @@
+import { screen, userEvent } from '@testing-library/react-native'
+
 import Index from '@/app/(tabs)/index'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
 import { PoolDie } from '@/types/dice'
-import { screen, userEvent } from '@testing-library/react-native'
 
 const elements = {
   rollButton: () => screen.getByText('Roll'),

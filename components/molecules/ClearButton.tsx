@@ -1,7 +1,8 @@
-import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/atoms'
-import { Store } from '@/store'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native'
+
+import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/atoms'
+import { Store } from '@/store'
 
 export function ClearButton() {
   const theme = useAppTheme()

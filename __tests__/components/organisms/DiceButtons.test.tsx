@@ -1,7 +1,8 @@
+import { screen, userEvent } from '@testing-library/react-native'
+
 import { DiceButtons } from '@/components/organisms'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
-import { screen, userEvent } from '@testing-library/react-native'
 
 const elements = {
   d4Button: () => screen.getByText('D4'),

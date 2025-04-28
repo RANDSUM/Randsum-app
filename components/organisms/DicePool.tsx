@@ -1,8 +1,9 @@
+import { memo } from 'react'
+import { StyleSheet } from 'react-native'
+
 import { Text, View } from '@/components/atoms'
 import { DicePoolTile } from '@/components/molecules'
 import { Store } from '@/store'
-import { memo } from 'react'
-import { StyleSheet } from 'react-native'
 
 const MemoizedDicePoolTile = memo(DicePoolTile)
 

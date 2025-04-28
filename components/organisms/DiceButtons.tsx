@@ -1,3 +1,5 @@
+import { StyleSheet } from 'react-native'
+
 import { Button, View, useAppTheme } from '@/components/atoms'
 import {
   ClearButton,
@@ -6,7 +8,6 @@ import {
   SaveButton
 } from '@/components/molecules'
 import { Store } from '@/store'
-import { StyleSheet } from 'react-native'
 
 export function DiceButtons() {
   const addDie = Store.use.addDie()

@@ -1,10 +1,11 @@
-import { ThemeProvider } from '@/components'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useFonts } from 'expo-font'
 import { Slot } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
+
+import { ThemeProvider } from '@/components'
 import 'react-native-gesture-handler'
 import 'react-native-reanimated'
 

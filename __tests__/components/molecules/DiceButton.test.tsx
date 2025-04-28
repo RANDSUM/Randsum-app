@@ -1,6 +1,7 @@
+import { screen, userEvent } from '@testing-library/react-native'
+
 import { DiceButton } from '@/components/molecules'
 import { appRender } from '@/test/appRender'
-import { screen, userEvent } from '@testing-library/react-native'
 
 const elements = {
   button: (sides: number) => screen.getByText(`D${sides}`)

@@ -1,7 +1,3 @@
-import { StoreState } from '@/store/types'
-import { PoolDie } from '@/types/dice'
-import { createDie } from '@/utils/diceFactory'
-import { HapticService } from '@/utils/haptics'
 import {
   DiceNotation,
   NumericRollOptions,
@@ -10,6 +6,11 @@ import {
 } from '@randsum/dice'
 import { validateNotation } from '@randsum/notation'
 import { StateCreator } from 'zustand'
+
+import { StoreState } from '@/store/types'
+import { PoolDie } from '@/types/dice'
+import { createDie } from '@/utils/diceFactory'
+import { HapticService } from '@/utils/haptics'
 
 export type CurrentRollState = {
   dicePool: PoolDie[]

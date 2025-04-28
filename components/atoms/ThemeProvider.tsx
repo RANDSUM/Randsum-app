@@ -1,5 +1,6 @@
-import { CustomDarkTheme } from '@/constants/Theme'
 import { Provider as PaperProvider } from 'react-native-paper'
+
+import { CustomDarkTheme } from '@/constants/Theme'
 
 type ThemeProviderProps = {
   children: React.ReactNode

@@ -1,9 +1,10 @@
+import { FlashList } from '@shopify/flash-list'
+import { StyleSheet } from 'react-native'
+
 import { ActivityIndicator, Text, View, useAppTheme } from '@/components/atoms'
 import { SavedRollItem } from '@/components/molecules'
 import { MainLayout } from '@/components/templates'
 import { Store } from '@/store'
-import { FlashList } from '@shopify/flash-list'
-import { StyleSheet } from 'react-native'
 
 export function SavedRollsPage() {
   const theme = useAppTheme()
