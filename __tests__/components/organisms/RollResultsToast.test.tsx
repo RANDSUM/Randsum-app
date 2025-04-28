@@ -7,6 +7,11 @@ import { screen } from '@testing-library/react-native'
 describe('<RollResultsToast />', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.useFakeTimers()
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
   })
 
   test('renders saved roll name when roll source is from saved roll', () => {

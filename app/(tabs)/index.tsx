@@ -1,5 +1,10 @@
-import { DiceRollerPage } from '@/components'
+import { DiceRollerPage, Footer } from '@/components'
 
 export default function Index() {
-  return <DiceRollerPage />
+  return (
+    <>
+      <DiceRollerPage />
+      <Footer />
+    </>
+  )
 }

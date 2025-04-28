@@ -1,5 +1,10 @@
-import { SavedRollsPage } from '@/components'
+import { Footer, SavedRollsPage } from '@/components'
 
 export default function SavedRolls() {
-  return <SavedRollsPage />
+  return (
+    <>
+      <SavedRollsPage />
+      <Footer />
+    </>
+  )
 }

@@ -3,7 +3,6 @@ import {
   DiceDetailsModal,
   NotationInputModal,
   RollDetailsModal,
-  RollResultsModal,
   RollResultsToast
 } from '@/components/organisms'
 import { Tabs } from 'expo-router/tabs'

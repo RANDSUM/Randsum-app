@@ -41,7 +41,7 @@ export function SaveRollModal({ visible, onDismiss }: SaveRollModalProps) {
 
     addSavedRoll(newRoll)
     handleDismiss()
-    router.push('/(drawer)/saved-rolls')
+    router.push('/(tabs)/saved-rolls')
   }
 
   const handleDismiss = () => {

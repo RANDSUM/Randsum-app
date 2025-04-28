@@ -1,4 +1,4 @@
-import { Footer, ThemeProvider } from '@/components'
+import { ThemeProvider } from '@/components'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useFonts } from 'expo-font'
 import { Slot } from 'expo-router'
@@ -39,7 +39,6 @@ function RootLayoutNav() {
     <ThemeProvider>
       <StatusBar style="light" />
       <Slot />
-      <Footer />
     </ThemeProvider>
   )
 }
