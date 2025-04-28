@@ -30,7 +30,7 @@ jobs:
           cache: 'npm'
 
       - name: 📦 Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Generate Expo Route Types
         run: npm run expo:types
