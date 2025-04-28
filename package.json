@@ -35,7 +35,7 @@
   "dependencies": {
     "@randsum/dice": "^0.1.25",
     "@randsum/notation": "^0.1.25",
-    "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-async-storage/async-storage": "2.1.2",
     "@shopify/flash-list": "1.7.3",
     "expo": "~52.0.46",
     "expo-constants": "~17.0.8",
