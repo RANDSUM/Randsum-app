@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 
 import {
@@ -14,8 +14,10 @@ import { useMemoizedDiceNotation } from '@/utils/memoized'
 
 export function RollResultsModal() {
   const theme = useAppTheme()
-  const rollResult = Store.use.currentRoll().rollResult
-  const dicePool = Store.use.currentRoll().dicePool
+  const currentRoll = Store.use.currentRoll()
+  const rollResult = currentRoll.rollResult
+  const dicePool = currentRoll.dicePool
+  const rollSource = currentRoll.rollSource
   const visible = Store.use.modals().showRollResults
   const closeRollResults = Store.use.closeRollResults()
   const openRollDetails = Store.use.openRollDetails()
@@ -31,6 +33,13 @@ export function RollResultsModal() {
     openRollDetails()
   }, [onDismiss, openRollDetails])
 
+  const modalTitle = useMemo(() => {
+    if (rollSource.type === 'saved' && rollSource.name) {
+      return rollSource.name
+    }
+    return 'Roll Results'
+  }, [rollSource])
+
   if (!rollResult) {
     return null
   }
@@ -42,7 +51,7 @@ export function RollResultsModal() {
         onDismiss={onDismiss}
         style={[styles.dialog, { backgroundColor: theme.colors.background }]}
       >
-        <Dialog.Title style={styles.title}>Roll Results</Dialog.Title>
+        <Dialog.Title style={styles.title}>{modalTitle}</Dialog.Title>
         <Dialog.Content style={styles.content}>
           <Text style={styles.modalNotation}>{commonDiceNotation}</Text>
           <View style={styles.centeredContent}>

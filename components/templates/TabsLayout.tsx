@@ -6,7 +6,7 @@ import {
   DiceDetailsModal,
   NotationInputModal,
   RollDetailsModal,
-  RollResultsToast
+  RollResultsModal
 } from '@/components/organisms'
 
 type TabsLayoutProps = {
@@ -37,7 +37,7 @@ export function TabsLayout({ children }: TabsLayoutProps) {
       >
         {children}
       </Tabs>
-      <RollResultsToast />
+      <RollResultsModal />
       <RollDetailsModal />
       <DiceDetailsModal />
       <NotationInputModal />
