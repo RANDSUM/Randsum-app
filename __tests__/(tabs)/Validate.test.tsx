@@ -1,4 +1,4 @@
-import Validate from '@/app/(drawer)/validate'
+import Validate from '@/app/(tabs)/validate'
 import { appRender } from '@/test/appRender'
 import { NumericValidationResult, validateNotation } from '@randsum/notation'
 import { screen, userEvent } from '@testing-library/react-native'

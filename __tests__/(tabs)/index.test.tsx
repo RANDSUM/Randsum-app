@@ -1,4 +1,4 @@
-import Index from '@/app/(drawer)/index'
+import Index from '@/app/(tabs)/index'
 import { Store } from '@/store'
 import { appRender } from '@/test/appRender'
 import { PoolDie } from '@/types/dice'
