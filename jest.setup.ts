@@ -47,8 +47,8 @@ jest.mock('@/store', () => ({
   },
   useSavedRollsState: {
     use: {
-      savedRollsList: jest.fn().mockReturnValue([]),
-      isSavedRollsLoading: jest.fn().mockReturnValue(false),
+      rolls: jest.fn().mockReturnValue([]),
+      isLoading: jest.fn().mockReturnValue(false),
       setSavedRolls: jest.fn(),
       addSavedRoll: jest.fn(),
       removeSavedRoll: jest.fn(),
