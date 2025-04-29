@@ -5,4 +5,3 @@ export { NotationInputModal } from './NotationInputModal'
 export { RollDetailsModal } from './RollDetailsModal'
 export { RollResultsModal } from './RollResultsModal'
 export { SaveRollModal } from './SaveRollModal'
-
