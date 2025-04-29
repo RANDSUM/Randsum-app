@@ -1,7 +1,7 @@
 import { screen, userEvent } from '@testing-library/react-native'
 
 import { ClearButton } from '@/components/molecules'
-import { useAppStore } from '@/store'
+import { useCurrentRollState } from '@/store'
 import { appRender } from '@/test/appRender'
 
 const elements = {
@@ -29,7 +29,7 @@ describe('<ClearButton />', () => {
   })
 
   test('button is disabled when dice pool is empty', () => {
-    jest.mocked(useAppStore.use.dicePool).mockReturnValue([])
+    jest.mocked(useCurrentRollState.use.dicePool).mockReturnValue([])
 
     appRender(<ClearButton />)
 
@@ -38,7 +38,7 @@ describe('<ClearButton />', () => {
 
   test('button is enabled when dice pool has items', () => {
     jest
-      .mocked(useAppStore.use.dicePool)
+      .mocked(useCurrentRollState.use.dicePool)
       .mockReturnValue([
         { id: 'jack_kirby_1', sides: 20, quantity: 1, type: 'standard' }
       ])
@@ -50,7 +50,7 @@ describe('<ClearButton />', () => {
 
   test('shows confirmation dialog when pressed', async () => {
     jest
-      .mocked(useAppStore.use.dicePool)
+      .mocked(useCurrentRollState.use.dicePool)
       .mockReturnValue([
         { id: 'rumi_1', sides: 20, quantity: 1, type: 'standard' }
       ])
@@ -65,10 +65,12 @@ describe('<ClearButton />', () => {
 
   test('calls clearDicePool when confirmed', async () => {
     const mockClearDicePool = jest.fn()
-    jest.mocked(useAppStore.use.clearDicePool).mockReturnValue(mockClearDicePool)
+    jest
+      .mocked(useCurrentRollState.use.clearDicePool)
+      .mockReturnValue(mockClearDicePool)
 
     jest
-      .mocked(useAppStore.use.dicePool)
+      .mocked(useCurrentRollState.use.dicePool)
       .mockReturnValue([
         { id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }
       ])
@@ -83,10 +85,12 @@ describe('<ClearButton />', () => {
 
   test('does not call clearDicePool when canceled', async () => {
     const mockClearDicePool = jest.fn()
-    jest.mocked(useAppStore.use.clearDicePool).mockReturnValue(mockClearDicePool)
+    jest
+      .mocked(useCurrentRollState.use.clearDicePool)
+      .mockReturnValue(mockClearDicePool)
 
     jest
-      .mocked(useAppStore.use.dicePool)
+      .mocked(useCurrentRollState.use.dicePool)
       .mockReturnValue([
         { id: 'megamind_1', sides: 8, quantity: 3, type: 'standard' }
       ])
