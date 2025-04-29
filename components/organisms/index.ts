@@ -4,5 +4,5 @@ export { DicePool } from './DicePool'
 export { NotationInputModal } from './NotationInputModal'
 export { RollDetailsModal } from './RollDetailsModal'
 export { RollResultsModal } from './RollResultsModal'
-export { RollResultsToast } from './RollResultsToast'
 export { SaveRollModal } from './SaveRollModal'
+
