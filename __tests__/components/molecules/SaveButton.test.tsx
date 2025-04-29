@@ -34,9 +34,11 @@ describe('<SaveButton />', () => {
   })
 
   test('button is enabled when dice pool has items', () => {
-    jest.mocked(Store.use.dicePool).mockReturnValue([
-      { id: 'megamind_1', sides: 20, quantity: 1, type: 'standard' }
-    ])
+    jest
+      .mocked(Store.use.dicePool)
+      .mockReturnValue([
+        { id: 'megamind_1', sides: 20, quantity: 1, type: 'standard' }
+      ])
 
     appRender(<SaveButton />)
 
@@ -44,9 +46,11 @@ describe('<SaveButton />', () => {
   })
 
   test('shows save roll modal when pressed', async () => {
-    jest.mocked(Store.use.dicePool).mockReturnValue([
-      { id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }
-    ])
+    jest
+      .mocked(Store.use.dicePool)
+      .mockReturnValue([
+        { id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }
+      ])
     const user = userEvent.setup()
 
     const { unmount } = appRender(<SaveButton />)

@@ -67,9 +67,11 @@ describe('<Index />', () => {
     const mockClearDicePool = jest.fn()
     jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
 
-    jest.mocked(Store.use.dicePool).mockReturnValue([
-      { id: 'rumi_1', sides: 20, quantity: 1, type: 'standard' }
-    ])
+    jest
+      .mocked(Store.use.dicePool)
+      .mockReturnValue([
+        { id: 'rumi_1', sides: 20, quantity: 1, type: 'standard' }
+      ])
 
     const user = userEvent.setup()
     appRender(<Index />)

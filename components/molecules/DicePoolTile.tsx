@@ -38,51 +38,41 @@ export function DicePoolTile({ die }: DicePoolTileProps) {
   // Define the animated style using the shared values
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [
-        { translateX: translateX.value },
-        { scale: scale.value }
-      ],
+      transform: [{ translateX: translateX.value }, { scale: scale.value }],
       opacity: opacity.value
     }
   })
 
-  // Function to trigger haptic feedback
   const triggerHaptic = useCallback(() => {
     HapticService.light()
   }, [])
 
-  // Define a worklet function for the shake animation
   const startShakeAnimation = useCallback(() => {
-    'worklet';
+    'worklet'
 
-    // Create a sequence of animations for the shake effect
     translateX.value = withSequence(
       withTiming(5, { duration: 50, easing: Easing.linear }),
       withTiming(-5, { duration: 50, easing: Easing.linear }),
       withTiming(5, { duration: 50, easing: Easing.linear }),
       withTiming(0, { duration: 50, easing: Easing.linear })
-    );
+    )
 
-    // Add a subtle scale animation
     scale.value = withSequence(
       withTiming(1.05, { duration: 100, easing: Easing.inOut(Easing.quad) }),
       withTiming(1, { duration: 100, easing: Easing.inOut(Easing.quad) })
-    );
+    )
 
-    // Flash effect with opacity
     opacity.value = withSequence(
       withTiming(0.8, { duration: 50 }),
       withTiming(1, { duration: 50 })
-    );
+    )
 
-    // Run haptic feedback on the JS thread
-    runOnJS(triggerHaptic)();
-  }, [translateX, scale, opacity, triggerHaptic]);
+    runOnJS(triggerHaptic)()
+  }, [translateX, scale, opacity, triggerHaptic])
 
-  // Trigger the animations when shouldShake changes
   useEffect(() => {
     if (shouldShake) {
-      startShakeAnimation();
+      startShakeAnimation()
     }
   }, [shouldShake, startShakeAnimation])
 

@@ -3,12 +3,12 @@ import { useCallback, useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 
 import {
-    Button,
-    Dialog,
-    Portal,
-    Text,
-    View,
-    useAppTheme
+  Button,
+  Dialog,
+  Portal,
+  Text,
+  View,
+  useAppTheme
 } from '@/components/atoms'
 import { Store } from '@/store'
 import { HapticService } from '@/utils/haptics'
