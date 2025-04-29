@@ -1,9 +1,18 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react'
-import { Animated, Pressable, StyleSheet } from 'react-native'
+import { useCallback, useEffect, useMemo } from 'react'
+import { Pressable, StyleSheet } from 'react-native'
+import Animated, {
+  Easing,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withTiming
+} from 'react-native-reanimated'
 
 import { IconButton, Surface, Text, useAppTheme } from '@/components/atoms'
 import { Store } from '@/store'
 import { PoolDie, getDieNotation } from '@/types/dice'
+import { HapticService } from '@/utils/haptics'
 
 type DicePoolTileProps = {
   die: PoolDie
@@ -21,34 +30,61 @@ export function DicePoolTile({ die }: DicePoolTileProps) {
     [die.id, recentlyAddedDie]
   )
 
-  const shakeAnimation = useRef(new Animated.Value(0)).current
+  // Use shared values for the animations
+  const translateX = useSharedValue(0)
+  const scale = useSharedValue(1)
+  const opacity = useSharedValue(1)
 
+  // Define the animated style using the shared values
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: translateX.value },
+        { scale: scale.value }
+      ],
+      opacity: opacity.value
+    }
+  })
+
+  // Function to trigger haptic feedback
+  const triggerHaptic = useCallback(() => {
+    HapticService.light()
+  }, [])
+
+  // Define a worklet function for the shake animation
+  const startShakeAnimation = useCallback(() => {
+    'worklet';
+
+    // Create a sequence of animations for the shake effect
+    translateX.value = withSequence(
+      withTiming(5, { duration: 50, easing: Easing.linear }),
+      withTiming(-5, { duration: 50, easing: Easing.linear }),
+      withTiming(5, { duration: 50, easing: Easing.linear }),
+      withTiming(0, { duration: 50, easing: Easing.linear })
+    );
+
+    // Add a subtle scale animation
+    scale.value = withSequence(
+      withTiming(1.05, { duration: 100, easing: Easing.inOut(Easing.quad) }),
+      withTiming(1, { duration: 100, easing: Easing.inOut(Easing.quad) })
+    );
+
+    // Flash effect with opacity
+    opacity.value = withSequence(
+      withTiming(0.8, { duration: 50 }),
+      withTiming(1, { duration: 50 })
+    );
+
+    // Run haptic feedback on the JS thread
+    runOnJS(triggerHaptic)();
+  }, [translateX, scale, opacity, triggerHaptic]);
+
+  // Trigger the animations when shouldShake changes
   useEffect(() => {
     if (shouldShake) {
-      Animated.sequence([
-        Animated.timing(shakeAnimation, {
-          toValue: 5,
-          duration: 50,
-          useNativeDriver: true
-        }),
-        Animated.timing(shakeAnimation, {
-          toValue: -5,
-          duration: 50,
-          useNativeDriver: true
-        }),
-        Animated.timing(shakeAnimation, {
-          toValue: 5,
-          duration: 50,
-          useNativeDriver: true
-        }),
-        Animated.timing(shakeAnimation, {
-          toValue: 0,
-          duration: 50,
-          useNativeDriver: true
-        })
-      ]).start()
+      startShakeAnimation();
     }
-  }, [shouldShake, shakeAnimation])
+  }, [shouldShake, startShakeAnimation])
 
   const handlePress = useCallback(() => {
     openDiceDetails(die.id)
@@ -61,11 +97,7 @@ export function DicePoolTile({ die }: DicePoolTileProps) {
   const dieNotation = useMemo(() => getDieNotation(die), [die])
 
   return (
-    <Animated.View
-      style={{
-        transform: [{ translateX: shakeAnimation }]
-      }}
-    >
+    <Animated.View style={animatedStyle}>
       <Pressable onPress={handlePress}>
         <Surface
           style={[
