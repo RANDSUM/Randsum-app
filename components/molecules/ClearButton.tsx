@@ -6,7 +6,7 @@ import { Store } from '@/store'
 
 export function ClearButton() {
   const theme = useAppTheme()
-  const dicePool = Store.use.currentRoll().dicePool
+  const dicePool = Store.use.dicePool()
   const clearDicePool = Store.use.clearDicePool()
   const [confirmVisible, setConfirmVisible] = useState(false)
   const disabled = dicePool.length === 0

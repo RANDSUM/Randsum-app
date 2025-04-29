@@ -3,12 +3,12 @@ import { useCallback, useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 
 import {
-  Button,
-  Dialog,
-  Portal,
-  Text,
-  View,
-  useAppTheme
+    Button,
+    Dialog,
+    Portal,
+    Text,
+    View,
+    useAppTheme
 } from '@/components/atoms'
 import { Store } from '@/store'
 import { HapticService } from '@/utils/haptics'
@@ -16,9 +16,9 @@ import { useMemoizedFindDie } from '@/utils/memoized'
 
 export function DiceDetailsModal() {
   const theme = useAppTheme()
-  const dicePool = Store.use.currentRoll().dicePool
-  const visible = Store.use.modals().showDiceDetails
-  const selectedDieId = Store.use.modals().selectedDieId
+  const dicePool = Store.use.dicePool()
+  const visible = Store.use.showDiceDetails()
+  const selectedDieId = Store.use.selectedDieId()
   const closeDiceDetails = Store.use.closeDiceDetails()
   const addDie = Store.use.addDie()
   const removeDie = Store.use.removeDie()

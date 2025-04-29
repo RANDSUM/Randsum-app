@@ -6,17 +6,15 @@ import { appRender } from '@/test/appRender'
 import { PoolDie } from '@/types/dice'
 
 const elements = {
-  rollButton: () => screen.getByText('Roll'),
   d4Button: () => screen.getByText('D4'),
   d6Button: () => screen.getByText('D6'),
   d8Button: () => screen.getByText('D8'),
   d10Button: () => screen.getByText('D10'),
   d12Button: () => screen.getByText('D12'),
   d20Button: () => screen.getByText('D20'),
-  saveButton: () => screen.getByText('Save'),
   notationButton: () => screen.getByText('Notation'),
-  clearButton: () => screen.getByText('Clear'),
-  emptyPoolText: () => screen.getByText('Select dice to add to your pool')
+  rollButton: () => screen.getByText('Roll'),
+  clearButton: () => screen.getByText('Clear')
 }
 
 describe('<DiceRollerPage />', () => {
@@ -29,12 +27,7 @@ describe('<DiceRollerPage />', () => {
     jest.useRealTimers()
   })
 
-  test('renders the Roll button', () => {
-    appRender(<DiceRollerPage />)
-    expect(elements.rollButton()).toBeTruthy()
-  })
-
-  test('renders all dice buttons', () => {
+  test('renders the dice buttons', () => {
     appRender(<DiceRollerPage />)
 
     expect(elements.d4Button()).toBeTruthy()
@@ -43,62 +36,19 @@ describe('<DiceRollerPage />', () => {
     expect(elements.d10Button()).toBeTruthy()
     expect(elements.d12Button()).toBeTruthy()
     expect(elements.d20Button()).toBeTruthy()
-  })
-
-  test('renders utility buttons', () => {
-    appRender(<DiceRollerPage />)
-
-    expect(elements.saveButton()).toBeTruthy()
     expect(elements.notationButton()).toBeTruthy()
+  })
+
+  test('renders the roll button', () => {
+    appRender(<DiceRollerPage />)
+
+    expect(elements.rollButton()).toBeTruthy()
+  })
+
+  test('renders the clear button', () => {
+    appRender(<DiceRollerPage />)
+
     expect(elements.clearButton()).toBeTruthy()
-  })
-
-  test('roll button is disabled when dice pool is empty', () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
-
-    appRender(<DiceRollerPage />)
-
-    expect(elements.rollButton()).toBeTruthy()
-  })
-
-  test('roll button is enabled when dice pool has items', () => {
-    const mockDicePool: PoolDie[] = [
-      {
-        id: 'rumi_1',
-        sides: 20,
-        quantity: 1,
-        type: 'standard'
-      }
-    ]
-
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: mockDicePool,
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
-
-    appRender(<DiceRollerPage />)
-
-    expect(elements.rollButton()).toBeTruthy()
-  })
-
-  test('shows empty pool message when dice pool is empty', () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
-
-    appRender(<DiceRollerPage />)
-
-    expect(elements.emptyPoolText()).toBeTruthy()
   })
 
   test('adds die to pool when dice button is pressed', async () => {
@@ -111,6 +61,23 @@ describe('<DiceRollerPage />', () => {
     await user.press(elements.d20Button())
 
     expect(mockAddDie).toHaveBeenCalledWith(20)
+  })
+
+  test('calls clearDicePool when clear button is pressed and confirmed', async () => {
+    const mockClearDicePool = jest.fn()
+    jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
+
+    jest.mocked(Store.use.dicePool).mockReturnValue([
+      { id: 'rumi_1', sides: 20, quantity: 1, type: 'standard' }
+    ])
+
+    const user = userEvent.setup()
+    appRender(<DiceRollerPage />)
+
+    await user.press(elements.clearButton())
+    await user.press(screen.getAllByText('Clear')[1])
+
+    expect(mockClearDicePool).toHaveBeenCalledTimes(1)
   })
 
   test('calls rollDice when roll button is pressed', async () => {
@@ -126,12 +93,7 @@ describe('<DiceRollerPage />', () => {
       }
     ]
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: mockDicePool,
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue(mockDicePool)
 
     const user = userEvent.setup()
     appRender(<DiceRollerPage />)

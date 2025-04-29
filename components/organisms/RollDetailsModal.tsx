@@ -2,26 +2,25 @@ import { useCallback, useMemo } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 
 import {
-  Button,
-  Dialog,
-  Portal,
-  Text,
-  View,
-  useAppTheme
+    Button,
+    Dialog,
+    Portal,
+    Text,
+    View,
+    useAppTheme
 } from '@/components/atoms'
 import { Store } from '@/store'
 import {
-  useMemoizedDiceNotation,
-  useMemoizedRollResults
+    useMemoizedDiceNotation,
+    useMemoizedRollResults
 } from '@/utils/memoized'
 
 export function RollDetailsModal() {
   const theme = useAppTheme()
-  const currentRoll = Store.use.currentRoll()
-  const rollResult = currentRoll.rollResult
-  const dicePool = currentRoll.dicePool
-  const rollSource = currentRoll.rollSource
-  const visible = Store.use.modals().showRollDetails
+  const rollResult = Store.use.rollResult()
+  const dicePool = Store.use.dicePool()
+  const rollSource = Store.use.rollSource()
+  const visible = Store.use.showRollDetails()
   const closeRollDetails = Store.use.closeRollDetails()
 
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)

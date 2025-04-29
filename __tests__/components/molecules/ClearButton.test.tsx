@@ -29,12 +29,7 @@ describe('<ClearButton />', () => {
   })
 
   test('button is disabled when dice pool is empty', () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([])
 
     appRender(<ClearButton />)
 
@@ -42,14 +37,9 @@ describe('<ClearButton />', () => {
   })
 
   test('button is enabled when dice pool has items', () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [
-        { id: 'jack_kirby_1', sides: 20, quantity: 1, type: 'standard' }
-      ],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([
+      { id: 'jack_kirby_1', sides: 20, quantity: 1, type: 'standard' }
+    ])
 
     appRender(<ClearButton />)
 
@@ -57,12 +47,9 @@ describe('<ClearButton />', () => {
   })
 
   test('shows confirmation dialog when pressed', async () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'rumi_1', sides: 20, quantity: 1, type: 'standard' }],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([
+      { id: 'rumi_1', sides: 20, quantity: 1, type: 'standard' }
+    ])
 
     appRender(<ClearButton />)
 
@@ -76,12 +63,9 @@ describe('<ClearButton />', () => {
     const mockClearDicePool = jest.fn()
     jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([
+      { id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }
+    ])
 
     appRender(<ClearButton />)
 
@@ -95,12 +79,9 @@ describe('<ClearButton />', () => {
     const mockClearDicePool = jest.fn()
     jest.mocked(Store.use.clearDicePool).mockReturnValue(mockClearDicePool)
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'megamind_1', sides: 8, quantity: 3, type: 'standard' }],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([
+      { id: 'megamind_1', sides: 8, quantity: 3, type: 'standard' }
+    ])
 
     appRender(<ClearButton />)
 

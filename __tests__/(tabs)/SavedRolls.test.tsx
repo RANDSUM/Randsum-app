@@ -27,10 +27,8 @@ describe('<SavedRolls />', () => {
   })
 
   test('renders loading indicator when isLoading is true', () => {
-    jest.mocked(Store.use.savedRolls).mockReturnValue({
-      rolls: [],
-      isLoading: true
-    })
+    jest.mocked(Store.use.savedRollsList).mockReturnValue([])
+    jest.mocked(Store.use.isSavedRollsLoading).mockReturnValue(true)
 
     appRender(<SavedRolls />)
 
@@ -38,10 +36,8 @@ describe('<SavedRolls />', () => {
   })
 
   test('renders empty state when no saved rolls exist', () => {
-    jest.mocked(Store.use.savedRolls).mockReturnValue({
-      rolls: [],
-      isLoading: false
-    })
+    jest.mocked(Store.use.savedRollsList).mockReturnValue([])
+    jest.mocked(Store.use.isSavedRollsLoading).mockReturnValue(false)
 
     appRender(<SavedRolls />)
 

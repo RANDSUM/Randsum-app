@@ -8,8 +8,8 @@ import { Store } from '@/store'
 
 export function SavedRollsPage() {
   const theme = useAppTheme()
-  const savedRolls = Store.use.savedRolls().rolls
-  const isLoading = Store.use.savedRolls().isLoading
+  const savedRolls = Store.use.savedRollsList()
+  const isLoading = Store.use.isSavedRollsLoading()
 
   if (isLoading) {
     return (

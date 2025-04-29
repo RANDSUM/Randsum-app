@@ -2,14 +2,14 @@ import { useRouter } from 'expo-router'
 import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet } from 'react-native'
 
-import { Store, createSavedRoll } from '@/store'
 import {
-  Button,
-  Dialog,
-  Portal,
-  TextInput,
-  useAppTheme
+    Button,
+    Dialog,
+    Portal,
+    TextInput,
+    useAppTheme
 } from '@/components/atoms'
+import { Store, createSavedRoll } from '@/store'
 
 type SaveRollModalProps = {
   visible: boolean
@@ -23,7 +23,7 @@ type SaveRollFormData = {
 export function SaveRollModal({ visible, onDismiss }: SaveRollModalProps) {
   const theme = useAppTheme()
   const router = useRouter()
-  const dicePool = Store.use.currentRoll().dicePool
+  const dicePool = Store.use.dicePool()
   const addSavedRoll = Store.use.addSavedRoll()
 
   const {

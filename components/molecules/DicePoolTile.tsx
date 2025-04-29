@@ -19,7 +19,7 @@ type DicePoolTileProps = {
 }
 
 export function DicePoolTile({ die }: DicePoolTileProps) {
-  const recentlyAddedDie = Store.use.currentRoll().recentlyAddedDie
+  const recentlyAddedDie = Store.use.recentlyAddedDie()
   const openDiceDetails = Store.use.openDiceDetails()
   const removeDie = Store.use.removeDie()
 

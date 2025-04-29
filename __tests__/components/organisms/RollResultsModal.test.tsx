@@ -32,20 +32,17 @@ describe('<RollResultsModal />', () => {
       result: [15]
     } as unknown as NumericRollResult
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, type: 'standard' }],
-      rollResult: mockRollResult,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([
+      { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
+    ])
+    jest.mocked(Store.use.rollResult).mockReturnValue(mockRollResult)
+    jest.mocked(Store.use.rollSource).mockReturnValue({ type: 'standard' })
 
-    jest.mocked(Store.use.modals).mockReturnValue({
-      showRollResults: true,
-      showRollDetails: false,
-      showDiceDetails: false,
-      showNotationInput: false,
-      selectedDieId: null
-    })
+    jest.mocked(Store.use.showRollResults).mockReturnValue(true)
+    jest.mocked(Store.use.showRollDetails).mockReturnValue(false)
+    jest.mocked(Store.use.showDiceDetails).mockReturnValue(false)
+    jest.mocked(Store.use.showNotationInput).mockReturnValue(false)
+    jest.mocked(Store.use.selectedDieId).mockReturnValue(null)
 
     appRender(<RollResultsModal />)
 
@@ -85,20 +82,17 @@ describe('<RollResultsModal />', () => {
       result: [15]
     } as unknown as NumericRollResult
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, type: 'standard' }],
-      rollResult: mockRollResult,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([
+      { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
+    ])
+    jest.mocked(Store.use.rollResult).mockReturnValue(mockRollResult)
+    jest.mocked(Store.use.rollSource).mockReturnValue({ type: 'standard' })
 
-    jest.mocked(Store.use.modals).mockReturnValue({
-      showRollResults: true,
-      showRollDetails: false,
-      showDiceDetails: false,
-      showNotationInput: false,
-      selectedDieId: null
-    })
+    jest.mocked(Store.use.showRollResults).mockReturnValue(true)
+    jest.mocked(Store.use.showRollDetails).mockReturnValue(false)
+    jest.mocked(Store.use.showDiceDetails).mockReturnValue(false)
+    jest.mocked(Store.use.showNotationInput).mockReturnValue(false)
+    jest.mocked(Store.use.selectedDieId).mockReturnValue(null)
 
     const user = userEvent.setup()
     appRender(<RollResultsModal />)
@@ -110,20 +104,15 @@ describe('<RollResultsModal />', () => {
   })
 
   test('renders nothing when rollResult is null', () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([])
+    jest.mocked(Store.use.rollResult).mockReturnValue(null)
+    jest.mocked(Store.use.rollSource).mockReturnValue({ type: 'standard' })
 
-    jest.mocked(Store.use.modals).mockReturnValue({
-      showRollResults: true,
-      showRollDetails: false,
-      showDiceDetails: false,
-      showNotationInput: false,
-      selectedDieId: null
-    })
+    jest.mocked(Store.use.showRollResults).mockReturnValue(true)
+    jest.mocked(Store.use.showRollDetails).mockReturnValue(false)
+    jest.mocked(Store.use.showDiceDetails).mockReturnValue(false)
+    jest.mocked(Store.use.showNotationInput).mockReturnValue(false)
+    jest.mocked(Store.use.selectedDieId).mockReturnValue(null)
 
     const { queryByText } = appRender(<RollResultsModal />)
 
@@ -153,23 +142,20 @@ describe('<RollResultsModal />', () => {
       result: [18]
     } as unknown as NumericRollResult
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, type: 'standard' }],
-      rollResult: mockRollResult,
-      recentlyAddedDie: null,
-      rollSource: {
-        type: 'saved',
-        name: 'Fireball Damage'
-      }
+    jest.mocked(Store.use.dicePool).mockReturnValue([
+      { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
+    ])
+    jest.mocked(Store.use.rollResult).mockReturnValue(mockRollResult)
+    jest.mocked(Store.use.rollSource).mockReturnValue({
+      type: 'saved',
+      name: 'Fireball Damage'
     })
 
-    jest.mocked(Store.use.modals).mockReturnValue({
-      showRollResults: true,
-      showRollDetails: false,
-      showDiceDetails: false,
-      showNotationInput: false,
-      selectedDieId: null
-    })
+    jest.mocked(Store.use.showRollResults).mockReturnValue(true)
+    jest.mocked(Store.use.showRollDetails).mockReturnValue(false)
+    jest.mocked(Store.use.showDiceDetails).mockReturnValue(false)
+    jest.mocked(Store.use.showNotationInput).mockReturnValue(false)
+    jest.mocked(Store.use.selectedDieId).mockReturnValue(null)
 
     appRender(<RollResultsModal />)
 

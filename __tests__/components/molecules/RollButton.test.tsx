@@ -16,12 +16,7 @@ describe('<RollButton />', () => {
   })
 
   test('is disabled when dice pool is empty', () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([])
 
     const { getByText } = appRender(<RollButton />)
     expect(getByText('Roll')).toBeTruthy()
@@ -37,12 +32,7 @@ describe('<RollButton />', () => {
       }
     ]
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: mockDicePool,
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue(mockDicePool)
 
     const { getByText } = appRender(<RollButton />)
     expect(getByText('Roll')).toBeTruthy()
@@ -61,12 +51,7 @@ describe('<RollButton />', () => {
       }
     ]
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: mockDicePool,
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue(mockDicePool)
 
     const user = userEvent.setup()
     appRender(<RollButton />)

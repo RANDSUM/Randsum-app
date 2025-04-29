@@ -11,12 +11,7 @@ describe('<DicePool />', () => {
   })
 
   test('shows empty pool message when dice pool is empty', () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: [],
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue([])
 
     appRender(<DicePool />)
 
@@ -39,12 +34,7 @@ describe('<DicePool />', () => {
       }
     ]
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: mockDicePool,
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue(mockDicePool)
 
     appRender(<DicePool />)
 
@@ -62,12 +52,7 @@ describe('<DicePool />', () => {
       }
     ]
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
-      dicePool: mockDicePool,
-      rollResult: null,
-      recentlyAddedDie: null,
-      rollSource: { type: 'standard' }
-    })
+    jest.mocked(Store.use.dicePool).mockReturnValue(mockDicePool)
 
     appRender(<DicePool />)
 

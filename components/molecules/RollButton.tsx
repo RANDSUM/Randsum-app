@@ -5,7 +5,7 @@ import { Store } from '@/store'
 
 export function RollButton() {
   const theme = useAppTheme()
-  const dicePool = Store.use.currentRoll().dicePool
+  const dicePool = Store.use.dicePool()
   const rollDice = Store.use.rollDice()
   const disabled = dicePool.length === 0
 

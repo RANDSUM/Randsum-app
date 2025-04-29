@@ -12,7 +12,7 @@ type NotationFormData = {
 
 export function NotationInputModal() {
   const theme = useAppTheme()
-  const visible = Store.use.modals().showNotationInput
+  const visible = Store.use.showNotationInput()
   const closeNotationInput = Store.use.closeNotationInput()
   const addNotationDie = Store.use.addNotationDie()
 

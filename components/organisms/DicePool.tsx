@@ -8,7 +8,7 @@ import { Store } from '@/store'
 const MemoizedDicePoolTile = memo(DicePoolTile)
 
 function DicePoolComponent() {
-  const dicePool = Store.use.currentRoll().dicePool
+  const dicePool = Store.use.dicePool()
 
   return (
     <View style={styles.diceContainer}>
