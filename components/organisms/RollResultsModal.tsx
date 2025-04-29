@@ -9,20 +9,20 @@ import {
   View,
   useAppTheme
 } from '@/components/atoms'
-import { Store } from '@/store'
+import { useCurrentRollState, useModalState } from '@/store'
 import { HapticService } from '@/utils/haptics'
 import { useMemoizedDiceNotation } from '@/utils/memoized'
 
 export function RollResultsModal() {
   const theme = useAppTheme()
-  const rollResult = Store.use.rollResult()
-  const dicePool = Store.use.dicePool()
-  const rollSource = Store.use.rollSource()
-  const visible = Store.use.showRollResults()
-  const closeRollResults = Store.use.closeRollResults()
-  const openRollDetails = Store.use.openRollDetails()
-  const rollDice = Store.use.rollDice()
-  const rollDiceFromSaved = Store.use.rollDiceFromSaved()
+  const rollDice = useCurrentRollState.use.rollDice()
+  const rollDiceFromSaved = useCurrentRollState.use.rollDiceFromSaved()
+  const rollResult = useCurrentRollState.use.rollResult()
+  const dicePool = useCurrentRollState.use.dicePool()
+  const rollSource = useCurrentRollState.use.rollSource()
+  const visible = useModalState.use.showRollResults()
+  const closeRollResults = useModalState.use.closeRollResults()
+  const openRollDetails = useModalState.use.openRollDetails()
 
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)
 

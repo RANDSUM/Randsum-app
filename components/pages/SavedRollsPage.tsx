@@ -4,12 +4,12 @@ import { StyleSheet } from 'react-native'
 import { ActivityIndicator, Text, View, useAppTheme } from '@/components/atoms'
 import { SavedRollItem } from '@/components/molecules'
 import { MainLayout } from '@/components/templates'
-import { Store } from '@/store'
+import { useSavedRollsState } from '@/store'
 
 export function SavedRollsPage() {
   const theme = useAppTheme()
-  const savedRolls = Store.use.savedRollsList()
-  const isLoading = Store.use.isSavedRollsLoading()
+  const rolls = useSavedRollsState.use.rolls()
+  const isLoading = useSavedRollsState.use.isLoading()
 
   if (isLoading) {
     return (
@@ -21,7 +21,7 @@ export function SavedRollsPage() {
     )
   }
 
-  if (savedRolls.length === 0) {
+  if (rolls.length === 0) {
     return (
       <MainLayout>
         <View style={styles.centered}>
@@ -37,7 +37,7 @@ export function SavedRollsPage() {
   return (
     <MainLayout>
       <FlashList
-        data={savedRolls}
+        data={rolls}
         renderItem={({ item }) => <SavedRollItem roll={item} />}
         keyExtractor={(item) => item.id}
         estimatedItemSize={100}

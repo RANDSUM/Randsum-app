@@ -9,7 +9,8 @@ import {
   TextInput,
   useAppTheme
 } from '@/components/atoms'
-import { Store, createSavedRoll } from '@/store'
+import { useCurrentRollState, useSavedRollsState } from '@/store'
+import { createSavedRoll } from '@/utils/savedRolls'
 
 type SaveRollModalProps = {
   visible: boolean
@@ -23,8 +24,8 @@ type SaveRollFormData = {
 export function SaveRollModal({ visible, onDismiss }: SaveRollModalProps) {
   const theme = useAppTheme()
   const router = useRouter()
-  const dicePool = Store.use.dicePool()
-  const addSavedRoll = Store.use.addSavedRoll()
+  const dicePool = useCurrentRollState.use.dicePool()
+  const addSavedRoll = useSavedRollsState.use.addSavedRoll()
 
   const {
     control,

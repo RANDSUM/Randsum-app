@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react-native'
 
 import SavedRolls from '@/app/(tabs)/saved-rolls'
-import { Store } from '@/store'
+import { useAppStore } from '@/store'
 import { appRender } from '@/test/appRender'
 
 const elements = {
@@ -27,8 +27,8 @@ describe('<SavedRolls />', () => {
   })
 
   test('renders loading indicator when isLoading is true', () => {
-    jest.mocked(Store.use.savedRollsList).mockReturnValue([])
-    jest.mocked(Store.use.isSavedRollsLoading).mockReturnValue(true)
+    jest.mocked(useAppStore.use.savedRollsList).mockReturnValue([])
+    jest.mocked(useAppStore.use.isSavedRollsLoading).mockReturnValue(true)
 
     appRender(<SavedRolls />)
 
@@ -36,8 +36,8 @@ describe('<SavedRolls />', () => {
   })
 
   test('renders empty state when no saved rolls exist', () => {
-    jest.mocked(Store.use.savedRollsList).mockReturnValue([])
-    jest.mocked(Store.use.isSavedRollsLoading).mockReturnValue(false)
+    jest.mocked(useAppStore.use.savedRollsList).mockReturnValue([])
+    jest.mocked(useAppStore.use.isSavedRollsLoading).mockReturnValue(false)
 
     appRender(<SavedRolls />)
 

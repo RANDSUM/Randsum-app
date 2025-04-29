@@ -1,7 +1,7 @@
 import { screen, userEvent } from '@testing-library/react-native'
 
 import { RollButtonInline } from '@/components/molecules'
-import { Store } from '@/store'
+import { useAppStore } from '@/store'
 import { appRender } from '@/test/appRender'
 
 const elements = {
@@ -20,7 +20,7 @@ describe('<RollButtonInline />', () => {
   })
 
   test('button is disabled when dice pool is empty', () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
+    jest.mocked(useAppStore.use.currentRoll).mockReturnValue({
       dicePool: [],
       rollResult: null,
       recentlyAddedDie: null,
@@ -34,7 +34,7 @@ describe('<RollButtonInline />', () => {
   })
 
   test('button is enabled when dice pool has items', () => {
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
+    jest.mocked(useAppStore.use.currentRoll).mockReturnValue({
       dicePool: [
         { id: 'dark_souls_2', sides: 20, quantity: 1, type: 'standard' }
       ],
@@ -51,9 +51,9 @@ describe('<RollButtonInline />', () => {
 
   test('calls rollDice when pressed', async () => {
     const mockRollDice = jest.fn()
-    jest.mocked(Store.use.rollDice).mockReturnValue(mockRollDice)
+    jest.mocked(useAppStore.use.rollDice).mockReturnValue(mockRollDice)
 
-    jest.mocked(Store.use.currentRoll).mockReturnValue({
+    jest.mocked(useAppStore.use.currentRoll).mockReturnValue({
       dicePool: [{ id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }],
       rollResult: null,
       recentlyAddedDie: null,

@@ -8,47 +8,12 @@ jest.mock('expo-font', () => ({
 }))
 
 jest.mock('@/store', () => ({
-  Store: {
+  useCurrentRollState: {
     use: {
-      // Original top-level selectors for backward compatibility
-      currentRoll: jest.fn().mockReturnValue({
-        dicePool: [],
-        rollResult: null,
-        recentlyAddedDie: null,
-        rollSource: {
-          type: 'standard'
-        }
-      }),
-      savedRolls: jest.fn().mockReturnValue({
-        rolls: [],
-        isLoading: false
-      }),
-      modals: jest.fn().mockReturnValue({
-        showRollResults: false,
-        showRollDetails: false,
-        showDiceDetails: false,
-        showNotationInput: false,
-        selectedDieId: null
-      }),
-
-      // Granular selectors for currentRoll
       dicePool: jest.fn().mockReturnValue([]),
       rollResult: jest.fn().mockReturnValue(null),
       recentlyAddedDie: jest.fn().mockReturnValue(null),
       rollSource: jest.fn().mockReturnValue({ type: 'standard' }),
-
-      // Granular selectors for modals
-      showRollResults: jest.fn().mockReturnValue(false),
-      showRollDetails: jest.fn().mockReturnValue(false),
-      showDiceDetails: jest.fn().mockReturnValue(false),
-      showNotationInput: jest.fn().mockReturnValue(false),
-      selectedDieId: jest.fn().mockReturnValue(null),
-
-      // Granular selectors for savedRolls
-      savedRollsList: jest.fn().mockReturnValue([]),
-      isSavedRollsLoading: jest.fn().mockReturnValue(false),
-
-      // Actions
       addDie: jest.fn(),
       addNotationDie: jest.fn(),
       removeDie: jest.fn(),
@@ -60,11 +25,16 @@ jest.mock('@/store', () => ({
       decrementDieQuantity: jest.fn(),
       setRollResult: jest.fn(),
       rollDice: jest.fn(),
-      rollDiceFromSaved: jest.fn(),
-      setSavedRolls: jest.fn(),
-      addSavedRoll: jest.fn(),
-      removeSavedRoll: jest.fn(),
-      setSavedRollsLoading: jest.fn(),
+      rollDiceFromSaved: jest.fn()
+    }
+  },
+  useModalState: {
+    use: {
+      showRollResults: jest.fn().mockReturnValue(false),
+      showRollDetails: jest.fn().mockReturnValue(false),
+      showDiceDetails: jest.fn().mockReturnValue(false),
+      showNotationInput: jest.fn().mockReturnValue(false),
+      selectedDieId: jest.fn().mockReturnValue(null),
       openRollResults: jest.fn(),
       closeRollResults: jest.fn(),
       openRollDetails: jest.fn(),
@@ -73,6 +43,16 @@ jest.mock('@/store', () => ({
       closeDiceDetails: jest.fn(),
       openNotationInput: jest.fn(),
       closeNotationInput: jest.fn()
+    }
+  },
+  useSavedRollsState: {
+    use: {
+      savedRollsList: jest.fn().mockReturnValue([]),
+      isSavedRollsLoading: jest.fn().mockReturnValue(false),
+      setSavedRolls: jest.fn(),
+      addSavedRoll: jest.fn(),
+      removeSavedRoll: jest.fn(),
+      setSavedRollsLoading: jest.fn()
     }
   },
   createSavedRoll: jest.fn()

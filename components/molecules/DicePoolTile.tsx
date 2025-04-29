@@ -10,7 +10,7 @@ import Animated, {
 } from 'react-native-reanimated'
 
 import { IconButton, Surface, Text, useAppTheme } from '@/components/atoms'
-import { Store } from '@/store'
+import { useCurrentRollState, useModalState } from '@/store'
 import { PoolDie, getDieNotation } from '@/types/dice'
 import { HapticService } from '@/utils/haptics'
 
@@ -19,9 +19,9 @@ type DicePoolTileProps = {
 }
 
 export function DicePoolTile({ die }: DicePoolTileProps) {
-  const recentlyAddedDie = Store.use.recentlyAddedDie()
-  const openDiceDetails = Store.use.openDiceDetails()
-  const removeDie = Store.use.removeDie()
+  const recentlyAddedDie = useCurrentRollState.use.recentlyAddedDie()
+  const openDiceDetails = useModalState.use.openDiceDetails()
+  const removeDie = useCurrentRollState.use.removeDie()
 
   const theme = useAppTheme()
 

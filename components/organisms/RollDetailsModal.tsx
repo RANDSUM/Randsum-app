@@ -9,7 +9,7 @@ import {
   View,
   useAppTheme
 } from '@/components/atoms'
-import { Store } from '@/store'
+import { useCurrentRollState, useModalState } from '@/store'
 import {
   useMemoizedDiceNotation,
   useMemoizedRollResults
@@ -17,11 +17,11 @@ import {
 
 export function RollDetailsModal() {
   const theme = useAppTheme()
-  const rollResult = Store.use.rollResult()
-  const dicePool = Store.use.dicePool()
-  const rollSource = Store.use.rollSource()
-  const visible = Store.use.showRollDetails()
-  const closeRollDetails = Store.use.closeRollDetails()
+  const rollResult = useCurrentRollState.use.rollResult()
+  const dicePool = useCurrentRollState.use.dicePool()
+  const rollSource = useCurrentRollState.use.rollSource()
+  const visible = useModalState.use.showRollDetails()
+  const closeRollDetails = useModalState.use.closeRollDetails()
 
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)
   const rollGroups = useMemoizedRollResults(rollResult)

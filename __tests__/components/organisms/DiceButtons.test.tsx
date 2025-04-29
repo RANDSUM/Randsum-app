@@ -1,7 +1,7 @@
 import { screen, userEvent } from '@testing-library/react-native'
 
 import { DiceButtons } from '@/components/organisms'
-import { Store } from '@/store'
+import { useAppStore } from '@/store'
 import { appRender } from '@/test/appRender'
 
 const elements = {
@@ -44,7 +44,7 @@ describe('<DiceButtons />', () => {
 
   test('calls addDie when dice button is pressed', async () => {
     const mockAddDie = jest.fn()
-    jest.mocked(Store.use.addDie).mockReturnValue(mockAddDie)
+    jest.mocked(useAppStore.use.addDie).mockReturnValue(mockAddDie)
 
     const user = userEvent.setup()
     appRender(<DiceButtons />)
@@ -57,7 +57,7 @@ describe('<DiceButtons />', () => {
   test('opens notation input modal when notation button is pressed', async () => {
     const mockOpenNotationInput = jest.fn()
     jest
-      .mocked(Store.use.openNotationInput)
+      .mocked(useAppStore.use.openNotationInput)
       .mockReturnValue(mockOpenNotationInput)
 
     const user = userEvent.setup()

@@ -2,7 +2,7 @@ import { NumericRollResult } from '@randsum/dice'
 import { screen } from '@testing-library/react-native'
 
 import { RollDetailsModal } from '@/components/organisms'
-import { Store } from '@/store'
+import { useAppStore } from '@/store'
 import { appRender } from '@/test/appRender'
 
 describe('<RollDetailsModal />', () => {
@@ -34,21 +34,21 @@ describe('<RollDetailsModal />', () => {
     } as unknown as NumericRollResult
 
     jest
-      .mocked(Store.use.dicePool)
+      .mocked(useAppStore.use.dicePool)
       .mockReturnValue([
         { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
       ])
-    jest.mocked(Store.use.rollResult).mockReturnValue(mockRollResult)
-    jest.mocked(Store.use.rollSource).mockReturnValue({
+    jest.mocked(useAppStore.use.rollResult).mockReturnValue(mockRollResult)
+    jest.mocked(useAppStore.use.rollSource).mockReturnValue({
       type: 'saved',
       name: 'Critical Hit'
     })
 
-    jest.mocked(Store.use.showRollResults).mockReturnValue(false)
-    jest.mocked(Store.use.showRollDetails).mockReturnValue(true)
-    jest.mocked(Store.use.showDiceDetails).mockReturnValue(false)
-    jest.mocked(Store.use.showNotationInput).mockReturnValue(false)
-    jest.mocked(Store.use.selectedDieId).mockReturnValue(null)
+    jest.mocked(useAppStore.use.showRollResults).mockReturnValue(false)
+    jest.mocked(useAppStore.use.showRollDetails).mockReturnValue(true)
+    jest.mocked(useAppStore.use.showDiceDetails).mockReturnValue(false)
+    jest.mocked(useAppStore.use.showNotationInput).mockReturnValue(false)
+    jest.mocked(useAppStore.use.selectedDieId).mockReturnValue(null)
 
     appRender(<RollDetailsModal />)
 
@@ -80,20 +80,20 @@ describe('<RollDetailsModal />', () => {
     } as unknown as NumericRollResult
 
     jest
-      .mocked(Store.use.dicePool)
+      .mocked(useAppStore.use.dicePool)
       .mockReturnValue([
         { id: 'die_1', sides: 6, quantity: 3, type: 'standard' }
       ])
-    jest.mocked(Store.use.rollResult).mockReturnValue(mockRollResult)
-    jest.mocked(Store.use.rollSource).mockReturnValue({
+    jest.mocked(useAppStore.use.rollResult).mockReturnValue(mockRollResult)
+    jest.mocked(useAppStore.use.rollSource).mockReturnValue({
       type: 'standard'
     })
 
-    jest.mocked(Store.use.showRollResults).mockReturnValue(false)
-    jest.mocked(Store.use.showRollDetails).mockReturnValue(true)
-    jest.mocked(Store.use.showDiceDetails).mockReturnValue(false)
-    jest.mocked(Store.use.showNotationInput).mockReturnValue(false)
-    jest.mocked(Store.use.selectedDieId).mockReturnValue(null)
+    jest.mocked(useAppStore.use.showRollResults).mockReturnValue(false)
+    jest.mocked(useAppStore.use.showRollDetails).mockReturnValue(true)
+    jest.mocked(useAppStore.use.showDiceDetails).mockReturnValue(false)
+    jest.mocked(useAppStore.use.showNotationInput).mockReturnValue(false)
+    jest.mocked(useAppStore.use.selectedDieId).mockReturnValue(null)
 
     appRender(<RollDetailsModal />)
 

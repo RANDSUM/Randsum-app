@@ -7,11 +7,11 @@ import {
   RollButton,
   SaveButton
 } from '@/components/molecules'
-import { Store } from '@/store'
+import { useCurrentRollState, useModalState } from '@/store'
 
 export function DiceButtons() {
-  const addDie = Store.use.addDie()
-  const openNotationInput = Store.use.openNotationInput()
+  const addDie = useCurrentRollState.use.addDie()
+  const openNotationInput = useModalState.use.openNotationInput()
   const theme = useAppTheme()
 
   const firstRowDice = [4, 6, 8]

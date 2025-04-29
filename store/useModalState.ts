@@ -1,6 +1,8 @@
-import { StateCreator } from 'zustand'
+import { create } from 'zustand'
 
-import { StoreState } from '../types'
+import { createSelectors } from './selectors'
+
+import { StateCreator } from 'zustand'
 
 export type ModalsState = {
   showRollResults: boolean
@@ -21,9 +23,7 @@ export type ModalsActions = {
   closeNotationInput: () => void
 }
 
-export type ModalsSlice = {
-  modals: ModalsState
-} & ModalsActions
+export type ModalsSlice = ModalsState & ModalsActions
 
 export const initialModalsState: ModalsState = {
   showRollResults: false,
@@ -34,85 +34,75 @@ export const initialModalsState: ModalsState = {
 }
 
 export const createModalsSlice: StateCreator<
-  StoreState,
+  ModalsSlice,
   [],
   [],
   ModalsSlice
 > = (set) => ({
-  modals: initialModalsState,
+  ...initialModalsState,
 
   openRollResults: () => {
     set((state) => ({
-      modals: {
-        ...state.modals,
-        showRollResults: true
-      }
+      ...state,
+      showRollResults: true
     }))
   },
 
   closeRollResults: () => {
     set((state) => ({
-      modals: {
-        ...state.modals,
-        showRollResults: false
-      }
+      ...state,
+      showRollResults: false
     }))
   },
 
   openRollDetails: () => {
     set((state) => ({
-      modals: {
-        ...state.modals,
-        showRollResults: false,
-        showRollDetails: true
-      }
+      ...state,
+      showRollResults: false,
+      showRollDetails: true
     }))
   },
 
   closeRollDetails: () => {
     set((state) => ({
-      modals: {
-        ...state.modals,
-        showRollDetails: false
-      }
+      ...state,
+      showRollDetails: false
     }))
   },
 
   openDiceDetails: (id) => {
     set((state) => ({
-      modals: {
-        ...state.modals,
-        selectedDieId: id,
-        showDiceDetails: true
-      }
+      ...state,
+      selectedDieId: id,
+      showDiceDetails: true
     }))
   },
 
   closeDiceDetails: () => {
     set((state) => ({
-      modals: {
-        ...state.modals,
-        showDiceDetails: false,
-        selectedDieId: null
-      }
+      ...state,
+      showDiceDetails: false,
+      selectedDieId: null
     }))
   },
 
   openNotationInput: () => {
     set((state) => ({
-      modals: {
-        ...state.modals,
-        showNotationInput: true
-      }
+      ...state,
+      showNotationInput: true
     }))
   },
 
   closeNotationInput: () => {
     set((state) => ({
-      modals: {
-        ...state.modals,
-        showNotationInput: false
-      }
+      ...state,
+      showNotationInput: false
     }))
   }
 })
+
+const useModalStateBase = create<ModalsSlice>()((...a) => ({
+  ...createModalsSlice(...a)
+}))
+
+export const useModalState = createSelectors(useModalStateBase)

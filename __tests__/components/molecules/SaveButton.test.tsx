@@ -1,7 +1,7 @@
 import { screen, userEvent } from '@testing-library/react-native'
 
 import { SaveButton } from '@/components/molecules'
-import { Store } from '@/store'
+import { useAppStore } from '@/store'
 import { appRender } from '@/test/appRender'
 
 const elements = {
@@ -26,7 +26,7 @@ describe('<SaveButton />', () => {
   })
 
   test('button is disabled when dice pool is empty', () => {
-    jest.mocked(Store.use.dicePool).mockReturnValue([])
+    jest.mocked(useAppStore.use.dicePool).mockReturnValue([])
 
     appRender(<SaveButton />)
 
@@ -35,7 +35,7 @@ describe('<SaveButton />', () => {
 
   test('button is enabled when dice pool has items', () => {
     jest
-      .mocked(Store.use.dicePool)
+      .mocked(useAppStore.use.dicePool)
       .mockReturnValue([
         { id: 'megamind_1', sides: 20, quantity: 1, type: 'standard' }
       ])
@@ -47,7 +47,7 @@ describe('<SaveButton />', () => {
 
   test('shows save roll modal when pressed', async () => {
     jest
-      .mocked(Store.use.dicePool)
+      .mocked(useAppStore.use.dicePool)
       .mockReturnValue([
         { id: 'mollie_1', sides: 12, quantity: 2, type: 'standard' }
       ])
