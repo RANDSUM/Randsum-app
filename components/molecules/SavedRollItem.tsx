@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import {
@@ -17,36 +17,36 @@ type SavedRollItemProps = {
   roll: SavedRoll
 }
 
-export function SavedRollItem({ roll }: SavedRollItemProps) {
+function SavedRollItemComponent({ roll }: SavedRollItemProps) {
   const theme = useAppTheme()
   const rollDiceFromSaved = Store.use.rollDiceFromSaved()
   const removeSavedRoll = Store.use.removeSavedRoll()
   const [confirmVisible, setConfirmVisible] = useState(false)
 
-  const getDiceNotation = () => {
+  const diceNotation = useMemo(() => {
     return roll.dicePool
       .map((die) =>
         die.type === 'notation' ? die.notation : `${die.quantity}D${die.sides}`
       )
       .join(' + ')
-  }
+  }, [roll.dicePool])
 
-  const handleRoll = () => {
+  const handleRoll = useCallback(() => {
     rollDiceFromSaved(roll.dicePool, roll.name)
-  }
+  }, [roll.dicePool, roll.name, rollDiceFromSaved])
 
-  const showConfirmation = () => {
+  const showConfirmation = useCallback(() => {
     setConfirmVisible(true)
-  }
+  }, [])
 
-  const hideConfirmation = () => {
+  const hideConfirmation = useCallback(() => {
     setConfirmVisible(false)
-  }
+  }, [])
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = useCallback(() => {
     removeSavedRoll(roll.id)
     hideConfirmation()
-  }
+  }, [roll.id, removeSavedRoll, hideConfirmation])
 
   return (
     <>
@@ -56,7 +56,7 @@ export function SavedRollItem({ roll }: SavedRollItemProps) {
             {roll.name}
           </Text>
           <Text variant="bodyMedium" style={styles.notation}>
-            {getDiceNotation()}
+            {diceNotation}
           </Text>
           <View style={styles.actionsContainer}>
             <Button
@@ -109,6 +109,9 @@ export function SavedRollItem({ roll }: SavedRollItemProps) {
     </>
   )
 }
+
+// Export a memoized version of the component
+export const SavedRollItem = memo(SavedRollItemComponent)
 
 const styles = StyleSheet.create({
   card: {

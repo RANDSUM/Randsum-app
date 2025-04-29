@@ -32,9 +32,11 @@ describe('<RollResultsModal />', () => {
       result: [15]
     } as unknown as NumericRollResult
 
-    jest.mocked(Store.use.dicePool).mockReturnValue([
-      { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
-    ])
+    jest
+      .mocked(Store.use.dicePool)
+      .mockReturnValue([
+        { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
+      ])
     jest.mocked(Store.use.rollResult).mockReturnValue(mockRollResult)
     jest.mocked(Store.use.rollSource).mockReturnValue({ type: 'standard' })
 
@@ -82,9 +84,11 @@ describe('<RollResultsModal />', () => {
       result: [15]
     } as unknown as NumericRollResult
 
-    jest.mocked(Store.use.dicePool).mockReturnValue([
-      { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
-    ])
+    jest
+      .mocked(Store.use.dicePool)
+      .mockReturnValue([
+        { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
+      ])
     jest.mocked(Store.use.rollResult).mockReturnValue(mockRollResult)
     jest.mocked(Store.use.rollSource).mockReturnValue({ type: 'standard' })
 
@@ -142,9 +146,11 @@ describe('<RollResultsModal />', () => {
       result: [18]
     } as unknown as NumericRollResult
 
-    jest.mocked(Store.use.dicePool).mockReturnValue([
-      { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
-    ])
+    jest
+      .mocked(Store.use.dicePool)
+      .mockReturnValue([
+        { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
+      ])
     jest.mocked(Store.use.rollResult).mockReturnValue(mockRollResult)
     jest.mocked(Store.use.rollSource).mockReturnValue({
       type: 'saved',

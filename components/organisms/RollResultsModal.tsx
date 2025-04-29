@@ -2,14 +2,15 @@ import { useCallback, useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 
 import {
-    Button,
-    Dialog,
-    Portal,
-    Text,
-    View,
-    useAppTheme
+  Button,
+  Dialog,
+  Portal,
+  Text,
+  View,
+  useAppTheme
 } from '@/components/atoms'
 import { Store } from '@/store'
+import { HapticService } from '@/utils/haptics'
 import { useMemoizedDiceNotation } from '@/utils/memoized'
 
 export function RollResultsModal() {
@@ -20,6 +21,8 @@ export function RollResultsModal() {
   const visible = Store.use.showRollResults()
   const closeRollResults = Store.use.closeRollResults()
   const openRollDetails = Store.use.openRollDetails()
+  const rollDice = Store.use.rollDice()
+  const rollDiceFromSaved = Store.use.rollDiceFromSaved()
 
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)
 
@@ -31,6 +34,22 @@ export function RollResultsModal() {
     onDismiss()
     openRollDetails()
   }, [onDismiss, openRollDetails])
+
+  const handleRollAgain = useCallback(() => {
+    HapticService.medium()
+    closeRollResults()
+
+    // Use the appropriate roll function based on the source
+    if (rollSource.type === 'saved' && rollSource.name) {
+      setTimeout(() => {
+        rollDiceFromSaved(dicePool, rollSource.name)
+      }, 100)
+    } else {
+      setTimeout(() => {
+        rollDice()
+      }, 100)
+    }
+  }, [closeRollResults, rollDice, rollDiceFromSaved, dicePool, rollSource])
 
   const modalTitle = useMemo(() => {
     if (rollSource.type === 'saved' && rollSource.name) {
@@ -63,7 +82,7 @@ export function RollResultsModal() {
           <Button
             mode="outlined"
             onPress={handleShowDetails}
-            style={styles.detailsButton}
+            style={styles.actionButton}
           >
             Show Details
           </Button>
@@ -71,9 +90,11 @@ export function RollResultsModal() {
             mode="contained"
             buttonColor={theme.colors.primary}
             textColor={theme.colors.onPrimary}
-            onPress={onDismiss}
+            onPress={handleRollAgain}
+            style={styles.actionButton}
+            icon="dice-multiple"
           >
-            Close
+            Roll Again
           </Button>
         </Dialog.Actions>
       </Dialog>
@@ -89,9 +110,19 @@ const styles = StyleSheet.create({
     width: 400,
     alignSelf: 'center'
   },
+  closeButtonContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 1
+  },
+  closeButton: {
+    margin: 0
+  },
   title: {
     textAlign: 'center',
-    fontSize: 24
+    fontSize: 24,
+    marginTop: 8
   },
   content: {
     paddingVertical: 16
@@ -113,11 +144,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   actions: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingBottom: 16
   },
-  detailsButton: {
-    marginRight: 8
+  actionButton: {
+    flex: 1,
+    marginHorizontal: 4
   }
 })

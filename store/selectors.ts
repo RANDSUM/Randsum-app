@@ -45,6 +45,14 @@ export const createSelectors = <S extends UseBoundStore<StoreApi<StoreState>>>(
   _store: S
 ) => {
   const store = _store as WithSelectors<typeof _store>
+  store.use = {} as WithSelectors<typeof _store>['use']
+
+  // Create top-level selectors for backward compatibility
+  for (const k of Object.keys(store.getState())) {
+    ;(store.use as Record<string, () => unknown>)[k] = () =>
+      store((s) => s[k as keyof typeof s])
+  }
+
   // Add granular selectors for currentRoll
   store.use.dicePool = () => store((s) => s.currentRoll.dicePool)
   store.use.rollResult = () => store((s) => s.currentRoll.rollResult)
