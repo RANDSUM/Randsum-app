@@ -3,11 +3,11 @@ import { StyleSheet } from 'react-native'
 
 import { Button, useAppTheme } from '@/components/atoms'
 import { SaveRollModal } from '@/components/organisms'
-import { useCurrentRollState } from '@/store'
+import { useLastRollState } from '@/store'
 
 export function SaveButton() {
   const theme = useAppTheme()
-  const dicePool = useCurrentRollState.use.dicePool()
+  const dicePool = useLastRollState.use.dicePool()
   const [modalVisible, setModalVisible] = useState(false)
 
   const disabled = dicePool.length === 0

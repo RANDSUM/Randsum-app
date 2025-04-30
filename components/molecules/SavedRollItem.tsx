@@ -10,7 +10,7 @@ import {
   View,
   useAppTheme
 } from '@/components/atoms'
-import { useCurrentRollState, useSavedRollsState } from '@/store'
+import { useLastRollState, useSavedRollsState } from '@/store'
 import { SavedRoll } from '@/types/savedRolls'
 
 type SavedRollItemProps = {
@@ -19,7 +19,7 @@ type SavedRollItemProps = {
 
 function SavedRollItemComponent({ roll }: SavedRollItemProps) {
   const theme = useAppTheme()
-  const rollDiceFromSaved = useCurrentRollState.use.rollDiceFromSaved()
+  const rollDiceFromSaved = useLastRollState.use.rollDiceFromSaved()
   const removeSavedRoll = useSavedRollsState.use.removeSavedRoll()
   const [confirmVisible, setConfirmVisible] = useState(false)
 

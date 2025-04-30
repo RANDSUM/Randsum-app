@@ -282,4 +282,4 @@ const useCurrentRollStateBase = create<DiceSlice>()((...a) => ({
   ...createDiceSlice(...a)
 }))
 
-export const useCurrentRollState = createSelectors(useCurrentRollStateBase)
+export const useLastRollState = createSelectors(useCurrentRollStateBase)

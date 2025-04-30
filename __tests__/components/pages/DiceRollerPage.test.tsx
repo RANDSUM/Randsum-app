@@ -1,7 +1,7 @@
 import { screen, userEvent } from '@testing-library/react-native'
 
 import { DiceRollerPage } from '@/components/pages'
-import { useCurrentRollState, useModalState } from '@/store'
+import { useDicePoolState, useLastRollState } from '@/store'
 import { appRender } from '@/test/appRender'
 import { PoolDie } from '@/types/dice'
 
@@ -53,7 +53,7 @@ describe('<DiceRollerPage />', () => {
 
   test('adds die to pool when dice button is pressed', async () => {
     const mockAddDie = jest.fn()
-    jest.mocked(useCurrentRollState.use.addDie).mockReturnValue(mockAddDie)
+    jest.mocked(useLastRollState.use.addDie).mockReturnValue(mockAddDie)
 
     const user = userEvent.setup()
     appRender(<DiceRollerPage />)
@@ -66,11 +66,11 @@ describe('<DiceRollerPage />', () => {
   test('calls clearDicePool when clear button is pressed and confirmed', async () => {
     const mockClearDicePool = jest.fn()
     jest
-      .mocked(useCurrentRollState.use.clearDicePool)
+      .mocked(useLastRollState.use.clearDicePool)
       .mockReturnValue(mockClearDicePool)
 
     jest
-      .mocked(useCurrentRollState.use.dicePool)
+      .mocked(useLastRollState.use.dicePool)
       .mockReturnValue([
         { id: 'rumi_1', sides: 20, quantity: 1, type: 'standard' }
       ])
@@ -86,7 +86,7 @@ describe('<DiceRollerPage />', () => {
 
   test('calls rollDice when roll button is pressed', async () => {
     const mockRollDice = jest.fn()
-    jest.mocked(useCurrentRollState.use.rollDice).mockReturnValue(mockRollDice)
+    jest.mocked(useLastRollState.use.rollDice).mockReturnValue(mockRollDice)
 
     const mockDicePool: PoolDie[] = [
       {
@@ -97,7 +97,7 @@ describe('<DiceRollerPage />', () => {
       }
     ]
 
-    jest.mocked(useCurrentRollState.use.dicePool).mockReturnValue(mockDicePool)
+    jest.mocked(useLastRollState.use.dicePool).mockReturnValue(mockDicePool)
 
     const user = userEvent.setup()
     appRender(<DiceRollerPage />)
@@ -110,7 +110,7 @@ describe('<DiceRollerPage />', () => {
   test('opens notation input modal when notation button is pressed', async () => {
     const mockOpenNotationInput = jest.fn()
     jest
-      .mocked(useModalState.use.openNotationInput)
+      .mocked(useDicePoolState.use.openNotationInput)
       .mockReturnValue(mockOpenNotationInput)
 
     const user = userEvent.setup()

@@ -4,28 +4,28 @@ import { createSelectors } from './selectors'
 
 import { StateCreator } from 'zustand'
 
-export type ModalsState = {
+export type DicePoolState = {
   showDiceDetails: boolean
   showNotationInput: boolean
   selectedDieId: string | null
 }
 
-export type ModalsActions = {
+export type DicePoolActions = {
   openDiceDetails: (id: string) => void
   closeDiceDetails: () => void
   openNotationInput: () => void
   closeNotationInput: () => void
 }
 
-export type ModalsSlice = ModalsState & ModalsActions
+export type ModalsSlice = DicePoolState & DicePoolActions
 
-export const initialModalsState: ModalsState = {
+export const initialModalsState: DicePoolState = {
   showDiceDetails: false,
   showNotationInput: false,
   selectedDieId: null
 }
 
-export const createModalsSlice: StateCreator<
+export const createDicePoolSlice: StateCreator<
   ModalsSlice,
   [],
   [],
@@ -65,7 +65,7 @@ export const createModalsSlice: StateCreator<
 })
 
 const useModalStateBase = create<ModalsSlice>()((...a) => ({
-  ...createModalsSlice(...a)
+  ...createDicePoolSlice(...a)
 }))
 
-export const useModalState = createSelectors(useModalStateBase)
+export const useDicePoolState = createSelectors(useModalStateBase)

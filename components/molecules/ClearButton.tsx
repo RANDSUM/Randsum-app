@@ -2,12 +2,12 @@ import { useState } from 'react'
 import { StyleSheet } from 'react-native'
 
 import { Button, Dialog, Portal, Text, useAppTheme } from '@/components/atoms'
-import { useCurrentRollState } from '@/store'
+import { useLastRollState } from '@/store'
 
 export function ClearButton() {
   const theme = useAppTheme()
-  const dicePool = useCurrentRollState.use.dicePool()
-  const clearDicePool = useCurrentRollState.use.clearDicePool()
+  const dicePool = useLastRollState.use.dicePool()
+  const clearDicePool = useLastRollState.use.clearDicePool()
   const [confirmVisible, setConfirmVisible] = useState(false)
   const disabled = dicePool.length === 0
 

@@ -1,3 +1,3 @@
-export { useCurrentRollState } from './useCurrentRollState'
-export { useModalState } from './useModalState'
+export { useDicePoolState } from './useDicePoolState'
+export { useLastRollState } from './useLastRollState'
 export { useSavedRollsState } from './useSavedRollsState'

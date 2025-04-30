@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 
 import { Button, Dialog, Portal, useAppTheme } from '@/components/atoms'
 import { NotationValidatorForm } from '@/components/molecules'
-import { useCurrentRollState, useModalState } from '@/store'
+import { useDicePoolState, useLastRollState } from '@/store'
 
 type NotationFormData = {
   notation: string
@@ -12,9 +12,9 @@ type NotationFormData = {
 
 export function NotationInputModal() {
   const theme = useAppTheme()
-  const visible = useModalState.use.showNotationInput()
-  const closeNotationInput = useModalState.use.closeNotationInput()
-  const addNotationDie = useCurrentRollState.use.addNotationDie()
+  const visible = useDicePoolState.use.showNotationInput()
+  const closeNotationInput = useDicePoolState.use.closeNotationInput()
+  const addNotationDie = useLastRollState.use.addNotationDie()
 
   const {
     control,

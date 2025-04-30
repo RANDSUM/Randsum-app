@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native'
 
 import { Button, useAppTheme } from '@/components/atoms'
-import { useCurrentRollState } from '@/store'
+import { useLastRollState } from '@/store'
 
 export function RollButton() {
   const theme = useAppTheme()
-  const dicePool = useCurrentRollState.use.dicePool()
-  const rollDice = useCurrentRollState.use.rollDice()
+  const dicePool = useLastRollState.use.dicePool()
+  const rollDice = useLastRollState.use.rollDice()
   const disabled = dicePool.length === 0
 
   return (

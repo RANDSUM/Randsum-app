@@ -3,12 +3,12 @@ import { StyleSheet } from 'react-native'
 
 import { Text, View } from '@/components/atoms'
 import { DicePoolTile } from '@/components/molecules'
-import { useCurrentRollState } from '@/store'
+import { useLastRollState } from '@/store'
 
 const MemoizedDicePoolTile = memo(DicePoolTile)
 
 function DicePoolComponent() {
-  const dicePool = useCurrentRollState.use.dicePool()
+  const dicePool = useLastRollState.use.dicePool()
 
   return (
     <View style={styles.diceContainer}>

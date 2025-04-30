@@ -8,7 +8,7 @@ jest.mock('expo-font', () => ({
 }))
 
 jest.mock('@/store', () => ({
-  useCurrentRollState: {
+  useLastRollState: {
     use: {
       dicePool: jest.fn().mockReturnValue([]),
       rollResult: jest.fn().mockReturnValue(null),
@@ -35,7 +35,7 @@ jest.mock('@/store', () => ({
       closeRollDetails: jest.fn()
     }
   },
-  useModalState: {
+  useDicePoolState: {
     use: {
       showDiceDetails: jest.fn().mockReturnValue(false),
       showNotationInput: jest.fn().mockReturnValue(false),

@@ -1,7 +1,7 @@
 import { screen, userEvent } from '@testing-library/react-native'
 
 import { RollButton } from '@/components/molecules'
-import { useCurrentRollState } from '@/store'
+import { useLastRollState } from '@/store'
 import { appRender } from '@/test/appRender'
 import { PoolDie } from '@/types/dice'
 
@@ -16,7 +16,7 @@ describe('<RollButton />', () => {
   })
 
   test('is disabled when dice pool is empty', () => {
-    jest.mocked(useCurrentRollState.use.dicePool).mockReturnValue([])
+    jest.mocked(useLastRollState.use.dicePool).mockReturnValue([])
 
     const { getByText } = appRender(<RollButton />)
     expect(getByText('Roll')).toBeTruthy()
@@ -32,7 +32,7 @@ describe('<RollButton />', () => {
       }
     ]
 
-    jest.mocked(useCurrentRollState.use.dicePool).mockReturnValue(mockDicePool)
+    jest.mocked(useLastRollState.use.dicePool).mockReturnValue(mockDicePool)
 
     const { getByText } = appRender(<RollButton />)
     expect(getByText('Roll')).toBeTruthy()
@@ -40,7 +40,7 @@ describe('<RollButton />', () => {
 
   test('calls rollDice when pressed', async () => {
     const mockRollDice = jest.fn()
-    jest.mocked(useCurrentRollState.use.rollDice).mockReturnValue(mockRollDice)
+    jest.mocked(useLastRollState.use.rollDice).mockReturnValue(mockRollDice)
 
     const mockDicePool: PoolDie[] = [
       {
@@ -51,7 +51,7 @@ describe('<RollButton />', () => {
       }
     ]
 
-    jest.mocked(useCurrentRollState.use.dicePool).mockReturnValue(mockDicePool)
+    jest.mocked(useLastRollState.use.dicePool).mockReturnValue(mockDicePool)
 
     const user = userEvent.setup()
     appRender(<RollButton />)
