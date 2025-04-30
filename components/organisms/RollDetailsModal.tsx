@@ -9,7 +9,7 @@ import {
   View,
   useAppTheme
 } from '@/components/atoms'
-import { useLastRollState } from '@/store'
+import { useDicePoolState, useLastRollState } from '@/store'
 import {
   useMemoizedDiceNotation,
   useMemoizedRollResults
@@ -18,7 +18,7 @@ import {
 export function RollDetailsModal() {
   const theme = useAppTheme()
   const rollResult = useLastRollState.use.rollResult()
-  const dicePool = useLastRollState.use.dicePool()
+  const dicePool = useDicePoolState.use.dicePool()
   const rollSource = useLastRollState.use.rollSource()
   const visible = useLastRollState.use.showRollDetails()
   const closeRollDetails = useLastRollState.use.closeRollDetails()
@@ -31,7 +31,7 @@ export function RollDetailsModal() {
   }, [closeRollDetails])
 
   const rollTitle = useMemo(() => {
-    if (rollSource.type === 'saved' && rollSource.name) {
+    if (rollSource?.type === 'saved' && rollSource?.name) {
       return rollSource.name
     }
     return 'Roll Details'

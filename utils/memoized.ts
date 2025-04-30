@@ -19,7 +19,7 @@ export function useMemoizedDiceNotation(dicePool: PoolDie[]): string {
  * Prevents recalculation when rollResult hasn't changed
  */
 export function useMemoizedRollResults(
-  rollResult: NumericRollResult | null
+  rollResult: NumericRollResult | undefined
 ): ReturnType<typeof groupRollResults> {
   return useMemo(() => {
     if (!rollResult) return []

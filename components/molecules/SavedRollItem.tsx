@@ -19,7 +19,8 @@ type SavedRollItemProps = {
 
 function SavedRollItemComponent({ roll }: SavedRollItemProps) {
   const theme = useAppTheme()
-  const rollDiceFromSaved = useLastRollState.use.rollDiceFromSaved()
+  const rollDice = useLastRollState.use.rollDice()
+  const diceRollArgs = useSavedRollsState.use.rollDiceArgs()
   const removeSavedRoll = useSavedRollsState.use.removeSavedRoll()
   const [confirmVisible, setConfirmVisible] = useState(false)
 
@@ -32,8 +33,8 @@ function SavedRollItemComponent({ roll }: SavedRollItemProps) {
   }, [roll.dicePool])
 
   const handleRoll = useCallback(() => {
-    rollDiceFromSaved(roll.dicePool, roll.name)
-  }, [roll.dicePool, roll.name, rollDiceFromSaved])
+    rollDice(diceRollArgs(roll.id))
+  }, [roll.id, rollDice, diceRollArgs])
 
   const showConfirmation = useCallback(() => {
     setConfirmVisible(true)

@@ -15,14 +15,13 @@ import { useMemoizedDiceNotation } from '@/utils/memoized'
 
 export function RollResultsModal() {
   const theme = useAppTheme()
+  const dicePool = useDicePoolState.use.dicePool()
   const rollDice = useLastRollState.use.rollDice()
-  const rollDiceFromSaved = useLastRollState.use.rollDiceFromSaved()
   const rollResult = useLastRollState.use.rollResult()
-  const dicePool = useLastRollState.use.dicePool()
   const rollSource = useLastRollState.use.rollSource()
   const visible = useLastRollState.use.showRollResult()
   const closeRollResults = useLastRollState.use.closeRollResults()
-  const openRollDetails = useDicePoolState.use.openRollDetails()
+  const openRollDetails = useLastRollState.use.openRollDetails()
 
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)
 
@@ -39,20 +38,13 @@ export function RollResultsModal() {
     HapticService.medium()
     closeRollResults()
 
-    // Use the appropriate roll function based on the source
-    if (rollSource.type === 'saved' && rollSource.name) {
-      setTimeout(() => {
-        rollDiceFromSaved(dicePool, rollSource.name)
-      }, 100)
-    } else {
-      setTimeout(() => {
-        rollDice()
-      }, 100)
-    }
-  }, [closeRollResults, rollDice, rollDiceFromSaved, dicePool, rollSource])
+    setTimeout(() => {
+      rollDice(rollSource)
+    }, 100)
+  }, [closeRollResults, rollDice, rollSource])
 
   const modalTitle = useMemo(() => {
-    if (rollSource.type === 'saved' && rollSource.name) {
+    if (rollSource?.type === 'saved' && rollSource?.name) {
       return rollSource.name
     }
     return 'Roll Results'

@@ -1,19 +1,20 @@
 import { StyleSheet } from 'react-native'
 
 import { Button, useAppTheme } from '@/components/atoms'
-import { useLastRollState } from '@/store'
+import { useDicePoolState, useLastRollState } from '@/store'
 
 export function RollButton() {
   const theme = useAppTheme()
-  const dicePool = useLastRollState.use.dicePool()
+  const dicePool = useDicePoolState.use.dicePool()
+  const rollDiceArgs = useDicePoolState.use.rollDiceArgs()
   const rollDice = useLastRollState.use.rollDice()
-  const disabled = dicePool.length === 0
+  const disabled = dicePool.length === 0 || !rollDiceArgs
 
   return (
     <Button
       icon="dice-multiple"
       mode="contained"
-      onPress={rollDice}
+      onPress={() => rollDice(rollDiceArgs)}
       disabled={disabled}
       buttonColor={theme.colors.primary}
       textColor={theme.colors.onPrimary}

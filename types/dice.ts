@@ -20,6 +20,12 @@ export type NotationDie = BaseDie & {
 
 export type PoolDie = StandardDie | NotationDie
 
+export type RollSource = {
+  type: 'standard' | 'saved'
+  name?: string
+  dicePool: PoolDie[]
+}
+
 export const sidesToLabel = (sides: number): string => `D${sides}`
 
 export const getDieNotation = (die: PoolDie): string => {

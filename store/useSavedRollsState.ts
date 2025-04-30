@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
+import { RollSource } from '@/types/dice'
 import { SavedRoll } from '@/types/savedRolls'
 import { StateCreator } from 'zustand'
 import { createSelectors } from './selectors'
@@ -18,6 +19,7 @@ export type SavedRollsActions = {
   addSavedRoll: (roll: SavedRoll) => void
   removeSavedRoll: (id: string) => void
   setSavedRollsLoading: (isLoading: boolean) => void
+  rollDiceArgs: (id: string) => RollSource | undefined
 }
 
 export type SavedRollsSlice = SavedRollsState & SavedRollsActions
@@ -32,7 +34,7 @@ const createSavedRollsSlice: StateCreator<
   [],
   [],
   SavedRollsSlice
-> = (set) => ({
+> = (set, get) => ({
   ...initialSavedRollsState,
 
   setSavedRolls: (rolls) => {
@@ -61,6 +63,15 @@ const createSavedRollsSlice: StateCreator<
       ...state,
       isLoading
     }))
+  },
+
+  rollDiceArgs: (id: string) => {
+    const savedRoll = get().rolls.find((roll) => roll.id === id)
+    return {
+      dicePool: savedRoll?.dicePool || [],
+      type: 'saved',
+      name: savedRoll?.name || 'Saved Roll'
+    }
   }
 })
 

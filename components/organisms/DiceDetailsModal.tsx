@@ -10,19 +10,19 @@ import {
   View,
   useAppTheme
 } from '@/components/atoms'
-import { useDicePoolState, useLastRollState } from '@/store'
+import { useDicePoolState } from '@/store'
 import { HapticService } from '@/utils/haptics'
 import { useMemoizedFindDie } from '@/utils/memoized'
 
 export function DiceDetailsModal() {
   const theme = useAppTheme()
-  const dicePool = useLastRollState.use.dicePool()
+  const dicePool = useDicePoolState.use.dicePool()
   const visible = useDicePoolState.use.showDiceDetails()
   const selectedDieId = useDicePoolState.use.selectedDieId()
   const closeDiceDetails = useDicePoolState.use.closeDiceDetails()
-  const addDie = useLastRollState.use.addDie()
-  const removeDie = useLastRollState.use.removeDie()
-  const decrementDieQuantity = useLastRollState.use.decrementDieQuantity()
+  const addDie = useDicePoolState.use.addDie()
+  const removeDie = useDicePoolState.use.removeDie()
+  const decrementDieQuantity = useDicePoolState.use.decrementDieQuantity()
 
   const die = useMemoizedFindDie(dicePool, selectedDieId)
 

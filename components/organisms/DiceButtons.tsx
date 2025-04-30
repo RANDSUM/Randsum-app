@@ -7,10 +7,10 @@ import {
   RollButton,
   SaveButton
 } from '@/components/molecules'
-import { useDicePoolState, useLastRollState } from '@/store'
+import { useDicePoolState } from '@/store'
 
 export function DiceButtons() {
-  const addDie = useLastRollState.use.addDie()
+  const addDie = useDicePoolState.use.addDie()
   const openNotationInput = useDicePoolState.use.openNotationInput()
   const theme = useAppTheme()
 
