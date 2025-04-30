@@ -20,8 +20,8 @@ export function RollResultsModal() {
   const rollResult = useCurrentRollState.use.rollResult()
   const dicePool = useCurrentRollState.use.dicePool()
   const rollSource = useCurrentRollState.use.rollSource()
-  const visible = useModalState.use.showRollResults()
-  const closeRollResults = useModalState.use.closeRollResults()
+  const visible = useCurrentRollState.use.showRollResult()
+  const closeRollResults = useCurrentRollState.use.closeRollResults()
   const openRollDetails = useModalState.use.openRollDetails()
 
   const commonDiceNotation = useMemoizedDiceNotation(dicePool)

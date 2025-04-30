@@ -44,8 +44,8 @@ describe('<RollResultsModal />', () => {
       .mocked(useCurrentRollState.use.rollSource)
       .mockReturnValue({ type: 'standard' })
 
-    jest.mocked(useModalState.use.showRollResults).mockReturnValue(true)
-    jest.mocked(useModalState.use.showRollDetails).mockReturnValue(false)
+    jest.mocked(useCurrentRollState.use.showRollResult).mockReturnValue(true)
+    jest.mocked(useCurrentRollState.use.showRollDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showDiceDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showNotationInput).mockReturnValue(false)
     jest.mocked(useModalState.use.selectedDieId).mockReturnValue(null)
@@ -66,7 +66,7 @@ describe('<RollResultsModal />', () => {
 
     const mockCloseRollResults = jest.fn()
     jest
-      .mocked(useModalState.use.closeRollResults)
+      .mocked(useCurrentRollState.use.closeRollResults)
       .mockReturnValue(mockCloseRollResults)
 
     const mockRollResult = {
@@ -102,8 +102,8 @@ describe('<RollResultsModal />', () => {
       .mocked(useCurrentRollState.use.rollSource)
       .mockReturnValue({ type: 'standard' })
 
-    jest.mocked(useModalState.use.showRollResults).mockReturnValue(true)
-    jest.mocked(useModalState.use.showRollDetails).mockReturnValue(false)
+    jest.mocked(useCurrentRollState.use.showRollResult).mockReturnValue(true)
+    jest.mocked(useCurrentRollState.use.showRollDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showDiceDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showNotationInput).mockReturnValue(false)
     jest.mocked(useModalState.use.selectedDieId).mockReturnValue(null)
@@ -124,8 +124,8 @@ describe('<RollResultsModal />', () => {
       .mocked(useCurrentRollState.use.rollSource)
       .mockReturnValue({ type: 'standard' })
 
-    jest.mocked(useModalState.use.showRollResults).mockReturnValue(true)
-    jest.mocked(useModalState.use.showRollDetails).mockReturnValue(false)
+    jest.mocked(useCurrentRollState.use.showRollResult).mockReturnValue(true)
+    jest.mocked(useCurrentRollState.use.showRollDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showDiceDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showNotationInput).mockReturnValue(false)
     jest.mocked(useModalState.use.selectedDieId).mockReturnValue(null)
@@ -171,8 +171,8 @@ describe('<RollResultsModal />', () => {
       name: 'Fireball Damage'
     })
 
-    jest.mocked(useModalState.use.showRollResults).mockReturnValue(true)
-    jest.mocked(useModalState.use.showRollDetails).mockReturnValue(false)
+    jest.mocked(useCurrentRollState.use.showRollResult).mockReturnValue(true)
+    jest.mocked(useCurrentRollState.use.showRollDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showDiceDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showNotationInput).mockReturnValue(false)
     jest.mocked(useModalState.use.selectedDieId).mockReturnValue(null)

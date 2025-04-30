@@ -14,6 +14,7 @@ jest.mock('@/store', () => ({
       rollResult: jest.fn().mockReturnValue(null),
       recentlyAddedDie: jest.fn().mockReturnValue(null),
       rollSource: jest.fn().mockReturnValue({ type: 'standard' }),
+      showRollResult: jest.fn().mockReturnValue(false),
       addDie: jest.fn(),
       addNotationDie: jest.fn(),
       removeDie: jest.fn(),
@@ -25,13 +26,17 @@ jest.mock('@/store', () => ({
       decrementDieQuantity: jest.fn(),
       setRollResult: jest.fn(),
       rollDice: jest.fn(),
-      rollDiceFromSaved: jest.fn()
+      rollDiceFromSaved: jest.fn(),
+      showRollResults: jest.fn().mockReturnValue(false),
+      showRollDetails: jest.fn().mockReturnValue(false),
+      openRollResults: jest.fn(),
+      closeRollResults: jest.fn(),
+      openRollDetails: jest.fn(),
+      closeRollDetails: jest.fn()
     }
   },
   useModalState: {
     use: {
-      showRollResults: jest.fn().mockReturnValue(false),
-      showRollDetails: jest.fn().mockReturnValue(false),
       showDiceDetails: jest.fn().mockReturnValue(false),
       showNotationInput: jest.fn().mockReturnValue(false),
       selectedDieId: jest.fn().mockReturnValue(null),

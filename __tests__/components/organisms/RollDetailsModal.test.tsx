@@ -46,8 +46,8 @@ describe('<RollDetailsModal />', () => {
       name: 'Critical Hit'
     })
 
-    jest.mocked(useModalState.use.showRollResults).mockReturnValue(false)
-    jest.mocked(useModalState.use.showRollDetails).mockReturnValue(true)
+    jest.mocked(useCurrentRollState.use.showRollResults).mockReturnValue(false)
+    jest.mocked(useCurrentRollState.use.showRollDetails).mockReturnValue(true)
     jest.mocked(useModalState.use.showDiceDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showNotationInput).mockReturnValue(false)
     jest.mocked(useModalState.use.selectedDieId).mockReturnValue(null)
@@ -93,8 +93,8 @@ describe('<RollDetailsModal />', () => {
       type: 'standard'
     })
 
-    jest.mocked(useModalState.use.showRollResults).mockReturnValue(false)
-    jest.mocked(useModalState.use.showRollDetails).mockReturnValue(true)
+    jest.mocked(useCurrentRollState.use.showRollResults).mockReturnValue(false)
+    jest.mocked(useCurrentRollState.use.showRollDetails).mockReturnValue(true)
     jest.mocked(useModalState.use.showDiceDetails).mockReturnValue(false)
     jest.mocked(useModalState.use.showNotationInput).mockReturnValue(false)
     jest.mocked(useModalState.use.selectedDieId).mockReturnValue(null)

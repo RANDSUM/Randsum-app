@@ -5,18 +5,12 @@ import { createSelectors } from './selectors'
 import { StateCreator } from 'zustand'
 
 export type ModalsState = {
-  showRollResults: boolean
-  showRollDetails: boolean
   showDiceDetails: boolean
   showNotationInput: boolean
   selectedDieId: string | null
 }
 
 export type ModalsActions = {
-  openRollResults: () => void
-  closeRollResults: () => void
-  openRollDetails: () => void
-  closeRollDetails: () => void
   openDiceDetails: (id: string) => void
   closeDiceDetails: () => void
   openNotationInput: () => void
@@ -26,8 +20,6 @@ export type ModalsActions = {
 export type ModalsSlice = ModalsState & ModalsActions
 
 export const initialModalsState: ModalsState = {
-  showRollResults: false,
-  showRollDetails: false,
   showDiceDetails: false,
   showNotationInput: false,
   selectedDieId: null
@@ -40,35 +32,6 @@ export const createModalsSlice: StateCreator<
   ModalsSlice
 > = (set) => ({
   ...initialModalsState,
-
-  openRollResults: () => {
-    set((state) => ({
-      ...state,
-      showRollResults: true
-    }))
-  },
-
-  closeRollResults: () => {
-    set((state) => ({
-      ...state,
-      showRollResults: false
-    }))
-  },
-
-  openRollDetails: () => {
-    set((state) => ({
-      ...state,
-      showRollResults: false,
-      showRollDetails: true
-    }))
-  },
-
-  closeRollDetails: () => {
-    set((state) => ({
-      ...state,
-      showRollDetails: false
-    }))
-  },
 
   openDiceDetails: (id) => {
     set((state) => ({

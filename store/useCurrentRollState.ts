@@ -11,7 +11,6 @@ import {
 import { validateNotation } from '@randsum/notation'
 import { StateCreator } from 'zustand'
 
-import { useModalState } from '@/store/useModalState'
 import { PoolDie } from '@/types/dice'
 import { createDie } from '@/utils/diceFactory'
 import { HapticService } from '@/utils/haptics'
@@ -24,6 +23,8 @@ export type CurrentRollState = {
     type: 'standard' | 'saved'
     name?: string
   }
+  showRollResult: boolean
+  showRollDetails: boolean
 }
 
 export type DiceActions = {
@@ -38,6 +39,10 @@ export type DiceActions = {
   setRollResult: (result: NumericRollResult) => void
   rollDice: () => void
   rollDiceFromSaved: (savedDicePool: PoolDie[], savedRollName?: string) => void
+  openRollResults: () => void
+  closeRollResults: () => void
+  openRollDetails: () => void
+  closeRollDetails: () => void
 }
 
 export type DiceSlice = CurrentRollState & DiceActions
@@ -48,16 +53,46 @@ export const initialDiceState: CurrentRollState = {
   recentlyAddedDie: null,
   rollSource: {
     type: 'standard'
-  }
+  },
+  showRollResult: false,
+  showRollDetails: false
 }
 
 export const createDiceSlice: StateCreator<DiceSlice, [], [], DiceSlice> = (
   set,
   get
 ) => {
-  const openRollResults = useModalState.use.openRollResults()
   return {
     ...initialDiceState,
+
+    openRollResults: () => {
+      set((state) => ({
+        ...state,
+        showRollResult: true
+      }))
+    },
+
+    closeRollResults: () => {
+      set((state) => ({
+        ...state,
+        showRollResult: false
+      }))
+    },
+
+    openRollDetails: () => {
+      set((state) => ({
+        ...state,
+        showRollResults: false,
+        showRollDetails: true
+      }))
+    },
+
+    closeRollDetails: () => {
+      set((state) => ({
+        ...state,
+        showRollDetails: false
+      }))
+    },
 
     addDie: (sides, quantity = 1) => {
       HapticService.light()
@@ -217,7 +252,7 @@ export const createDiceSlice: StateCreator<DiceSlice, [], [], DiceSlice> = (
         }
       }))
 
-      openRollResults()
+      get().openRollResults()
     },
 
     rollDiceFromSaved: (savedDicePool: PoolDie[], savedRollName?: string) => {
@@ -238,7 +273,7 @@ export const createDiceSlice: StateCreator<DiceSlice, [], [], DiceSlice> = (
         }
       }))
 
-      openRollResults()
+      get().openRollResults()
     }
   }
 }
