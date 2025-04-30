@@ -54,6 +54,5 @@ jest.mock('@/store', () => ({
       removeSavedRoll: jest.fn(),
       setSavedRollsLoading: jest.fn()
     }
-  },
-  createSavedRoll: jest.fn()
+  }
 }))
