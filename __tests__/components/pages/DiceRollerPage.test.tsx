@@ -53,7 +53,7 @@ describe('<DiceRollerPage />', () => {
 
   test('adds die to pool when dice button is pressed', async () => {
     const mockAddDie = jest.fn()
-    jest.mocked(useLastRollState.use.addDie).mockReturnValue(mockAddDie)
+    jest.mocked(useDicePoolState.use.addDie).mockReturnValue(mockAddDie)
 
     const user = userEvent.setup()
     appRender(<DiceRollerPage />)
@@ -66,11 +66,11 @@ describe('<DiceRollerPage />', () => {
   test('calls clearDicePool when clear button is pressed and confirmed', async () => {
     const mockClearDicePool = jest.fn()
     jest
-      .mocked(useLastRollState.use.clearDicePool)
+      .mocked(useDicePoolState.use.clearDicePool)
       .mockReturnValue(mockClearDicePool)
 
     jest
-      .mocked(useLastRollState.use.dicePool)
+      .mocked(useDicePoolState.use.dicePool)
       .mockReturnValue([
         { id: 'rumi_1', sides: 20, quantity: 1, type: 'standard' }
       ])
@@ -97,7 +97,7 @@ describe('<DiceRollerPage />', () => {
       }
     ]
 
-    jest.mocked(useLastRollState.use.dicePool).mockReturnValue(mockDicePool)
+    jest.mocked(useDicePoolState.use.dicePool).mockReturnValue(mockDicePool)
 
     const user = userEvent.setup()
     appRender(<DiceRollerPage />)

@@ -1,7 +1,7 @@
 import { screen, userEvent } from '@testing-library/react-native'
 
 import { DiceButtons } from '@/components/organisms'
-import { useDicePoolState, useLastRollState } from '@/store'
+import { useDicePoolState } from '@/store'
 import { appRender } from '@/test/appRender'
 
 const elements = {
@@ -44,7 +44,7 @@ describe('<DiceButtons />', () => {
 
   test('calls addDie when dice button is pressed', async () => {
     const mockAddDie = jest.fn()
-    jest.mocked(useLastRollState.use.addDie).mockReturnValue(mockAddDie)
+    jest.mocked(useDicePoolState.use.addDie).mockReturnValue(mockAddDie)
 
     const user = userEvent.setup()
     appRender(<DiceButtons />)

@@ -4,6 +4,7 @@ import { screen, userEvent } from '@testing-library/react-native'
 import { RollResultsModal } from '@/components/organisms'
 import { useDicePoolState, useLastRollState } from '@/store'
 import { appRender } from '@/test/appRender'
+import { PoolDie } from '@/types/dice'
 
 describe('<RollResultsModal />', () => {
   beforeEach(() => {
@@ -33,14 +34,15 @@ describe('<RollResultsModal />', () => {
     } as unknown as NumericRollResult
 
     jest
-      .mocked(useLastRollState.use.dicePool)
+      .mocked(useDicePoolState.use.dicePool)
       .mockReturnValue([
         { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
       ])
     jest.mocked(useLastRollState.use.rollResult).mockReturnValue(mockRollResult)
-    jest
-      .mocked(useLastRollState.use.rollSource)
-      .mockReturnValue({ type: 'standard' })
+    jest.mocked(useLastRollState.use.rollSource).mockReturnValue({
+      type: 'standard',
+      dicePool: [{ id: 'die_1', sides: 20, quantity: 1, type: 'standard' }]
+    })
 
     jest.mocked(useLastRollState.use.showRollResult).mockReturnValue(true)
     jest.mocked(useLastRollState.use.showRollDetails).mockReturnValue(false)
@@ -59,7 +61,7 @@ describe('<RollResultsModal />', () => {
   test('calls openRollDetails when Show Details button is pressed', async () => {
     const mockOpenRollDetails = jest.fn()
     jest
-      .mocked(useDicePoolState.use.openRollDetails)
+      .mocked(useLastRollState.use.openRollDetails)
       .mockReturnValue(mockOpenRollDetails)
 
     const mockCloseRollResults = jest.fn()
@@ -88,15 +90,14 @@ describe('<RollResultsModal />', () => {
       result: [15]
     } as unknown as NumericRollResult
 
-    jest
-      .mocked(useLastRollState.use.dicePool)
-      .mockReturnValue([
-        { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
-      ])
+    const mockDicePool: PoolDie[] = [
+      { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
+    ]
+    jest.mocked(useDicePoolState.use.dicePool).mockReturnValue(mockDicePool)
     jest.mocked(useLastRollState.use.rollResult).mockReturnValue(mockRollResult)
     jest
       .mocked(useLastRollState.use.rollSource)
-      .mockReturnValue({ type: 'standard' })
+      .mockReturnValue({ type: 'standard', dicePool: mockDicePool })
 
     jest.mocked(useLastRollState.use.showRollResult).mockReturnValue(true)
     jest.mocked(useLastRollState.use.showRollDetails).mockReturnValue(false)
@@ -114,11 +115,11 @@ describe('<RollResultsModal />', () => {
   })
 
   test('renders nothing when rollResult is null', () => {
-    jest.mocked(useLastRollState.use.dicePool).mockReturnValue([])
-    jest.mocked(useLastRollState.use.rollResult).mockReturnValue(null)
+    jest.mocked(useDicePoolState.use.dicePool).mockReturnValue([])
+    jest.mocked(useLastRollState.use.rollResult).mockReturnValue(undefined)
     jest
       .mocked(useLastRollState.use.rollSource)
-      .mockReturnValue({ type: 'standard' })
+      .mockReturnValue({ type: 'standard', dicePool: [] })
 
     jest.mocked(useLastRollState.use.showRollResult).mockReturnValue(true)
     jest.mocked(useLastRollState.use.showRollDetails).mockReturnValue(false)
@@ -153,16 +154,16 @@ describe('<RollResultsModal />', () => {
       rawResult: [18],
       result: [18]
     } as unknown as NumericRollResult
+    const mockDicePool: PoolDie[] = [
+      { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
+    ]
 
-    jest
-      .mocked(useLastRollState.use.dicePool)
-      .mockReturnValue([
-        { id: 'die_1', sides: 20, quantity: 1, type: 'standard' }
-      ])
+    jest.mocked(useDicePoolState.use.dicePool).mockReturnValue(mockDicePool)
     jest.mocked(useLastRollState.use.rollResult).mockReturnValue(mockRollResult)
     jest.mocked(useLastRollState.use.rollSource).mockReturnValue({
       type: 'saved',
-      name: 'Fireball Damage'
+      name: 'Fireball Damage',
+      dicePool: mockDicePool
     })
 
     jest.mocked(useLastRollState.use.showRollResult).mockReturnValue(true)

@@ -8,46 +8,42 @@ jest.mock('expo-font', () => ({
 }))
 
 jest.mock('@/store', () => ({
-  useLastRollState: {
+  useDicePoolState: {
     use: {
       dicePool: jest.fn().mockReturnValue([]),
-      rollResult: jest.fn().mockReturnValue(null),
       recentlyAddedDie: jest.fn().mockReturnValue(null),
-      rollSource: jest.fn().mockReturnValue({ type: 'standard' }),
-      showRollResult: jest.fn().mockReturnValue(false),
+      showDiceDetails: jest.fn().mockReturnValue(false),
+      showNotationInput: jest.fn().mockReturnValue(false),
+      selectedDieId: jest.fn().mockReturnValue(null),
       addDie: jest.fn(),
       addNotationDie: jest.fn(),
       removeDie: jest.fn(),
-      removeAllDice: jest.fn(),
       clearDicePool: jest.fn(),
       setRecentlyAddedDie: jest.fn(),
       clearRecentlyAddedDie: jest.fn(),
       incrementDieQuantity: jest.fn(),
       decrementDieQuantity: jest.fn(),
+      openDiceDetails: jest.fn(),
+      closeDiceDetails: jest.fn(),
+      openNotationInput: jest.fn(),
+      closeNotationInput: jest.fn(),
+      rollDiceArgs: jest
+        .fn()
+        .mockReturnValue({ type: 'standard', dicePool: [] })
+    }
+  },
+  useLastRollState: {
+    use: {
+      rollResult: jest.fn().mockReturnValue(null),
+      rollSource: jest.fn().mockReturnValue({ type: 'standard' }),
+      showRollResult: jest.fn().mockReturnValue(false),
+      showRollDetails: jest.fn().mockReturnValue(false),
       setRollResult: jest.fn(),
       rollDice: jest.fn(),
-      rollDiceFromSaved: jest.fn(),
-      showRollResults: jest.fn().mockReturnValue(false),
-      showRollDetails: jest.fn().mockReturnValue(false),
       openRollResults: jest.fn(),
       closeRollResults: jest.fn(),
       openRollDetails: jest.fn(),
       closeRollDetails: jest.fn()
-    }
-  },
-  useDicePoolState: {
-    use: {
-      showDiceDetails: jest.fn().mockReturnValue(false),
-      showNotationInput: jest.fn().mockReturnValue(false),
-      selectedDieId: jest.fn().mockReturnValue(null),
-      openRollResults: jest.fn(),
-      closeRollResults: jest.fn(),
-      openRollDetails: jest.fn(),
-      closeRollDetails: jest.fn(),
-      openDiceDetails: jest.fn(),
-      closeDiceDetails: jest.fn(),
-      openNotationInput: jest.fn(),
-      closeNotationInput: jest.fn()
     }
   },
   useSavedRollsState: {
@@ -57,7 +53,12 @@ jest.mock('@/store', () => ({
       setSavedRolls: jest.fn(),
       addSavedRoll: jest.fn(),
       removeSavedRoll: jest.fn(),
-      setSavedRollsLoading: jest.fn()
+      setSavedRollsLoading: jest.fn(),
+      rollDiceArgs: jest.fn().mockReturnValue({
+        type: 'saved',
+        name: 'Saved Roll',
+        dicePool: []
+      })
     }
   }
 }))

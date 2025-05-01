@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react-native'
 
 import { DicePool } from '@/components/organisms'
-import { useLastRollState } from '@/store'
+import { useDicePoolState } from '@/store'
 import { appRender } from '@/test/appRender'
 import { PoolDie } from '@/types/dice'
 
@@ -11,7 +11,7 @@ describe('<DicePool />', () => {
   })
 
   test('shows empty pool message when dice pool is empty', () => {
-    jest.mocked(useLastRollState.use.dicePool).mockReturnValue([])
+    jest.mocked(useDicePoolState.use.dicePool).mockReturnValue([])
 
     appRender(<DicePool />)
 
@@ -34,7 +34,7 @@ describe('<DicePool />', () => {
       }
     ]
 
-    jest.mocked(useLastRollState.use.dicePool).mockReturnValue(mockDicePool)
+    jest.mocked(useDicePoolState.use.dicePool).mockReturnValue(mockDicePool)
 
     appRender(<DicePool />)
 
@@ -52,7 +52,7 @@ describe('<DicePool />', () => {
       }
     ]
 
-    jest.mocked(useLastRollState.use.dicePool).mockReturnValue(mockDicePool)
+    jest.mocked(useDicePoolState.use.dicePool).mockReturnValue(mockDicePool)
 
     appRender(<DicePool />)
 
