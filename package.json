@@ -33,7 +33,7 @@
     "@randsum/notation": "^0.1.25",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@shopify/flash-list": "1.7.3",
-    "expo": "~52.0.46",
+    "expo": "~53.0.7",
     "expo-constants": "~17.0.8",
     "expo-dev-client": "~5.0.20",
     "expo-haptics": "^14.0.1",
